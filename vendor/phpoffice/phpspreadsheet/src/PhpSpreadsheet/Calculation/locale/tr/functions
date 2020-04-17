@@ -4,14 +4,10 @@
 ## Data in this file derived from https://www.excel-function-translation.com/
 ##
 ##
-
-
 ##
 ##	Add-in and Automation functions			Eklenti ve Otomasyon fonksiyonları
 ##
 GETPIVOTDATA		= ÖZETVERİAL	##	Bir Özet Tablo raporunda saklanan verileri verir.
-
-
 ##
 ##	Cube functions					Küp işlevleri
 ##
@@ -22,8 +18,6 @@ CUBERANKEDMEMBER	= KÜPÜYESIRASI 		##	Bir küme içindeki üyenin derecesini ve
 CUBESET				= KÜPKÜME			##	Kümeyi oluşturan ve ardından bu kümeyi Microsoft Office Excel'e getiren sunucudaki küpe küme ifadelerini göndererek hesaplanan üye veya kayıt kümesini tanımlar.
 CUBESETCOUNT		= KÜPKÜMESAY		##	Bir kümedeki öğelerin sayısını getirir.
 CUBEVALUE			= KÜPDEĞER 			##	Bir küpten toplam değeri getirir.
-
-
 ##
 ##	Database functions				Veritabanı işlevleri
 ##
@@ -39,8 +33,6 @@ DSTDEVP			= VSEÇSTDSAPMAS		##	Standart sapmayı, seçili veritabanı girişleri
 DSUM			= VSEÇTOPLA			##	Kayıtların alan sütununda bulunan, ölçütle eşleşen sayıları toplar.
 DVAR			= VSEÇVAR			##	Seçili veritabanı girişlerinden oluşan bir örneği esas alarak farkı tahmin eder.
 DVARP			= VSEÇVARS			##	Seçili veritabanı girişlerinin tüm popülasyonunu esas alarak farkı hesaplar.
-
-
 ##
 ##	Date and time functions				Tarih ve saat işlevleri
 ##
@@ -64,8 +56,6 @@ WEEKNUM			= HAFTASAY			##	Dizisel değerini, haftanın yıl içinde bulunduğu k
 WORKDAY			= İŞGÜNÜ			##	Belirtilen sayıda çalışma günü öncesinin ya da sonrasının tarihinin seri numarasını verir.
 YEAR			= YIL				##	Bir seri numarasını yıla dönüştürür.
 YEARFRAC		= YILORAN			##	Başlangıç_tarihi ve bitiş_tarihi arasındaki tam günleri gösteren yıl kesrini verir.
-
-
 ##
 ##	Engineering functions				Mühendislik işlevleri
 ##
@@ -108,8 +98,6 @@ IMSUM			= SANTOPLA			##	Karmaşık sayıların toplamını verir.
 OCT2BIN			= OCT2BIN			##	Sekizli bir sayıyı ikiliye dönüştürür.
 OCT2DEC			= OCT2DEC			##	Sekizli bir sayıyı ondalığa dönüştürür.
 OCT2HEX			= OCT2HEX			##	Sekizli bir sayıyı onaltılıya dönüştürür.
-
-
 ##
 ##	Financial functions				Finansal fonksiyonlar
 ##
@@ -166,8 +154,6 @@ XNPV			= ANBD				##	Dönemsel olması gerekmeyen bir para akışları programı 
 YIELD			= ÖDEME				##	Belirli aralıklarla faiz ödeyen bir tahvilin ödemesini verir.
 YIELDDISC		= ÖDEMEİND			##	İndirimli bir tahvilin yıllık ödemesini verir; örneğin, bir Hazine bonosunun.
 YIELDMAT		= ÖDEMEVADE			##	Vadesinin bitiminde faiz ödeyen bir tahvilin yıllık ödemesini verir.
-
-
 ##
 ##	Information functions				Bilgi fonksiyonları
 ##
@@ -188,8 +174,6 @@ ISTEXT			= EMETİNSE		##	Değer bir metinse DOĞRU verir.
 N				= N				##	Sayıya dönüştürülmüş bir değer verir.
 NA				= YOKSAY		##	#YOK hata değerini verir.
 TYPE			= TİP			##	Bir değerin veri türünü belirten bir sayı verir.
-
-
 ##
 ##	Logical functions				Mantıksal fonksiyonlar
 ##
@@ -200,8 +184,6 @@ IFERROR			= EĞERHATA		##	Formül hatalıysa belirttiğiniz değeri verir; bunun
 NOT				= DEĞİL			##	Bağımsız değişkeninin mantığını tersine çevirir.
 OR				= YADA			##	Bağımsız değişkenlerden herhangi birisi DOĞRU ise, DOĞRU verir.
 TRUE			= DOĞRU			##	DOĞRU mantıksal değerini verir.
-
-
 ##
 ##	Lookup and reference functions			Arama ve Başvuru fonksiyonları
 ##
@@ -222,8 +204,6 @@ ROWS			= SATIRSAY			##	Bir başvurudaki satırların sayısını verir.
 RTD				= RTD				##	COM otomasyonunu destekleyen programdan gerçek zaman verileri alır.
 TRANSPOSE		= DEVRİK_DÖNÜŞÜM	##	Bir dizinin devrik dönüşümünü verir.
 VLOOKUP			= DÜŞEYARA			##	Bir dizinin ilk sütununa bakar ve bir hücrenin değerini vermek için satır boyunca hareket eder.
-
-
 ##
 ##	Math and trigonometry functions			Matematik ve trigonometri fonksiyonları
 ##
@@ -287,8 +267,6 @@ SUMXMY2			= TOPXEY2			##	İki dizideki ilişkili değerlerin farklarının karel
 TAN				= TAN				##	Bir sayının tanjantını verir.
 TANH			= TANH				##	Bir sayının hiperbolik tanjantını verir.
 TRUNC			= NSAT				##	Bir sayının, tamsayı durumuna gelecek şekilde, fazlalıklarını atar.
-
-
 ##
 ##	Statistical functions				İstatistiksel fonksiyonlar
 ##
@@ -375,8 +353,6 @@ VARP			= VARS				##	Varyansı, tüm popülasyona dayanarak hesaplar.
 VARPA			= VARSA				##	Varyansı, sayılar, metin ve mantıksal değerleri içermek üzere, tüm popülasyona bağlı olarak hesaplar.
 WEIBULL			= WEIBULL			##	Weibull dağılımını hesaplar.
 ZTEST			= ZTEST				##	Z-testinin tek kuyruklu olasılık değerini hesaplar.
-
-
 ##
 ##	Text functions					Metin fonksiyonları
 ##

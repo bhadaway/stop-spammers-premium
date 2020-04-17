@@ -4,14 +4,10 @@
 ## Data in this file derived from https://www.excel-function-translation.com/
 ##
 ##
-
-
 ##
 ##	Add-in and Automation functions			Add-In- und Automatisierungsfunktionen
 ##
 GETPIVOTDATA	= PIVOTDATENZUORDNEN			##	In einem PivotTable-Bericht gespeicherte Daten werden zurückgegeben.
-
-
 ##
 ##	Cube functions					Cubefunktionen
 ##
@@ -22,8 +18,6 @@ CUBERANKEDMEMBER	= CUBERANGELEMENT		##	Gibt das n-te oder n-rangige Element in e
 CUBESET			= CUBEMENGE			##	Definiert eine berechnete Menge Elemente oder Tuples durch Senden eines Mengenausdrucks an den Cube auf dem Server, der die Menge erstellt und an Microsoft Office Excel zurückgibt.
 CUBESETCOUNT		= CUBEMENGENANZAHL		##	Gibt die Anzahl der Elemente in einer Menge zurück.
 CUBEVALUE		= CUBEWERT			##	Gibt einen Aggregatwert aus einem Cube zurück.
-
-
 ##
 ##	Database functions				Datenbankfunktionen
 ##
@@ -39,8 +33,6 @@ DSTDEVP			= DBSTDABWN			##	Berechnet die Standardabweichung auf der Grundlage de
 DSUM			= DBSUMME			##	Addiert die Zahlen in der Feldspalte mit Datensätzen in der Datenbank, die den Kriterien entsprechen
 DVAR			= DBVARIANZ			##	Schätzt die Varianz auf der Grundlage ausgewählter Datenbankeinträge
 DVARP			= DBVARIANZEN			##	Berechnet die Varianz auf der Grundlage der Grundgesamtheit ausgewählter Datenbankeinträge
-
-
 ##
 ##	Date and time functions				Datums- und Zeitfunktionen
 ##
@@ -64,8 +56,6 @@ WEEKNUM			= KALENDERWOCHE			##	Wandelt eine fortlaufende Zahl in eine Zahl um, d
 WORKDAY			= ARBEITSTAG			##	Gibt die fortlaufende Zahl des Datums vor oder nach einer bestimmten Anzahl von Arbeitstagen zurück
 YEAR			= JAHR				##	Wandelt eine fortlaufende Zahl in ein Jahr um
 YEARFRAC		= BRTEILJAHRE			##	Gibt die Anzahl der ganzen Tage zwischen Ausgangsdatum und Enddatum in Bruchteilen von Jahren zurück
-
-
 ##
 ##	Engineering functions				Konstruktionsfunktionen
 ##
@@ -108,8 +98,6 @@ IMSUM			= IMSUMME			##	Gibt die Summe von komplexen Zahlen zurück
 OCT2BIN			= OKTINBIN			##	Wandelt eine oktale Zahl in eine binäre Zahl (Dualzahl) um
 OCT2DEC			= OKTINDEZ			##	Wandelt eine oktale Zahl in eine dezimale Zahl um
 OCT2HEX			= OKTINHEX			##	Wandelt eine oktale Zahl in eine hexadezimale Zahl um
-
-
 ##
 ##	Financial functions				Finanzmathematische Funktionen
 ##
@@ -166,8 +154,6 @@ XNPV			= XKAPITALWERT			##	Gibt den Nettobarwert (Kapitalwert) einer Reihe nicht
 YIELD			= RENDITE			##	Gibt die Rendite eines Wertpapiers zurück, das periodisch Zinsen auszahlt
 YIELDDISC		= RENDITEDIS			##	Gibt die jährliche Rendite eines unverzinslichen Wertpapiers zurück
 YIELDMAT		= RENDITEFÄLL			##	Gibt die jährliche Rendite eines Wertpapiers zurück, das Zinsen am Fälligkeitsdatum auszahlt
-
-
 ##
 ##	Information functions				Informationsfunktionen
 ##
@@ -188,8 +174,6 @@ ISTEXT			= ISTTEXT			##	Gibt WAHR zurück, wenn der Wert ein Element ist, das Te
 N			= N				##	Gibt den in eine Zahl umgewandelten Wert zurück
 NA			= NV				##	Gibt den Fehlerwert #NV zurück
 TYPE			= TYP				##	Gibt eine Zahl zurück, die den Datentyp des angegebenen Werts anzeigt
-
-
 ##
 ##	Logical functions				Logische Funktionen
 ##
@@ -200,8 +184,6 @@ IFERROR			= WENNFEHLER			##	Gibt einen von Ihnen festgelegten Wert zurück, wenn
 NOT			= NICHT				##	Kehrt den Wahrheitswert der zugehörigen Argumente um
 OR			= ODER				##	Gibt WAHR zurück, wenn ein Argument WAHR ist
 TRUE			= WAHR				##	Gibt den Wahrheitswert WAHR zurück
-
-
 ##
 ##	Lookup and reference functions			Nachschlage- und Verweisfunktionen
 ##
@@ -222,8 +204,6 @@ ROWS			= ZEILEN			##	Gibt die Anzahl der Zeilen in einem Bezug zurück
 RTD			= RTD				##	Ruft Echtzeitdaten von einem Programm ab, das die COM-Automatisierung (Automatisierung: Ein Verfahren, bei dem aus einer Anwendung oder einem Entwicklungstool heraus mit den Objekten einer anderen Anwendung gearbeitet wird. Die früher als OLE-Automatisierung bezeichnete Automatisierung ist ein Industriestandard und eine Funktion von COM (Component Object Model).) unterstützt
 TRANSPOSE		= MTRANS			##	Gibt die transponierte Matrix einer Matrix zurück
 VLOOKUP			= SVERWEIS			##	Sucht in der ersten Spalte einer Matrix und arbeitet sich durch die Zeile, um den Wert einer Zelle zurückzugeben
-
-
 ##
 ##	Math and trigonometry functions			Mathematische und trigonometrische Funktionen
 ##
@@ -287,8 +267,6 @@ SUMXMY2			= SUMMEXMY2			##	Gibt die Summe der quadrierten Differenzen für zusam
 TAN			= TAN				##	Gibt den Tangens einer Zahl zurück
 TANH			= TANHYP			##	Gibt den hyperbolischen Tangens einer Zahl zurück
 TRUNC			= KÜRZEN			##	Schneidet die Kommastellen einer Zahl ab und gibt als Ergebnis eine ganze Zahl zurück
-
-
 ##
 ##	Statistical functions				Statistische Funktionen
 ##
@@ -375,8 +353,6 @@ VARP			= VARIANZEN			##	Berechnet die Varianz ausgehend von der Grundgesamtheit
 VARPA			= VARIANZENA			##	Berechnet die Varianz ausgehend von der Grundgesamtheit, die Zahlen, Text und Wahrheitswerte enthält
 WEIBULL			= WEIBULL			##	Gibt Wahrscheinlichkeiten einer weibullverteilten Zufallsvariablen zurück
 ZTEST			= GTEST				##	Gibt den einseitigen Wahrscheinlichkeitswert für einen Gausstest (Normalverteilung) zurück
-
-
 ##
 ##	Text functions					Textfunktionen
 ##

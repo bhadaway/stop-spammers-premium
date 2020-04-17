@@ -2,8 +2,6 @@
 ##	Add-in and Automation functions			Funções Suplemento e Automação
 ##
 GETPIVOTDATA		= INFODADOSTABELADINÂMICA	##	Retorna os dados armazenados em um relatório de tabela dinâmica
-
-
 ##
 ##	Cube functions					Funções de Cubo
 ##
@@ -14,8 +12,6 @@ CUBERANKEDMEMBER	= MEMBROCLASSIFICADOCUBO	##	Retorna o enésimo membro, ou o mem
 CUBESET			= CONJUNTOCUBO			##	Define um conjunto calculado de membros ou tuplas enviando uma expressão do conjunto para o cubo no servidor, que cria o conjunto e o retorna para o Microsoft Office Excel.
 CUBESETCOUNT		= CONTAGEMCONJUNTOCUBO		##	Retorna o número de itens em um conjunto.
 CUBEVALUE		= VALORCUBO			##	Retorna um valor agregado de um cubo.
-
-
 ##
 ##	Database functions				Funções de banco de dados
 ##
@@ -31,8 +27,6 @@ DSTDEVP			= BDDESVPA			##	Calcula o desvio padrão com base na população intei
 DSUM			= BDSOMA			##	Adiciona os números à coluna de campos de registros do banco de dados que correspondem ao critério
 DVAR			= BDVAREST			##	Estima a variância com base em uma amostra de entradas selecionadas de um banco de dados
 DVARP			= BDVARP			##	Calcula a variância com base na população inteira de entradas selecionadas de um banco de dados
-
-
 ##
 ##	Date and time functions				Funções de data e hora
 ##
@@ -56,8 +50,6 @@ WEEKNUM			= NÚMSEMANA			##	Converte um número de série em um número que repr
 WORKDAY			= DIATRABALHO			##	Retorna o número de série da data antes ou depois de um número específico de dias úteis
 YEAR			= ANO				##	Converte um número de série em um ano
 YEARFRAC		= FRAÇÃOANO			##	Retorna a fração do ano que representa o número de dias entre data_inicial e data_final
-
-
 ##
 ##	Engineering functions				Funções de engenharia
 ##
@@ -100,8 +92,6 @@ IMSUM			= IMSOMA			##	Retorna a soma de números complexos
 OCT2BIN			= OCTABIN			##	Converte um número octal em binário
 OCT2DEC			= OCTADEC			##	Converte um número octal em decimal
 OCT2HEX			= OCTAHEX			##	Converte um número octal em hexadecimal
-
-
 ##
 ##	Financial functions				Funções financeiras
 ##
@@ -158,8 +148,6 @@ XNPV			= XVPL				##	Retorna o valor presente líquido de um programa de fluxos d
 YIELD			= LUCRO				##	Retorna o lucro de um título que paga juros periódicos
 YIELDDISC		= LUCRODESC			##	Retorna o rendimento anual de um título descontado. Por exemplo, uma obrigação do Tesouro
 YIELDMAT		= LUCROVENC			##	Retorna o lucro anual de um título que paga juros no vencimento
-
-
 ##
 ##	Information functions				Funções de informação
 ##
@@ -180,8 +168,6 @@ ISTEXT			= ÉTEXTO			##	Retorna VERDADEIRO se o valor for texto
 N			= N				##	Retorna um valor convertido em um número
 NA			= NÃO.DISP			##	Retorna o valor de erro #N/D
 TYPE			= TIPO				##	Retorna um número indicando o tipo de dados de um valor
-
-
 ##
 ##	Logical functions				Funções lógicas
 ##
@@ -192,8 +178,6 @@ IFERROR			= SEERRO			##	Retornará um valor que você especifica se uma fórmula
 NOT			= NÃO				##	Inverte o valor lógico do argumento
 OR			= OU				##	Retorna VERDADEIRO se um dos argumentos for VERDADEIRO
 TRUE			= VERDADEIRO			##	Retorna o valor lógico VERDADEIRO
-
-
 ##
 ##	Lookup and reference functions			Funções de pesquisa e referência
 ##
@@ -214,8 +198,6 @@ ROWS			= LINS				##	Retorna o número de linhas em uma referência
 RTD			= RTD				##	Recupera dados em tempo real de um programa que ofereça suporte a automação COM (automação: uma forma de trabalhar com objetos de um aplicativo a partir de outro aplicativo ou ferramenta de desenvolvimento. Chamada inicialmente de automação OLE, a automação é um padrão industrial e um recurso do modelo de objeto componente (COM).)
 TRANSPOSE		= TRANSPOR			##	Retorna a transposição de uma matriz
 VLOOKUP			= PROCV				##	Procura na primeira coluna de uma matriz e move ao longo da linha para retornar o valor de uma célula
-
-
 ##
 ##	Math and trigonometry functions			Funções matemáticas e trigonométricas
 ##
@@ -279,8 +261,6 @@ SUMXMY2			= SOMAXMY2			##	Retorna a soma dos quadrados das diferenças dos valor
 TAN			= TAN				##	Retorna a tangente de um número
 TANH			= TANH				##	Retorna a tangente hiperbólica de um número
 TRUNC			= TRUNCAR			##	Trunca um número para um inteiro
-
-
 ##
 ##	Statistical functions				Funções estatísticas
 ##
@@ -367,8 +347,6 @@ VARP			= VARP				##	Calcula a variância com base na população inteira
 VARPA			= VARPA				##	Calcula a variância com base na população total, inclusive números, texto e valores lógicos
 WEIBULL			= WEIBULL			##	Retorna a distribuição Weibull
 ZTEST			= TESTEZ			##	Retorna o valor de probabilidade uni-caudal de um teste-z
-
-
 ##
 ##	Text functions			Funções de texto
 ##

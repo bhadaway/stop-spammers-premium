@@ -1,20 +1,14 @@
 ChartDirector
-	https://www.advsofteng.com/cdphp.html
-
+https://www.advsofteng.com/cdphp.html
 GraPHPite
-	http://graphpite.sourceforge.net/
-
+http://graphpite.sourceforge.net/
 JpGraph
-	http://www.aditus.nu/jpgraph/
-
+http://www.aditus.nu/jpgraph/
 LibChart
-	https://naku.dohcrew.com/libchart/pages/introduction/
-
+https://naku.dohcrew.com/libchart/pages/introduction/
 pChart
-	http://pchart.sourceforge.net/
-
+http://pchart.sourceforge.net/
 TeeChart
-	https://www.steema.com/
-
+https://www.steema.com/
 PHPGraphLib
-    http://www.ebrueggeman.com/phpgraphlib
+http://www.ebrueggeman.com/phpgraphlib

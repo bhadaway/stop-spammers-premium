@@ -2,7 +2,6 @@
 /analysis
 /vendor/
 /phpunit.xml
-
 ## IDE support
 *.buildpath
 *.project

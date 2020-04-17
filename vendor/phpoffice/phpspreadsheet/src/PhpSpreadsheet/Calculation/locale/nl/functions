@@ -4,14 +4,10 @@
 ## Data in this file derived from https://www.excel-function-translation.com/
 ##
 ##
-
-
 ##
 ##	Add-in and Automation functions			Automatiseringsfuncties en functies in invoegtoepassingen
 ##
 GETPIVOTDATA		= DRAAITABEL.OPHALEN		##	Geeft gegevens uit een draaitabelrapport als resultaat
-
-
 ##
 ##	Cube functions					Kubusfuncties
 ##
@@ -22,8 +18,6 @@ CUBERANKEDMEMBER	= KUBUSGERANGCHIKTLID		##	Retourneert het zoveelste, gerangschi
 CUBESET			= KUBUSSET			##	Definieert een berekende set leden of tupels door een ingestelde expressie naar de kubus op de server te sturen, alwaar de set wordt gemaakt en vervolgens wordt geretourneerd naar Microsoft Office Excel
 CUBESETCOUNT		= KUBUSSETAANTAL		##	Retourneert het aantal onderdelen in een set
 CUBEVALUE		= KUBUSWAARDE			##	Retourneert een samengestelde waarde van een kubus
-
-
 ##
 ##	Database functions				Databasefuncties
 ##
@@ -39,8 +33,6 @@ DSTDEVP			= DBSTDEVP			##	Berekent de standaarddeviatie op basis van de volledig
 DSUM			= DBSOM				##	Telt de getallen uit een kolom records in de database op die voldoen aan de criteria
 DVAR			= DBVAR				##	Maakt een schatting van de variantie op basis van een steekproef uit geselecteerde databasegegevens
 DVARP			= DBVARP			##	Berekent de variantie op basis van de volledige populatie van geselecteerde databasegegevens
-
-
 ##
 ##	Date and time functions				Datum- en tijdfuncties
 ##
@@ -64,8 +56,6 @@ WEEKNUM			= WEEKNUMMER			##	Converteert een serieel getal naar een weeknummer
 WORKDAY			= WERKDAG			##	Geeft als resultaat het seriële getal van de datum voor of na een bepaald aantal werkdagen
 YEAR			= JAAR				##	Converteert een serieel getal naar een jaar
 YEARFRAC		= JAAR.DEEL			##	Geeft als resultaat het gedeelte van het jaar, uitgedrukt in het aantal hele dagen tussen begindatum en einddatum
-
-
 ##
 ##	Engineering functions				Technische functies
 ##
@@ -108,8 +98,6 @@ IMSUM			= C.SOM				##	Geeft als resultaat de som van complexe getallen
 OCT2BIN			= OCT.N.BIN			##	Converteert een octaal getal naar een binair getal
 OCT2DEC			= OCT.N.DEC			##	Converteert een octaal getal naar een decimaal getal
 OCT2HEX			= OCT.N.HEX			##	Converteert een octaal getal naar een hexadecimaal getal
-
-
 ##
 ##	Financial functions				Financiële functies
 ##
@@ -166,8 +154,6 @@ XNPV			= NHW2				##	Berekent de huidige nettowaarde voor een betalingsschema van
 YIELD			= RENDEMENT			##	Geeft als resultaat het rendement voor een waardepapier waarvan de rente periodiek wordt uitgekeerd
 YIELDDISC		= REND.DISCONTO			##	Geeft als resultaat het jaarlijkse rendement voor een verdisconteerd waardepapier, bijvoorbeeld schatkistpapier
 YIELDMAT		= REND.VERVAL			##	Geeft als resultaat het jaarlijkse rendement voor een waardepapier waarvan de rente wordt uitgekeerd op de vervaldatum
-
-
 ##
 ##	Information functions				Informatiefuncties
 ##
@@ -188,8 +174,6 @@ ISTEXT			= ISTEKST			##	Geeft als resultaat WAAR als de waarde tekst is
 N			= N				##	Geeft als resultaat een waarde die is geconverteerd naar een getal
 NA			= NB				##	Geeft als resultaat de foutwaarde #N/B
 TYPE			= TYPE				##	Geeft als resultaat een getal dat het gegevenstype van een waarde aangeeft
-
-
 ##
 ##	Logical functions				Logische functies
 ##
@@ -200,8 +184,6 @@ IFERROR			= ALS.FOUT			##	Retourneert een waarde die u opgeeft als een formule e
 NOT			= NIET				##	Keert de logische waarde van het argument om
 OR			= OF				##	Geeft als resultaat WAAR als minimaal een van de argumenten WAAR is
 TRUE			= WAAR				##	Geeft als resultaat de logische waarde WAAR
-
-
 ##
 ##	Lookup and reference functions			Zoek- en verwijzingsfuncties
 ##
@@ -222,8 +204,6 @@ ROWS			= RIJEN				##	Geeft als resultaat het aantal rijen in een verwijzing
 RTD			= RTG				##	Haalt realtimegegevens op uit een programma dat COM-automatisering (automatisering: een methode waarmee de ene toepassing objecten van een andere toepassing of ontwikkelprogramma kan besturen. Automatisering werd vroeger OLE-automatisering genoemd. Automatisering is een industrienorm die deel uitmaakt van het Component Object Model (COM).) ondersteunt
 TRANSPOSE		= TRANSPONEREN			##	Geeft als resultaat de getransponeerde van een matrix
 VLOOKUP			= VERT.ZOEKEN			##	Zoekt in de meest linkse kolom van een matrix naar een bepaalde waarde en geeft als resultaat de waarde in de opgegeven cel
-
-
 ##
 ##	Math and trigonometry functions			Wiskundige en trigonometrische functies
 ##
@@ -287,8 +267,6 @@ SUMXMY2			= SOM.XMINY.2			##	Geeft als resultaat de som van de kwadraten van de 
 TAN			= TAN				##	Geeft als resultaat de tangens van een getal
 TANH			= TANH				##	Geeft als resultaat de tangens hyperbolicus van een getal
 TRUNC			= GEHEEL			##	Kapt een getal af tot een geheel getal
-
-
 ##
 ##	Statistical functions				Statistische functies
 ##
@@ -375,8 +353,6 @@ VARP			= VARP				##	Berekent de variantie op basis van de volledige populatie
 VARPA			= VARPA				##	Berekent de standaarddeviatie op basis van de volledige populatie, inclusief getallen, tekst en logische waarden
 WEIBULL			= WEIBULL			##	Geeft als resultaat de Weibull-verdeling
 ZTEST			= Z.TOETS			##	Geeft als resultaat de eenzijdige kanswaarde van een Z-toets
-
-
 ##
 ##	Text functions					Tekstfuncties
 ##

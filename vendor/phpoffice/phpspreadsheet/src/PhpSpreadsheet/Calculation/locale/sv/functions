@@ -2,8 +2,6 @@
 ##	Add-in and Automation functions			Tilläggs- och automatiseringsfunktioner
 ##
 GETPIVOTDATA		= HÄMTA.PIVOTDATA		##	Returnerar data som lagrats i en pivottabellrapport
-
-
 ##
 ##	Cube functions					Kubfunktioner
 ##
@@ -14,8 +12,6 @@ CUBERANKEDMEMBER	= KUBRANGORDNADMEDLEM		##	Returnerar den n:te, eller rangordnad
 CUBESET			= KUBINSTÄLLNING		##	Definierar en beräknad uppsättning medlemmar eller par genom att skicka ett bestämt uttryck till kuben på servern, som skapar uppsättningen och sedan returnerar den till Microsoft Office Excel.
 CUBESETCOUNT		= KUBINSTÄLLNINGANTAL		##	Returnerar antalet objekt i en uppsättning.
 CUBEVALUE		= KUBVÄRDE			##	Returnerar ett mängdvärde från en kub.
-
-
 ##
 ##	Database functions				Databasfunktioner
 ##
@@ -31,8 +27,6 @@ DSTDEVP			= DSTDAVP			##	Beräknar standardavvikelsen utifrån hela populationen
 DSUM			= DSUMMA			##	Summerar talen i kolumnfält i databasposter som uppfyller villkoret
 DVAR			= DVARIANS			##	Uppskattar variansen baserat på ett urval av databasposterna
 DVARP			= DVARIANSP			##	Beräknar variansen utifrån hela populationen av valda databasposter
-
-
 ##
 ##	Date and time functions				Tid- och datumfunktioner
 ##
@@ -56,8 +50,6 @@ WEEKNUM			= VECKONR			##	Konverterar ett serienummer till ett veckonummer
 WORKDAY			= ARBETSDAGAR			##	Returnerar serienumret för ett datum ett visst antal arbetsdagar tidigare eller senare
 YEAR			= ÅR				##	Konverterar ett serienummer till ett år
 YEARFRAC		= ÅRDEL				##	Returnerar en del av ett år som representerar antalet hela dagar mellan start- och slutdatum
-
-
 ##
 ##	Engineering functions				Tekniska funktioner
 ##
@@ -100,8 +92,6 @@ IMSUM			= IMSUM				##	Returnerar summan av komplexa tal
 OCT2BIN			= OKT.TILL.BIN			##	Omvandlar ett oktalt tal till binärt
 OCT2DEC			= OKT.TILL.DEC			##	Omvandlar ett oktalt tal till decimalt
 OCT2HEX			= OKT.TILL.HEX			##	Omvandlar ett oktalt tal till hexadecimalt
-
-
 ##
 ##	Financial functions				Finansiella funktioner
 ##
@@ -158,8 +148,6 @@ XNPV			= XNUVÄRDE			##	Returnerar det nuvarande nettovärdet för en serie beta
 YIELD			= NOMAVK			##	Returnerar avkastningen för ett värdepapper som ger periodisk ränta
 YIELDDISC		= NOMAVKDISK			##	Returnerar den årliga avkastningen för diskonterade värdepapper, exempelvis en statsskuldväxel
 YIELDMAT		= NOMAVKFÖRF			##	Returnerar den årliga avkastningen för ett värdepapper som ger ränta på förfallodagen
-
-
 ##
 ##	Information functions				Informationsfunktioner
 ##
@@ -180,8 +168,6 @@ ISTEXT			= ÄRTEXT			##	Returnerar SANT om värdet är text
 N			= N				##	Returnerar ett värde omvandlat till ett tal
 NA			= SAKNAS			##	Returnerar felvärdet #SAKNAS!
 TYPE			= VÄRDETYP			##	Returnerar ett tal som anger värdets datatyp
-
-
 ##
 ##	Logical functions				Logiska funktioner
 ##
@@ -192,8 +178,6 @@ IFERROR			= OMFEL				##	Returnerar ett värde som du anger om en formel utvärde
 NOT			= ICKE				##	Inverterar logiken för argumenten
 OR			= ELLER				##	Returnerar SANT om något argument är SANT
 TRUE			= SANT				##	Returnerar det logiska värdet SANT
-
-
 ##
 ##	Lookup and reference functions			Sök- och referensfunktioner
 ##
@@ -214,8 +198,6 @@ ROWS			= RADER				##	Returnerar antalet rader i en referens
 RTD			= RTD				##	Hämtar realtidsdata från ett program som stöder COM-automation (Automation: Ett sätt att arbeta med ett programs objekt från ett annat program eller utvecklingsverktyg. Detta kallades tidigare för OLE Automation, och är en branschstandard och ingår i Component Object Model (COM).)
 TRANSPOSE		= TRANSPONERA			##	Transponerar en matris
 VLOOKUP			= LETARAD			##	Letar i den första kolumnen i en matris och flyttar över raden för att returnera värdet för en cell
-
-
 ##
 ##	Math and trigonometry functions			Matematiska och trigonometriska funktioner
 ##
@@ -279,8 +261,6 @@ SUMXMY2			= SUMMAXMY2			##	Returnerar summan av kvadraten av skillnaden mellan m
 TAN			= TAN				##	Returnerar tangens för ett tal
 TANH			= TANH				##	Returnerar hyperbolisk tangens för ett tal
 TRUNC			= AVKORTA			##	Avkortar ett tal till ett heltal
-
-
 ##
 ##	Statistical functions				Statistiska funktioner
 ##
@@ -367,8 +347,6 @@ VARP			= VARIANSP			##	Beräknar variansen baserat på hela populationen
 VARPA			= VARPA				##	Beräknar variansen baserat på hela populationen, inklusive tal, text och logiska värden
 WEIBULL			= WEIBULL			##	Returnerar Weibull-fördelningen
 ZTEST			= ZTEST				##	Returnerar det ensidiga sannolikhetsvärdet av ett z-test
-
-
 ##
 ##	Text functions					Textfunktioner
 ##

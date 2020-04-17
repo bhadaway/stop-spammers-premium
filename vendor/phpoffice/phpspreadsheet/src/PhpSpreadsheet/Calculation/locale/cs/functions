@@ -4,14 +4,10 @@
 ## Data in this file derived from https://www.excel-function-translation.com/
 ##
 ##
-
-
 ##
 ##	Add-in and Automation functions		Funkce doplňků a automatizace
 ##
 GETPIVOTDATA		= ZÍSKATKONTDATA	##	Vrátí data uložená v kontingenční tabulce. Pomocí funkce ZÍSKATKONTDATA můžete načíst souhrnná data z kontingenční tabulky, pokud jsou tato data v kontingenční sestavě zobrazena.
-
-
 ##
 ##	Cube functions				Funkce pro práci s krychlemi
 ##
@@ -22,8 +18,6 @@ CUBERANKEDMEMBER	= CUBERANKEDMEMBER	##	Vrátí n-tý nebo pořadový člen sady.
 CUBESET			= CUBESET		##	Definuje vypočtenou sadu členů nebo n-tic odesláním výrazu sady do krychle na serveru, který vytvoří sadu a potom ji vrátí do aplikace Microsoft Office Excel.
 CUBESETCOUNT		= CUBESETCOUNT		##	Vrátí počet položek v množině
 CUBEVALUE		= CUBEVALUE		##	Vrátí úhrnnou hodnotu z krychle.
-
-
 ##
 ##	Database functions			Funkce databáze
 ##
@@ -39,8 +33,6 @@ DSTDEVP			= DSMODCH		##	Vypočte směrodatnou odchylku základního souboru vybr
 DSUM			= DSUMA			##	Sečte čísla ve sloupcovém poli záznamů databáze, která splňují daná kritéria.
 DVAR			= DVAR.VÝBĚR		##	Odhadne rozptyl výběru vybraných položek databáze.
 DVARP			= DVAR			##	Vypočte rozptyl základního souboru vybraných položek databáze.
-
-
 ##
 ##	Date and time functions			Funkce data a času
 ##
@@ -64,8 +56,6 @@ WEEKNUM			= WEEKNUM		##	Převede pořadové číslo na číslo představující 
 WORKDAY			= WORKDAY		##	Vrátí pořadové číslo data před nebo po zadaném počtu pracovních dní.
 YEAR			= ROK			##	Převede pořadové číslo na rok.
 YEARFRAC		= YEARFRAC		##	Vrátí část roku vyjádřenou zlomkem a představující počet celých dní mezi počátečním a koncovým datem.
-
-
 ##
 ##	Engineering functions			Inženýrské funkce (Technické funkce)
 ##
@@ -108,8 +98,6 @@ IMSUM			= IMSUM			##	Vrátí součet dvou komplexních čísel.
 OCT2BIN			= OCT2BIN		##	Převede osmičkové číslo na binární.
 OCT2DEC			= OCT2DEC		##	Převede osmičkové číslo na desítkové.
 OCT2HEX			= OCT2HEX		##	Převede osmičkové číslo na šestnáctkové.
-
-
 ##
 ##	Financial functions			Finanční funkce
 ##
@@ -166,8 +154,6 @@ XNPV			= XNPV			##	Vrátí čistou současnou hodnotu pro harmonogram peněžní
 YIELD			= YIELD			##	Vrátí výnos cenného papíru, ze kterého je úrok placen v pravidelných termínech.
 YIELDDISC		= YIELDDISC		##	Vrátí roční výnos diskontního cenného papíru, například směnky státní pokladny.
 YIELDMAT		= YIELDMAT		##	Vrátí roční výnos cenného papíru, ze kterého je úrok placen k datu splatnosti.
-
-
 ##
 ##	Information functions			Informační funkce
 ##
@@ -188,8 +174,6 @@ ISTEXT			= JE.TEXT		##	Vrátí hodnotu PRAVDA, pokud je argument hodnota text.
 N			= N			##	Vrátí hodnotu převedenou na číslo.
 NA			= NEDEF			##	Vrátí chybovou hodnotu #N/A.
 TYPE			= TYP			##	Vrátí číslo označující datový typ hodnoty.
-
-
 ##
 ##	Logical functions			Logické funkce
 ##
@@ -200,8 +184,6 @@ IFERROR			= IFERROR		##	Pokud je vzorec vyhodnocen jako chyba, vrátí zadanou h
 NOT			= NE			##	Provede logickou negaci argumentu funkce.
 OR			= NEBO			##	Vrátí hodnotu PRAVDA, je-li alespoň jeden argument roven hodnotě PRAVDA.
 TRUE			= PRAVDA		##	Vrátí logickou hodnotu PRAVDA.
-
-
 ##
 ##	Lookup and reference functions		Vyhledávací funkce
 ##
@@ -222,8 +204,6 @@ ROWS			= ŘÁDKY			##	Vrátí počet řádků v odkazu.
 RTD			= RTD			##	Načte data reálného času z programu, který podporuje automatizaci modelu COM (Automatizace: Způsob práce s objekty určité aplikace z jiné aplikace nebo nástroje pro vývoj. Automatizace (dříve nazývaná automatizace OLE) je počítačovým standardem a je funkcí modelu COM (Component Object Model).).
 TRANSPOSE		= TRANSPOZICE		##	Vrátí transponovanou matici.
 VLOOKUP			= SVYHLEDAT		##	Prohledá první sloupec matice, přesune kurzor v řádku a vrátí hodnotu buňky.
-
-
 ##
 ##	Math and trigonometry functions		Matematické a trigonometrické funkce
 ##
@@ -287,8 +267,6 @@ SUMXMY2			= SUMXMY2		##	Vrátí součet čtverců rozdílů odpovídajících ho
 TAN			= TGTG			##	Vrátí tangens čísla.
 TANH			= TGH			##	Vrátí hyperbolický tangens čísla.
 TRUNC			= USEKNOUT		##	Zkrátí číslo na celé číslo.
-
-
 ##
 ##	Statistical functions			Statistické funkce
 ##
@@ -375,8 +353,6 @@ VARP			= VAR			##	Vypočte rozptyl základního souboru.
 VARPA			= VARPA			##	Vypočte rozptyl základního souboru včetně čísel, textu a logických hodnot.
 WEIBULL			= WEIBULL		##	Vrátí hodnotu Weibullova rozdělení.
 ZTEST			= ZTEST			##	Vrátí jednostrannou P-hodnotu z-testu.
-
-
 ##
 ##	Text functions				Textové funkce
 ##

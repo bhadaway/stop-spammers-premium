@@ -4,14 +4,10 @@
 ## Data in this file derived from https://www.excel-function-translation.com/
 ##
 ##
-
-
 ##
 ##	Add-in and Automation functions			Fonctions de complément et d’automatisation
 ##
 GETPIVOTDATA		= LIREDONNEESTABCROISDYNAMIQUE	##	Renvoie les données stockées dans un rapport de tableau croisé dynamique.
-
-
 ##
 ##	Cube functions					Fonctions Cube
 ##
@@ -22,8 +18,6 @@ CUBERANKEDMEMBER	= RANGMEMBRECUBE		##	Renvoie le nième membre ou le membre plac
 CUBESET			= JEUCUBE			##	Définit un ensemble calculé de membres ou d’uplets en envoyant une expression définie au cube sur le serveur qui crée l’ensemble et le renvoie à Microsoft Office Excel.
 CUBESETCOUNT		= NBJEUCUBE			##	Renvoie le nombre d’éléments dans un jeu.
 CUBEVALUE		= VALEURCUBE			##	Renvoie une valeur d’agrégation issue d’un cube.
-
-
 ##
 ##	Database functions				Fonctions de base de données
 ##
@@ -39,8 +33,6 @@ DSTDEVP			= BDECARTYPEP			##	Calcule l’écart type pour l’ensemble d’une p
 DSUM			= BDSOMME			##	Ajoute les nombres dans la colonne de champ des enregistrements de la base de données, qui répondent aux critères.
 DVAR			= BDVAR				##	Calcule la variance pour un échantillon d’entrées de base de données sélectionnées.
 DVARP			= BDVARP			##	Calcule la variance pour l’ensemble d’une population d’entrées de base de données sélectionnées.
-
-
 ##
 ##	Date and time functions				Fonctions de date et d’heure
 ##
@@ -64,8 +56,6 @@ WEEKNUM			= NO.SEMAINE			##	Convertit un numéro de série en un numéro représ
 WORKDAY			= SERIE.JOUR.OUVRE		##	Renvoie le numéro de série de la date avant ou après le nombre de jours ouvrés spécifiés.
 YEAR			= ANNEE				##	Convertit un numéro de série en année.
 YEARFRAC		= FRACTION.ANNEE		##	Renvoie la fraction de l’année représentant le nombre de jours entre la date de début et la date de fin.
-
-
 ##
 ##	Engineering functions				Fonctions d’ingénierie
 ##
@@ -108,8 +98,6 @@ IMSUM			= COMPLEXE.SOMME		##	Renvoie la somme de plusieurs nombres complexes.
 OCT2BIN			= OCTBIN			##	Convertit un nombre octal en nombre binaire.
 OCT2DEC			= OCTDEC			##	Convertit un nombre octal en nombre décimal.
 OCT2HEX			= OCTHEX			##	Convertit un nombre octal en nombre hexadécimal.
-
-
 ##
 ##	Financial functions				Fonctions financières
 ##
@@ -166,8 +154,6 @@ XNPV			= VAN.PAIEMENTS			##	Renvoie la valeur actuelle nette d’un ensemble de 
 YIELD			= RENDEMENT.TITRE		##	Calcule le rendement d’un titre rapportant des intérêts périodiquement.
 YIELDDISC		= RENDEMENT.SIMPLE		##	Calcule le taux de rendement d’un emprunt à intérêt simple (par exemple, un bon du Trésor).
 YIELDMAT		= RENDEMENT.TITRE.ECHEANCE	##	Renvoie le rendement annuel d’un titre qui rapporte des intérêts à l’échéance.
-
-
 ##
 ##	Information functions				Fonctions d’information
 ##
@@ -188,8 +174,6 @@ ISTEXT			= ESTTEXTE			##	Renvoie VRAI si l’argument valeur se présente sous f
 N			= N				##	Renvoie une valeur convertie en nombre.
 NA			= NA				##	Renvoie la valeur d’erreur #N/A.
 TYPE			= TYPE				##	Renvoie un nombre indiquant le type de données d’une valeur.
-
-
 ##
 ##	Logical functions				Fonctions logiques
 ##
@@ -200,8 +184,6 @@ IFERROR			= SIERREUR			##	Renvoie une valeur que vous spécifiez si une formule 
 NOT			= NON				##	Inverse la logique de cet argument.
 OR			= OU				##	Renvoie VRAI si un des arguments est VRAI.
 TRUE			= VRAI				##	Renvoie la valeur logique VRAI.
-
-
 ##
 ##	Lookup and reference functions			Fonctions de recherche et de référence
 ##
@@ -222,8 +204,6 @@ ROWS			= LIGNES			##	Renvoie le nombre de lignes dans une référence.
 RTD			= RTD				##	Extrait les données en temps réel à partir d’un programme prenant en charge l’automation COM (Automation : utilisation des objets d'une application à partir d'une autre application ou d'un autre outil de développement. Autrefois appelée OLE Automation, Automation est une norme industrielle et une fonctionnalité du modèle d'objet COM (Component Object Model).).
 TRANSPOSE		= TRANSPOSE			##	Renvoie la transposition d’une matrice.
 VLOOKUP			= RECHERCHEV			##	Effectue une recherche dans la première colonne d’une matrice et se déplace sur la ligne pour renvoyer la valeur d’une cellule.
-
-
 ##
 ##	Math and trigonometry functions			Fonctions mathématiques et trigonométriques
 ##
@@ -287,8 +267,6 @@ SUMXMY2			= SOMME.XMY2			##	Renvoie la somme des carrés des différences entre 
 TAN			= TAN				##	Renvoie la tangente d’un nombre.
 TANH			= TANH				##	Renvoie la tangente hyperbolique d’un nombre.
 TRUNC			= TRONQUE			##	Renvoie la partie entière d’un nombre.
-
-
 ##
 ##	Statistical functions				Fonctions statistiques
 ##
@@ -375,8 +353,6 @@ VARP			= VAR.P				##	Calcule la variance sur la base de l’ensemble de la popul
 VARPA			= VARPA				##	Calcule la variance d’une population en se basant sur la population entière, nombres, texte et valeurs logiques inclus.
 WEIBULL			= LOI.WEIBULL			##	Renvoie la probabilité d’une variable aléatoire suivant une loi de Weibull.
 ZTEST			= TEST.Z			##	Renvoie la valeur de probabilité unilatérale d’un test z.
-
-
 ##
 ##	Text functions					Fonctions de texte
 ##

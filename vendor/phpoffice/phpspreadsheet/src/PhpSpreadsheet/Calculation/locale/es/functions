@@ -4,14 +4,10 @@
 ## Data in this file derived from https://www.excel-function-translation.com/
 ##
 ##
-
-
 ##
 ##	Add-in and Automation functions				Funciones de complementos y automatización
 ##
 GETPIVOTDATA		= IMPORTARDATOSDINAMICOS		##	Devuelve los datos almacenados en un informe de tabla dinámica.
-
-
 ##
 ##	Cube functions						Funciones de cubo
 ##
@@ -22,8 +18,6 @@ CUBERANKEDMEMBER	= MIEMBRORANGOCUBO			##	Devuelve el miembro n, o clasificado, d
 CUBESET			= CONJUNTOCUBO				##	Define un conjunto calculado de miembros o tuplas mediante el envío de una expresión de conjunto al cubo en el servidor, lo que crea el conjunto y, después, devuelve dicho conjunto a Microsoft Office Excel.
 CUBESETCOUNT		= RECUENTOCONJUNTOCUBO			##	Devuelve el número de elementos de un conjunto.
 CUBEVALUE		= VALORCUBO				##	Devuelve un valor agregado de un cubo.
-
-
 ##
 ##	Database functions					Funciones de base de datos
 ##
@@ -39,8 +33,6 @@ DSTDEVP			= BDDESVESTP				##	Calcula la desviación estándar en función de la 
 DSUM			= BDSUMA				##	Suma los números de la columna de campo de los registros de la base de datos que cumplen los criterios.
 DVAR			= BDVAR					##	Calcula la varianza a partir de una muestra de entradas seleccionadas de la base de datos.
 DVARP			= BDVARP				##	Calcula la varianza a partir de la población total de entradas seleccionadas de la base de datos.
-
-
 ##
 ##	Date and time functions					Funciones de fecha y hora
 ##
@@ -64,8 +56,6 @@ WEEKNUM			= NUM.DE.SEMANA				##	Convierte un número de serie en un número que 
 WORKDAY			= DIA.LAB				##	Devuelve el número de serie de la fecha que tiene lugar antes o después de un número determinado de días laborables.
 YEAR			= AÑO					##	Convierte un número de serie en un valor de año.
 YEARFRAC		= FRAC.AÑO				##	Devuelve la fracción de año que representa el número total de días existentes entre el valor de fecha_inicial y el de fecha_final.
-
-
 ##
 ##	Engineering functions					Funciones de ingeniería
 ##
@@ -108,8 +98,6 @@ IMSUM			= IM.SUM				##	Devuelve la suma de números complejos.
 OCT2BIN			= OCT.A.BIN				##	Convierte un número octal en binario.
 OCT2DEC			= OCT.A.DEC				##	Convierte un número octal en decimal.
 OCT2HEX			= OCT.A.HEX				##	Convierte un número octal en hexadecimal.
-
-
 ##
 ##	Financial functions					Funciones financieras
 ##
@@ -166,8 +154,6 @@ XNPV			= VNA.NO.PER				##	Devuelve el valor neto actual para un flujo de efectiv
 YIELD			= RENDTO				##	Devuelve el rendimiento de un valor bursátil que paga intereses periódicos.
 YIELDDISC		= RENDTO.DESC				##	Devuelve el rendimiento anual de un valor bursátil con descuento; por ejemplo, una letra del Tesoro (de EE.UU.)
 YIELDMAT		= RENDTO.VENCTO				##	Devuelve el rendimiento anual de un valor bursátil que paga intereses al vencimiento.
-
-
 ##
 ##	Information functions					Funciones de información
 ##
@@ -188,8 +174,6 @@ ISTEXT			= ESTEXTO				##	Devuelve VERDADERO si el valor es texto.
 N			= N					##	Devuelve un valor convertido en un número.
 NA			= ND					##	Devuelve el valor de error #N/A.
 TYPE			= TIPO					##	Devuelve un número que indica el tipo de datos de un valor.
-
-
 ##
 ##	Logical functions					Funciones lógicas
 ##
@@ -200,8 +184,6 @@ IFERROR			= SI.ERROR				##	Devuelve un valor que se especifica si una fórmula l
 NOT			= NO					##	Invierte el valor lógico del argumento.
 OR			= O					##	Devuelve VERDADERO si cualquier argumento es VERDADERO.
 TRUE			= VERDADERO				##	Devuelve el valor lógico VERDADERO.
-
-
 ##
 ##	Lookup and reference functions				Funciones de búsqueda y referencia
 ##
@@ -222,8 +204,6 @@ ROWS			= FILAS					##	Devuelve el número de filas de una referencia.
 RTD			= RDTR					##	Recupera datos en tiempo real desde un programa compatible con la automatización COM (automatización: modo de trabajar con los objetos de una aplicación desde otra aplicación o herramienta de entorno. La automatización, antes denominada automatización OLE, es un estándar de la industria y una función del Modelo de objetos componentes (COM).).
 TRANSPOSE		= TRANSPONER				##	Devuelve la transposición de una matriz.
 VLOOKUP			= BUSCARV				##	Busca en la primera columna de una matriz y se mueve en horizontal por la fila para devolver el valor de una celda.
-
-
 ##
 ##	Math and trigonometry functions				Funciones matemáticas y trigonométricas
 ##
@@ -287,8 +267,6 @@ SUMXMY2			= SUMAXMENOSY2				##	Devuelve la suma de los cuadrados de las diferenc
 TAN			= TAN					##	Devuelve la tangente de un número.
 TANH			= TANH					##	Devuelve la tangente hiperbólica de un número.
 TRUNC			= TRUNCAR				##	Trunca un número a un entero.
-
-
 ##
 ##	Statistical functions					Funciones estadísticas
 ##
@@ -375,8 +353,6 @@ VARP			= VARP					##	Calcula la varianza en función de toda la población.
 VARPA			= VARPA					##	Calcula la varianza en función de toda la población, incluidos números, texto y valores lógicos.
 WEIBULL			= DIST.WEIBULL				##	Devuelve la distribución de Weibull.
 ZTEST			= PRUEBA.Z				##	Devuelve el valor de una probabilidad de una cola de una prueba z.
-
-
 ##
 ##	Text functions						Funciones de texto
 ##

@@ -1,19 +1,13 @@
 ##
 ## PhpSpreadsheet
 ##
-
 ArgumentSeparator	= ;
-
-
 ##
 ##	(For future use)
 ##
 currencySymbol	= €
-
-
 ##
 ##	Excel Error Codes	(For future use)
-
 ##
 NULL	= #NULO!
 DIV0	= #DIV/0!

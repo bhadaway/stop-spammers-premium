@@ -4,14 +4,10 @@
 ## Data in this file derived from https://www.excel-function-translation.com/
 ##
 ##
-
-
 ##
 ##	Add-in and Automation functions			Tilføjelsesprogram- og automatiseringsfunktioner
 ##
 GETPIVOTDATA		= HENTPIVOTDATA			##	Returnerer data, der er lagret i en pivottabelrapport
-
-
 ##
 ##	Cube functions					Kubefunktioner
 ##
@@ -22,8 +18,6 @@ CUBERANKEDMEMBER	= KUBEMEDLEM.RANG		##	Returnerer det n'te eller rangordnede med
 CUBESET			= KUBESÆT			##	Definerer et beregnet sæt medlemmer eller tupler ved at sende et sætudtryk til kuben på serveren, som opretter sættet og returnerer det til Microsoft Office Excel.
 CUBESETCOUNT		= KUBESÆT.TÆL			##	Returnerer antallet af elementer i et sæt.
 CUBEVALUE		= KUBEVÆRDI			##	Returnerer en sammenlagt (aggregeret) værdi fra en kube.
-
-
 ##
 ##	Database functions				Databasefunktioner
 ##
@@ -39,8 +33,6 @@ DSTDEVP			= DSTDAFVP			##	Beregner standardafvigelsen baseret på hele populatio
 DSUM			= DSUM				##	Sammenlægger de tal i feltkolonnen i databasen, der opfylder kriterierne
 DVAR			= DVARIANS			##	Beregner varians baseret på en stikprøve af markerede databaseposter
 DVARP			= DVARIANSP			##	Beregner varians baseret på hele populationen af markerede databaseposter
-
-
 ##
 ##	Date and time functions				Dato- og klokkeslætsfunktioner
 ##
@@ -64,8 +56,6 @@ WEEKNUM			= UGE.NR			##	Konverterer et serienummer til et tal, der angiver ugenu
 WORKDAY			= ARBEJDSDAG			##	Returnerer serienummeret for dagen før eller efter det angivne antal arbejdsdage
 YEAR			= ÅR				##	Konverterer et serienummer til et år
 YEARFRAC		= ÅR.BRØK			##	Returnerer årsbrøken, der repræsenterer antallet af hele dage mellem startdato og slutdato
-
-
 ##
 ##	Engineering functions				Tekniske funktioner
 ##
@@ -108,8 +98,6 @@ IMSUM			= IMAGSUM			##	Returnerer summen af komplekse tal
 OCT2BIN			= OKT.TIL.BIN			##	Konverterer et oktaltal til et binært tal
 OCT2DEC			= OKT.TIL.DEC			##	Konverterer et oktaltal til et decimaltal
 OCT2HEX			= OKT.TIL.HEX			##	Konverterer et oktaltal til et heksadecimalt tal
-
-
 ##
 ##	Financial functions				Finansielle funktioner
 ##
@@ -166,8 +154,6 @@ XNPV			= NETTO.NUTIDSVÆRDI		##	Returnerer nutidsværdien for en plan over penge
 YIELD			= AFKAST			##	Returnerer afkastet for et værdipapir med periodiske renteudbetalinger
 YIELDDISC		= AFKAST.DISKONTO		##	Returnerer det årlige afkast for et diskonteret værdipapir, f.eks. en statsobligation
 YIELDMAT		= AFKAST.UDLØBSDATO		##	Returnerer det årlige afkast for et værdipapir, hvor renten udbetales ved papirets udløb
-
-
 ##
 ##	Information functions				Informationsfunktioner
 ##
@@ -188,8 +174,6 @@ ISTEXT			= ER.TEKST			##	Returnerer SAND, hvis værdien er tekst
 N			= TAL				##	Returnerer en værdi konverteret til et tal
 NA			= IKKE.TILGÆNGELIG		##	Returnerer fejlværdien #I/T
 TYPE			= VÆRDITYPE			##	Returnerer et tal, der angiver datatypen for en værdi
-
-
 ##
 ##	Logical functions				Logiske funktioner
 ##
@@ -200,8 +184,6 @@ IFERROR			= HVIS.FEJL			##	Returnerer en værdi, du angiver, hvis en formel evau
 NOT			= IKKE				##	Vender argumentets logik om
 OR			= ELLER				##	Returneret værdien SAND, hvis mindst ét argument er sandt
 TRUE			= SAND				##	Returnerer den logiske værdi SAND
-
-
 ##
 ##	Lookup and reference functions			Opslags- og referencefunktioner
 ##
@@ -222,8 +204,6 @@ ROWS			= RÆKKER			##	Returnerer antallet af rækker i en reference
 RTD			= RTD				##	Henter realtidsdata fra et program, der understøtter COM-automatisering (Automation: En metode til at arbejde med objekter fra et andet program eller udviklingsværktøj. Automation, som tidligere blev kaldt OLE Automation, er en industristandard og en funktion i COM (Component Object Model).)
 TRANSPOSE		= TRANSPONER			##	Returnerer en transponeret matrix
 VLOOKUP			= LOPSLAG			##	Søger i øverste række af en matrix og flytter på tværs af rækken for at returnere en celleværdi
-
-
 ##
 ##	Math and trigonometry functions			Matematiske og trigonometriske funktioner
 ##
@@ -287,8 +267,6 @@ SUMXMY2			= SUMXMY2			##	Returnerer summen af kvadrater af differenser mellem en
 TAN			= TAN				##	Returnerer et tals tangens
 TANH			= TANH				##	Returnerer et tals hyperbolske tangens
 TRUNC			= AFKORT			##	Afkorter et tal til et heltal
-
-
 ##
 ##	Statistical functions				Statistiske funktioner
 ##
@@ -375,8 +353,6 @@ VARP			= VARIANSP			##	Beregner variansen på basis af hele populationen
 VARPA			= VARIANSPV			##	Beregner variansen på basis af hele populationen og medtager tal, tekst og logiske værdier
 WEIBULL			= WEIBULL			##	Returnerer fordelingsfunktionen for Weibull-fordelingen
 ZTEST			= ZTEST				##	Returnerer sandsynlighedsværdien ved en en-sidet z-test
-
-
 ##
 ##	Text functions					Tekstfunktioner
 ##

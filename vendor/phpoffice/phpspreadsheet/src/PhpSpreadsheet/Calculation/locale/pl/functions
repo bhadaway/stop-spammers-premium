@@ -4,14 +4,10 @@
 ## Data in this file derived from https://www.excel-function-translation.com/
 ##
 ##
-
-
 ##
 ##	Add-in and Automation functions			Funkcje dodatków i automatyzacji
 ##
 GETPIVOTDATA		= WEŹDANETABELI			##	Zwraca dane przechowywane w raporcie tabeli przestawnej.
-
-
 ##
 ##	Cube functions					Funkcje modułów
 ##
@@ -22,8 +18,6 @@ CUBERANKEDMEMBER	= USZEREGOWANY.ELEMENT.MODUŁU	##	Zwraca n-ty (albo uszeregowan
 CUBESET			= ZESTAW.MODUŁÓW		##	Definiuje obliczony zestaw elementów lub krotek, wysyłając wyrażenie zestawu do serwera modułu, który tworzy zestaw i zwraca go do programu Microsoft Office Excel.
 CUBESETCOUNT		= LICZNIK.MODUŁÓW.ZESTAWU	##	Zwraca liczbę elementów zestawu.
 CUBEVALUE		= WARTOŚĆ.MODUŁU		##	Zwraca zagregowaną wartość z modułu.
-
-
 ##
 ##	Database functions				Funkcje baz danych
 ##
@@ -39,8 +33,6 @@ DSTDEVP			= BD.ODCH.STANDARD.POPUL	##	Oblicza odchylenie standardowe na podstawi
 DSUM			= BD.SUMA			##	Dodaje liczby w kolumnie pól rekordów bazy danych, które spełniają kryteria.
 DVAR			= BD.WARIANCJA			##	Szacuje wariancję na podstawie próbki z wybranych wpisów bazy danych.
 DVARP			= BD.WARIANCJA.POPUL		##	Oblicza wariancję na podstawie całej populacji wybranych wpisów bazy danych.
-
-
 ##
 ##	Date and time functions				Funkcje dat, godzin i czasu
 ##
@@ -64,8 +56,6 @@ WEEKNUM			= WEEKNUM			##	Konwertuje liczbę seryjną na liczbę reprezentującą
 WORKDAY			= WORKDAY			##	Zwraca liczbę seryjną dla daty przed określoną liczbą dni roboczych lub po niej.
 YEAR			= ROK				##	Konwertuje liczbę seryjną na rok.
 YEARFRAC		= YEARFRAC			##	Zwraca część roku reprezentowaną przez pełną liczbę dni między datą początkową a datą końcową.
-
-
 ##
 ##	Engineering functions				Funkcje inżynierskie
 ##
@@ -108,8 +98,6 @@ IMSUM			= IMSUM				##	Zwraca wartość sumy liczb zespolonych.
 OCT2BIN			= OCT2BIN			##	Konwertuje liczbę w postaci ósemkowej na liczbę w postaci dwójkowej.
 OCT2DEC			= OCT2DEC			##	Konwertuje liczbę w postaci ósemkowej na liczbę w postaci dziesiętnej.
 OCT2HEX			= OCT2HEX			##	Konwertuje liczbę w postaci ósemkowej na liczbę w postaci szesnastkowej.
-
-
 ##
 ##	Financial functions				Funkcje finansowe
 ##
@@ -166,8 +154,6 @@ XNPV			= XNPV				##	Zwraca wartość bieżącą netto dla serii rozłożonych w 
 YIELD			= YIELD				##	Zwraca rentowność papieru wartościowego z oprocentowaniem okresowym.
 YIELDDISC		= YIELDDISC			##	Zwraca roczną rentowność zdyskontowanego papieru wartościowego, na przykład bonu skarbowego.
 YIELDMAT		= YIELDMAT			##	Zwraca roczną rentowność papieru wartościowego oprocentowanego przy wykupie.
-
-
 ##
 ##	Information functions				Funkcje informacyjne
 ##
@@ -188,8 +174,6 @@ ISTEXT			= CZY.TEKST			##	Zwraca wartość PRAWDA, jeśli wartość jest tekstem
 N			= L				##	Zwraca wartość przekonwertowaną na postać liczbową.
 NA			= BRAK				##	Zwraca wartość błędu #N/D!.
 TYPE			= TYP				##	Zwraca liczbę wskazującą typ danych wartości.
-
-
 ##
 ##	Logical functions				Funkcje logiczne
 ##
@@ -200,8 +184,6 @@ IFERROR			= JEŻELI.BŁĄD			##	Zwraca określoną wartość, jeśli wynikiem ob
 NOT			= NIE				##	Odwraca wartość logiczną argumentu.
 OR			= LUB				##	Zwraca wartość PRAWDA, jeśli co najmniej jeden z argumentów ma wartość PRAWDA.
 TRUE			= PRAWDA			##	Zwraca wartość logiczną PRAWDA.
-
-
 ##
 ##	Lookup and reference functions			Funkcje wyszukiwania i odwołań
 ##
@@ -222,8 +204,6 @@ ROWS			= ILE.WIERSZY			##	Zwraca liczbę wierszy dla danego odwołania.
 RTD			= RTD				##	Pobiera dane w czasie rzeczywistym z programu obsługującego automatyzację COM (Automatyzacja: Sposób pracy z obiektami aplikacji pochodzącymi z innej aplikacji lub narzędzia projektowania. Nazywana wcześniej Automatyzacją OLE, Automatyzacja jest standardem przemysłowym i funkcją obiektowego modelu składników (COM, Component Object Model).).
 TRANSPOSE		= TRANSPONUJ			##	Zwraca transponowaną tablicę.
 VLOOKUP			= WYSZUKAJ.PIONOWO		##	Przeszukuje pierwszą kolumnę tablicy i przechodzi wzdłuż wiersza, aby zwrócić wartość komórki.
-
-
 ##
 ##	Math and trigonometry functions			Funkcje matematyczne i trygonometryczne
 ##
@@ -287,8 +267,6 @@ SUMXMY2			= SUMA.XMY.2			##	Zwraca sumę kwadratów różnic odpowiednich warto�
 TAN			= TAN				##	Zwraca tangens liczby.
 TANH			= TANH				##	Zwraca tangens hiperboliczny liczby.
 TRUNC			= LICZBA.CAŁK			##	Przycina liczbę do wartości całkowitej.
-
-
 ##
 ##	Statistical functions				Funkcje statystyczne
 ##
@@ -375,8 +353,6 @@ VARP			= WARIANCJA.POPUL		##	Oblicza wariancję na podstawie całej populacji.
 VARPA			= WARIANCJA.POPUL.A		##	Oblicza wariancję na podstawie całej populacji, z uwzględnieniem liczb, tekstów i wartości logicznych.
 WEIBULL			= ROZKŁAD.WEIBULL		##	Zwraca rozkład Weibulla.
 ZTEST			= TEST.Z			##	Zwraca wartość jednostronnego prawdopodobieństwa testu z.
-
-
 ##
 ##	Text functions					Funkcje tekstowe
 ##

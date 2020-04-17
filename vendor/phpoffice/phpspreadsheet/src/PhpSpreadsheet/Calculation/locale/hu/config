@@ -1,16 +1,11 @@
 ##
 ## PhpSpreadsheet
 ##
-
 ArgumentSeparator	= ;
-
-
 ##
 ##	(For future use)
 ##
 currencySymbol	= Ft
-
-
 ##
 ##	Excel Error Codes	(For future use)
 ##

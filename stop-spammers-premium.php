@@ -5,7 +5,7 @@ Plugin URI: https://trumani.com/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Import/Export settings, reset options to default, and more.
 Author: Trumani
 Author URI: https://trumani.com/
-Version: 2020.2
+Version: 2020.3
 License: GNU General Public License v2.0 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -78,9 +78,9 @@ function ssp_license_menu() {
 		SSP_LICENSE_PAGE, //menu_slug
 		'ssp_license_page' //function  
 	);
-	$license = get_option( 'ssp_license_key' );
-	$status  = get_option( 'ssp_license_status' );
 
+$license = get_option( 'ssp_license_key' );
+$status  = get_option( 'ssp_license_status' );
 if ( $status !== false && $status == 'valid' ) { 
 	add_submenu_page( 
 		'stop_spammers', //parent_slug
@@ -95,11 +95,14 @@ if ( $status !== false && $status == 'valid' ) {
 add_action( 'admin_menu', 'ssp_license_menu', 11 );
 
 // action links
+$license = get_option( 'ssp_license_key' );
+if ( empty( $license ) ) {
 	add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'ssp_license_link' );
 	function ssp_license_link( $links ) {
 		$links = array_merge( array( '<a href="' . admin_url( 'admin.php?page=ssp_license' ) . '">' . __( 'Enter License Key' ) . '</a>' ), $links );
 		return $links;
 	}
+}
 
 function ss_export_excel(){
 ?>
@@ -311,8 +314,8 @@ function ssp_admin_notice__success() {
 								<?php _e( 'Activate License' ); ?>
 							</th>
 							<td>
-								<?php if( $status !== false && $status == 'valid' ) { ?>
-									<span style="color:green;"><?php _e( 'active' ); ?></span>
+								<?php if ( $status !== false && $status == 'valid' ) { ?>
+									<span style="color:green"><?php _e( 'active' ); ?></span>
 									<?php wp_nonce_field( 'ssp_nonce', 'ssp_nonce' ); ?>
 									<input type="submit" class="button-secondary" name="ssp_license_deactivate" value="<?php _e( 'Deactivate License' ); ?>"/>
 								<?php } else {

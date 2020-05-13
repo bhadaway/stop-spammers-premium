@@ -20,6 +20,9 @@ OR
 
 == Changelog ==
 
+= 2020.3 =
+* [Update] Usability updates
+
 = 2020.2 =
 * [Update] Plugin audit and cleanup
 

@@ -20,6 +20,9 @@ OR
 
 == Changelog ==
 
+= 2020.4 =
+* [New] Firewall protection
+
 = 2020.3 =
 * [Update] Usability updates
 

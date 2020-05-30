@@ -20,6 +20,10 @@ OR
 
 == Changelog ==
 
+
+= 2020.4.1 =
+* [Update] Minor fix
+
 = 2020.4 =
 * [New] Firewall protection
 

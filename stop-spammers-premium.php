@@ -221,9 +221,28 @@ function ssp_remove_htaccess() {
 register_deactivation_hook( __FILE__, 'ssp_remove_htaccess' );
 
 function ss_export_excel() {
+	
+	$ss_login_setting = '';
+	if(get_option('ssp_disable_default_login', '') == 'yes') {
+		$ss_login_setting = "checked='checked'";
+	}
+	
 ?>
 	<div id="ss-plugin" class="wrap">
 		<div class="metabox-holder">
+			<div class="postbox">
+				<h3><span><?php _e( 'Login Settings' ); ?></span></h3>
+				<div class="inside">
+					<form method="post">
+						<p><input type="checkbox" name="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>><?php _e( 'Disable wp-login.php.' ); ?></p>
+						<p>
+							<p><input type="hidden" name="ss_login_setting_placeholder" value="ss_login_setting" /></p>
+							<?php wp_nonce_field( 'ssp_disable_default_login', 'ssp_disable_default_login' ); ?>
+							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
+						</p>
+					</form>
+				</div>
+			</div>
 			<div class="postbox">
 				<h3><span><?php _e( 'Export Log Settings' ); ?></span></h3>
 				<div class="inside">
@@ -322,6 +341,336 @@ function ss_export_excel_data(){
 		exit;
 }
 add_action( 'admin_init', 'ss_export_excel_data' );
+
+
+/**
+ * Process a disable default login module
+ */
+function ssp_disable_default_login() {
+	//print_r($_POST);exit;
+	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'])
+		return;
+	if ( ! wp_verify_nonce( $_POST['ssp_disable_default_login'], 'ssp_disable_default_login' ) )
+		return;
+	if ( ! current_user_can( 'manage_options' ) )
+		return;
+
+	if(isset($_POST['ss_login_setting']) and $_POST['ss_login_setting'] == 'yes'){
+		update_option('ssp_disable_default_login', 'yes');
+		ssp_install_custom_login();
+	}
+	else {
+		update_option('ssp_disable_default_login', 'no');
+		ssp_uninstall_custom_login();
+	}
+
+}
+
+add_action( 'admin_init', 'ssp_disable_default_login' );
+
+/**
+ * Install default pages for custom login
+ */
+function ssp_install_custom_login() {
+	
+	$pages =  array(
+		'login'        => __( 'Log In' ),
+		'register'     => __( 'Register' ),
+		'forgot-password' => __( 'Forgot Password' ),
+	);
+
+	foreach($pages as $slug => $title) {
+		$page_id = ssp_get_page_id($slug);
+
+		if($page_id > 0){
+			wp_update_post( array(
+				'ID'			 => $page_id,
+				'post_title'     => $title,
+				'post_name'      => $slug,
+				'post_status'    => 'publish',
+				'post_type'      => 'page',
+				'post_content'   => '[ssp-login]',
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed'
+			) );
+		} else {
+			wp_insert_post( array(
+				'post_title'     => $title,
+				'post_name'      => $slug,
+				'post_status'    => 'publish',
+				'post_type'      => 'page',
+				'post_content'   => '[ssp-login]',
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed'
+			) );
+		}
+	}
+
+}
+
+/**
+ * Uninstall default pages for custom login
+ */
+function ssp_uninstall_custom_login() {
+
+	$pages = array(
+		'login'        => __( 'Log In'),
+		'register'     => __( 'Register'),
+		'forgot-password' => __( 'Forgot Password'),
+	);
+
+	foreach($pages as $slug => $title) {
+		$page_id = ssp_get_page_id($slug);
+		wp_delete_post( $page_id, true );
+	}
+	
+}
+
+
+function ssp_get_page_id($slug) {
+
+	$page = get_page_by_path($slug);
+
+	if ( ! isset($page->ID) )
+		return null;
+	else 
+		return $page->ID;
+
+}
+
+add_action('template_redirect', function(){
+	global $post;
+	if( is_user_logged_in() && ($post->post_name == 'login' or $post->post_name == 'register' or $post->post_name == 'forgot-password') ) {
+		wp_redirect(admin_url());exit;
+	}
+
+	if($post->post_name == 'login')
+		ssp_login();
+	elseif($post->post_name == 'register')
+		ssp_register();
+	elseif($post->post_name == 'forgot-password')
+		ssp_forgot_password();
+
+
+});
+
+
+function ssp_forgot_password() {
+	global $wpdb, $wp_hasher;
+	if(empty($_POST))
+		return;
+	$errors = new WP_Error();
+	if ( empty( $_POST['user_login'] ) ) {
+		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or e-mail address.' ) );
+	} else if ( strpos( $_POST['user_login'], '@' ) ) {
+		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
+		if ( empty( $user_data ) )
+			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no user registered with that email address.' ) );
+	} else {
+		$login = trim( $_POST['user_login'] );
+		$user_data = get_user_by( 'login', $login );
+	}
+
+	do_action( 'lostpassword_post', $errors );
+
+	if ( $errors->get_error_code() ){
+		$GLOBALS['ssp_error'] = $errors;
+		return;
+	}
+
+
+	if ( ! $user_data ) {
+		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: Invalid username or e-mail.') );
+		$GLOBALS['ssp_error'] = $errors;
+		return;
+	}
+
+	$user_login = $user_data->user_login;
+	$user_email = $user_data->user_email;
+	$key = get_password_reset_key( $user_data );
+
+	if ( is_wp_error( $key ) ) {
+		$GLOBALS['ssp_error'] = $key;
+	}
+
+	$message = __( 'Someone requested that the password be reset for the following account:' ) . "\r\n\r\n";
+	$message .= network_home_url( '/' ) . "\r\n\r\n";
+	$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
+	$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.') . "\r\n\r\n";
+	$message .= __( 'To reset your password, visit the following address:') . "\r\n\r\n";
+	$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
+
+	$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+
+	$title = sprintf( __( '[%s] Password Reset' ), $blogname );
+
+	$title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
+	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
+
+	if ( $message && ! wp_mail( $user_email, $title, $message ) )
+		wp_die( __( 'The e-mail could not be sent.' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...') );
+
+	wp_redirect( home_url('/login/?rp=link(target, link)-sent') );exit;
+
+
+}
+
+add_shortcode( 'ssp-login', 'ssp_login_cb' );
+
+function ssp_login_cb() {
+	global $post;
+	
+	if( !is_page() )
+		return;
+
+
+	switch ($post->post_name) {
+		case 'login':
+			ssp_login_page();
+			break;
+		case 'register':
+			ssp_register_page();
+			break;
+		case 'forgot-password':
+			ssp_forgot_password_page();
+			break;
+		default:
+			break;
+	}
+
+}
+
+function ssp_login_page() {
+	$ss_settings = @ss_get_options();
+	$login_type = 'default';
+	if($ss_settings['login_type']){
+		$login_type = $ss_settings['login_type'];
+	}
+	include('templates/login.php');
+}
+function ssp_show_error() {
+	global $ssp_error;
+
+	if(isset($ssp_error->errors)){
+		foreach($ssp_error->errors as $errors){
+			foreach($errors as $e) {
+				echo "<div style='color: #721c24;background-color: #f8d7da;padding: .75rem 1.25rem; margin-bottom: 1rem; border: 1px solid #f5c6cb;'>$e</div>";
+			}
+
+		}
+	}
+
+}
+
+function ssp_register() {
+	
+	if ( ! get_option( 'users_can_register' ) ) {
+		$redirect_to = site_url( 'wp-login.php?registration=disabled' );
+		wp_redirect( $redirect_to );
+		exit;
+	}
+	
+	$user_login = '';
+	$user_email = '';
+
+	if( !empty($_POST) ) {
+
+		$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
+		$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
+
+		$register_error = register_new_user( $user_login, $user_email );
+
+		if ( ! is_wp_error( $register_error ) ) {
+			$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : site_url( 'wp-login.php?checkemail=registered' );
+			wp_safe_redirect( $redirect_to );
+			exit;
+		}
+
+		$GLOBALS['ssp_error'] = $register_error;
+
+	}
+
+}
+
+
+function ssp_login() {
+
+	$secure_cookie = '';
+	$interim_login = isset( $_REQUEST['interim-login'] );
+	if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+		$redirect_to = $_REQUEST['redirect_to'];
+		// Redirect to https if user wants ssl
+		if ( $secure_cookie && false !== strpos( $redirect_to, 'wp-admin' ) )
+			$redirect_to = preg_replace( '|^http://|', 'https://', $redirect_to );
+	} else {
+		$redirect_to = admin_url();
+	}
+
+	$reauth = empty( $_REQUEST['reauth'] ) ? false : true;
+
+	if ( isset( $_POST['log'] ) || isset( $_GET['testcookie'] ) ) {
+
+		$user = wp_signon( array(), $secure_cookie );
+
+		$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
+
+		//$user = wp_get_current_user();
+
+		if ( ! is_wp_error( $user ) && ! $reauth ) {
+			if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
+				// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
+				if ( is_multisite() && ! get_active_blog_for_user( $user->ID ) && ! is_super_admin( $user->ID ) )
+					$redirect_to = user_admin_url();
+				elseif ( is_multisite() && ! $user->has_cap( 'read' ) )
+					$redirect_to = get_dashboard_url( $user->ID );
+				elseif ( ! $user->has_cap( 'edit_posts' ) )
+					$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
+
+				wp_redirect( $redirect_to );
+				exit;
+			}
+			wp_safe_redirect( $redirect_to );
+			exit;
+		}
+		$GLOBALS['ssp_error'] = $user;
+
+	}
+
+}
+
+function ssp_register_page() {
+
+	include('templates/register.php');
+
+}
+
+function ssp_forgot_password_page() {
+
+	include('templates/forgot-password.php');
+
+}
+
+
+
+function ssp_custom_login() {
+
+	if(get_option('ssp_disable_default_login', '') == 'yes' and !isset($_GET['registration']) and (@$_GET['action'] != 'rp') )
+		echo header("Location: " . home_url( 'login' ));
+	
+}
+
+add_action('login_head', 'ssp_custom_login');
+
+function ssp_login_url( $url ) {
+
+	if(get_option('ssp_disable_default_login', '') == 'yes')
+		$url = home_url( 'login' );
+	return $url;
+}
+
+add_filter( 'login_url', 'ssp_login_url', 10, 2 );
+
+
 
 /**
  * Process a settings export that generates a .json file of the shop settings

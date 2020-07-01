@@ -2,10 +2,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // just in case
+
 if ( ! current_user_can( 'manage_options' ) ) {
 	die( 'Access Denied' );
 }
 ?>
+
 <div id="ss-plugin" class="wrap">
 	<h1 class="ss_head" style="text-align:center">Premium Options</h1>
 	<br /><br />

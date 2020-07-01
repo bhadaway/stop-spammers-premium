@@ -20,6 +20,9 @@ OR
 
 == Changelog ==
 
+= 2020.5 =
+* [New] Themed login pages
+* [Update] Ability to disable firewall
 
 = 2020.4.1 =
 * [Update] Minor fix

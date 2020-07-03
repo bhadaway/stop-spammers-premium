@@ -1,4 +1,4 @@
-<form name="registerform" id="registerform" action="<?php echo home_url( '/register/' );?>" method="post" novalidate="novalidate">
+<form name="registerform" id="registerform" action="<?php echo home_url( '/register/' ); ?>" method="post" novalidate="novalidate">
 	<?php ssp_show_error(); ?>
 	<p class="ssp-input-wrapper">
 		<label for="user_login"><?php _e( 'Username' ); ?></label>

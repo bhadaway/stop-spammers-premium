@@ -1,16 +1,15 @@
-<form name="loginform" action="<?php echo home_url( '/login/' );?>" method="post">
+<form name="loginform" action="<?php echo home_url( '/login/' ); ?>" method="post">
 	<?php ssp_show_error(); ?>
 	<p class="ssp-input-wrapper">
-		<?php if( $login_type == 'email' ): ?>
+		<?php if ( $login_type == 'email' ): ?>
 			<label for="user_login"><?php _e( 'Email Address' ); ?></label>
-		<?php elseif( $login_type == 'username' ): ?>
+		<?php elseif ( $login_type == 'username' ): ?>
 			<label for="user_login"><?php _e( 'Username' ); ?></label>
 		<?php else: ?>
 			<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
 		<?php endif; ?>
 		<input type="text" name="log" id="user_login" class="input" value="" size="20" />
 	</p>
-
 	<p class="ssp-input-wrapper">
 		<label for="user_pass"><?php _e( 'Password' ); ?></label>
 		<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" />

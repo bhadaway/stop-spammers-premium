@@ -40,7 +40,7 @@ function ssprem_activate() {
     // Deactivate the plugin.
     deactivate_plugins( plugin_basename( __FILE__ ) );
     // Throw an error in the WordPress admin console.
-    $error_message = '<p class="dependency">' . esc_html__( 'This plugin requires ', 'ssprem' ) . '<a href="' . esc_url( 'https://wordpress.org/plugins/stop-spammer-registrations-plugin/' ) . '" target="_blank">Stop Spammers</a>' . esc_html__( ' plugin to be active.', 'ssprem' ) . '</p>';
+    $error_message = '<p class="dependency">' . esc_html__( 'This plugin requires the ', 'ssprem' ) . '<a href="' . esc_url( 'https://wordpress.org/plugins/stop-spammer-registrations-plugin/' ) . '" target="_blank">Stop Spammers</a>' . esc_html__( ' plugin to be active.', 'ssprem' ) . '</p>';
     die( $error_message ); // WPCS: XSS ok.
   }
 }
@@ -78,19 +78,18 @@ function ssp_license_menu() {
 		SSP_LICENSE_PAGE, //menu_slug
 		'ssp_license_page' //function  
 	);
-
-$license = get_option( 'ssp_license_key' );
-$status  = get_option( 'ssp_license_status' );
-if ( $status !== false && $status == 'valid' ) { 
-	add_submenu_page( 
-		'stop_spammers', //parent_slug
-		'Stop Spammers Premium Features', //page_title
-		'Premium Features',  //menu_title
-		'manage_options', //capability
-		'ssp_premium', //menu_slug
-		'ss_export_excel' //function  
-	);
-}
+	$license = get_option( 'ssp_license_key' );
+	$status  = get_option( 'ssp_license_status' );
+	if ( $status !== false && $status == 'valid' ) { 
+		add_submenu_page( 
+			'stop_spammers', //parent_slug
+			'Stop Spammers Premium Features', //page_title
+			'Premium Features',  //menu_title
+			'manage_options', //capability
+			'ssp_premium', //menu_slug
+			'ss_export_excel' //function  
+		);
+	}
 }
 add_action( 'admin_menu', 'ssp_license_menu', 11 );
 
@@ -409,9 +408,9 @@ function ssp_get_page_id( $slug ) {
 add_action( 'template_redirect', function() {
 	global $post;
 	if ( is_user_logged_in() && ( $post->post_name == 'login' or $post->post_name == 'register' or $post->post_name == 'forgot-password' ) ) {
-		wp_redirect(admin_url());exit;
+		wp_redirect( admin_url() );
+		exit;
 	}
-
 	if ( $post->post_name == 'login' )
 		ssp_login();
 	elseif ( $post->post_name == 'register' )
@@ -462,8 +461,9 @@ function ssp_forgot_password() {
 	$title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
 	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 	if ( $message && ! wp_mail( $user_email, $title, $message ) )
-		wp_die( __( 'The e-mail could not be sent.' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...' ) );
-	wp_redirect( home_url( '/login/?rp=link(target, link)-sent' ) );exit;
+		wp_die( __( 'The email could not be sent.' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...' ) );
+	wp_redirect( home_url( '/login/?rp=link(target, link)-sent' ) );
+	exit;
 }
 add_shortcode( 'ssp-login', 'ssp_login_cb' );
 
@@ -498,7 +498,7 @@ function ssp_login_page() {
 function ssp_show_error() {
 	global $ssp_error;
 	if ( isset( $ssp_error->errors ) ) {
-		foreach( $ssp_error->errors as $errors ){
+		foreach( $ssp_error->errors as $errors ) {
 			foreach( $errors as $e ) {
 				echo "<div style='color:#721c24;background-color:#f8d7da;padding:.75rem 1.25rem;margin-bottom:1rem;border:1px solid #f5c6cb'>$e</div>";
 			}
@@ -514,7 +514,7 @@ function ssp_register() {
 	}	
 	$user_login = '';
 	$user_email = '';
-	if ( !empty( $_POST ) ) {
+	if ( !empty( $_POST ) && ( $_POST['user_url'] == 'https://example.com/' ) ) {
 		$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
 		$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
 		$register_error = register_new_user( $user_login, $user_email );
@@ -542,7 +542,6 @@ function ssp_login() {
 	if ( isset( $_POST['log'] ) || isset( $_GET['testcookie'] ) ) {
 		$user = wp_signon( array(), $secure_cookie );
 		$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
-
 		//$user = wp_get_current_user();
 		if ( ! is_wp_error( $user ) && ! $reauth ) {
 			if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
@@ -553,7 +552,7 @@ function ssp_login() {
 					$redirect_to = get_dashboard_url( $user->ID );
 				elseif ( ! $user->has_cap( 'edit_posts' ) )
 					$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
-				wp_redirect( $redirect_to );
+					wp_redirect( $redirect_to );
 				exit;
 			}
 			wp_safe_redirect( $redirect_to );
@@ -564,11 +563,11 @@ function ssp_login() {
 }
 
 function ssp_register_page() {
-	include('templates/register.php');
+	include( 'templates/register.php' );
 }
 
 function ssp_forgot_password_page() {
-	include('templates/forgot-password.php');
+	include( 'templates/forgot-password.php' );
 }
 
 function ssp_custom_login() {
@@ -649,20 +648,18 @@ add_action( 'admin_init', 'ss_export_excel_data' );
  * Process a settings import from a json file
  */
 function ssp_process_settings_import() {
-	if( empty( $_POST['ssp_action'] ) || 'import_settings' != $_POST['ssp_action'] )
+	if ( empty( $_POST['ssp_action'] ) || 'import_settings' != $_POST['ssp_action'] )
 		return;
 	if ( ! wp_verify_nonce( $_POST['ssp_import_nonce'], 'ssp_import_nonce' ) )
 		return;
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
-
 // $extension = end( explode( '.', $_FILES['import_file']['name'] ) );
-$extension = $_FILES['import_file']['type'] ;
-
-// if( $extension != 'json' ) {
-if ( $extension != 'application/json' ) {
-wp_die( __( 'Please upload a valid .json file' ) );
-}
+	$extension = $_FILES['import_file']['type'] ;
+// if ( $extension != 'json' ) {
+	if ( $extension != 'application/json' ) {
+		wp_die( __( 'Please upload a valid .json file' ) );
+	}
 	$import_file = $_FILES['import_file']['tmp_name'];
 	if ( empty( $import_file ) ) {
 		wp_die( __( 'Please upload a file to import' ) );
@@ -674,7 +671,6 @@ wp_die( __( 'Please upload a valid .json file' ) );
 	// wp_safe_redirect( admin_url( 'admin.php?page=ssp_premium' ) ); 
 	// add_action( 'admin_notices', 'ssp_admin_notice__success' );
 	// exit;
-
 }
 add_action( 'admin_init', 'ssp_process_settings_import' );
 
@@ -692,7 +688,6 @@ function ssp_process_settings_reset() {
 	$options = (array) json_decode( file_get_contents( $url ) );
 	ss_set_options( $options );
 	add_action( 'admin_notices', 'ssp_admin_notice__success' );
-
 }
 add_action( 'admin_init', 'ssp_process_settings_reset' );
 

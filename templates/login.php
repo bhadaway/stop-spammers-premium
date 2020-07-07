@@ -36,7 +36,7 @@
     	display: block;
 	}
 	p.ssp-input-wrapper .input {
-    	padding: 8px 15px;
+    	padding: 15px;
     	min-width: 50%;
 	}
 </style>

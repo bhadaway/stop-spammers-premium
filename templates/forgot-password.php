@@ -5,7 +5,7 @@
 		<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo ( isset($_POST['user_login'] ) ? esc_attr( $_POST['user_login'] ) : '' ); ?>" size="20" autocapitalize="off" />
 	</p>
-	<input type="hidden" name="redirect_to" value="">
+	<input type="hidden" name="redirect_to" value="" />
 	<?php do_action( 'lostpassword_form' ); ?>
 	<p class="submit">
 		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php _e( 'Get New Password' ); ?>">
@@ -13,6 +13,11 @@
 </form>
 
 <style>
-	 #lostpasswordform label {display: block;}
-	 #lostpasswordform .input {padding: 8px 15px;min-width: 50%;}
+	#lostpasswordform label {
+		display: block;
+	}
+	#lostpasswordform .input {
+		padding: 15px;
+		min-width: 50%;
+	}
 </style>

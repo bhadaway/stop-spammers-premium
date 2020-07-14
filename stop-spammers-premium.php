@@ -34,14 +34,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ssprem_activate() {
   if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-    include_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	include_once( ABSPATH . '/wp-admin/includes/plugin.php' );
   }
   if ( current_user_can( 'activate_plugins' ) && ! class_exists( 'be_module' ) ) {
-    // Deactivate the plugin.
-    deactivate_plugins( plugin_basename( __FILE__ ) );
-    // Throw an error in the WordPress admin console.
-    $error_message = '<p class="dependency">' . esc_html__( 'This plugin requires the ', 'ssprem' ) . '<a href="' . esc_url( 'https://wordpress.org/plugins/stop-spammer-registrations-plugin/' ) . '" target="_blank">Stop Spammers</a>' . esc_html__( ' plugin to be active.', 'ssprem' ) . '</p>';
-    die( $error_message ); // WPCS: XSS ok.
+	// Deactivate the plugin.
+	deactivate_plugins( plugin_basename( __FILE__ ) );
+	// Throw an error in the WordPress admin console.
+	$error_message = '<p class="dependency">' . esc_html__( 'This plugin requires the ', 'ssprem' ) . '<a href="' . esc_url( 'https://wordpress.org/plugins/stop-spammer-registrations-plugin/' ) . '" target="_blank">Stop Spammers</a>' . esc_html__( ' plugin to be active.', 'ssprem' ) . '</p>';
+	die( $error_message ); // WPCS: XSS ok.
   }
 }
 register_activation_hook( __FILE__, 'ssprem_activate' ); 
@@ -112,6 +112,20 @@ function ss_export_excel() {
 	if ( get_option( 'ssp_disable_default_login', '' ) == 'yes' ) {
 		$ss_login_setting = "checked='checked'";
 	}
+
+	$ss_login_type_default = "";
+	$ss_login_type_username = "";
+	$ss_login_type_email = "";
+	if ( get_option( 'ssp_login_type', '' ) == 'username' ) {
+		$ss_login_type_username = "checked='checked'";
+	} else if ( get_option( 'ssp_login_type', '' ) == 'email'  ) {
+		$ss_login_type_email = "checked='checked'";
+	} else {
+		$ss_login_type_default = "checked='checked'";
+	}
+
+
+
 ?>
 	<div id="ss-plugin" class="wrap">
 		<div class="metabox-holder">
@@ -141,6 +155,37 @@ function ss_export_excel() {
 					</form>
 				</div>
 			</div>
+
+			<div class="postbox">
+				<h3><span><?php _e( 'Allow users to log in using their username and/or email address' ); ?></span></h3>
+				<div class="inside">
+					<form method="post">
+						<p><input type="hidden" name="ssp_login_type_field" value="ssp_login_type" /></p>
+						<ul class="ss-spacer">
+							<li>
+								<input name="ssp_login_type" type="radio" id="ssp-login-type-default" value="default" <?php echo $ss_login_type_default; ?>>
+								<label for="ssp-login-type-default"><?php _e('Username or Email');?></label>
+							</li>
+							<li>
+								<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
+								<label for="ssp-login-type-username"><?php _e('Username only');?></label>
+							</li>
+							<li>
+								<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
+								<label for="ssp-login-type-email"><?php _e('Email only');?></label>
+							</li>
+						</ul>
+						<p>
+							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
+							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
+						</p>
+					</form>
+				</div>
+			</div>
+
+			
+
+
 			<div class="postbox">
 				<h3><span><?php _e( 'Export Log Settings' ); ?></span></h3>
 				<div class="inside">
@@ -328,7 +373,9 @@ add_action( 'admin_init', 'ssp_disable_firewall' );
  * Process a disable default login module
  */
 function ssp_disable_default_login() {
-	//print_r( $_POST );exit;
+
+	
+
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
 		return;
 	if ( ! wp_verify_nonce( $_POST['ssp_disable_default_login'], 'ssp_disable_default_login' ) )
@@ -344,7 +391,31 @@ function ssp_disable_default_login() {
 		ssp_uninstall_custom_login();
 	}
 }
+
 add_action( 'admin_init', 'ssp_disable_default_login' );
+
+/**
+ * Process to setup login type
+ */
+
+function ssp_login_type_func() {
+	
+	if ( empty( $_POST['ssp_login_type_field'] ) || 'ssp_login_type' != $_POST['ssp_login_type_field'] )
+		return;
+	if ( ! wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
+		return;
+	if ( ! current_user_can( 'manage_options' ) )
+		return;
+
+	if ( isset( $_POST['ssp_login_type'] ) ) {
+		update_option( 'ssp_login_type', $_POST['ssp_login_type'] );
+	}
+
+}
+
+add_action( 'admin_init', 'ssp_login_type_func' ); 
+
+
 
 /**
  * Install default pages for custom login
@@ -487,11 +558,7 @@ function ssp_login_cb() {
 }
 
 function ssp_login_page() {
-	$ss_settings = @ss_get_options();
-	$login_type = 'default';
-	if ( $ss_settings['login_type'] ) {
-		$login_type = $ss_settings['login_type'];
-	}
+	
 	include( 'templates/login.php' );
 }
 
@@ -692,11 +759,11 @@ function ssp_process_settings_reset() {
 add_action( 'admin_init', 'ssp_process_settings_reset' );
 
 function ssp_admin_notice__success() {
-    ?>
-    <div class="notice notice-success is-dismissible">
-        <p><?php _e( 'Updates have been made!', 'stop-spammers-premium' ); ?></p>
-    </div>
-    <?php
+	?>
+	<div class="notice notice-success is-dismissible">
+		<p><?php _e( 'Updates have been made!', 'stop-spammers-premium' ); ?></p>
+	</div>
+	<?php
 }
 
 // license flow start
@@ -766,7 +833,7 @@ function ssp_activate_license() {
 	// listen for our activate button to be clicked
 	if ( isset( $_POST['ssp_license_activate'] ) ) {
 		// run a quick security check
-	 	if ( ! check_admin_referer( 'ssp_nonce', 'ssp_nonce' ) )
+		if ( ! check_admin_referer( 'ssp_nonce', 'ssp_nonce' ) )
 			return; // get out if we didn't click the Activate button
 		// retrieve the license from the database
 		$license = trim( get_option( 'ssp_license_key' ) );
@@ -844,7 +911,7 @@ function ssp_deactivate_license() {
 	// listen for our activate button to be clicked
 	if ( isset( $_POST['ssp_license_deactivate'] ) ) {
 		// run a quick security check
-	 	if( ! check_admin_referer( 'ssp_nonce', 'ssp_nonce' ) )
+		if( ! check_admin_referer( 'ssp_nonce', 'ssp_nonce' ) )
 			return; // get out if we didn't click the Activate button
 		// retrieve the license from the database
 		$license = trim( get_option( 'ssp_license_key' ) );
@@ -939,3 +1006,32 @@ function ssp_admin_notices() {
 	}
 }
 add_action( 'admin_notices', 'ssp_admin_notices' );
+
+/**
+ * This is to enable custom login module 
+ */
+add_action('init', 'ssp_custom_login_module');
+
+function ssp_custom_login_module() {
+
+	if ( get_option( 'ssp_login_type', '' ) == "username" ) {
+		remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );
+	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
+		remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
+	}
+}
+
+
+
+// add_filter( 'gettext', 'ss_login_text' );
+function ss_login_text( $translating ) {
+	
+	if ( get_option( 'ssp_login_type', '' ) == "username" ) {	
+		return str_ireplace( 'Username or Email Address', 'Username', $translating );
+	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
+		return str_ireplace( 'Username or Email Address', 'Email Address', $translating );
+	} else {
+		return $translating;
+	}
+
+}

@@ -1,9 +1,9 @@
 <form name="loginform" action="<?php echo home_url( '/login/' ); ?>" method="post">
 	<?php ssp_show_error(); ?>
 	<p class="ssp-input-wrapper">
-		<?php if ( $login_type == 'email' ): ?>
+		<?php if ( get_option( 'ssp_login_type', '' ) == 'email' ): ?>
 			<label for="user_login"><?php _e( 'Email Address' ); ?></label>
-		<?php elseif ( $login_type == 'username' ): ?>
+		<?php elseif ( get_option( 'ssp_login_type', '' ) == 'username' ): ?>
 			<label for="user_login"><?php _e( 'Username' ); ?></label>
 		<?php else: ?>
 			<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>

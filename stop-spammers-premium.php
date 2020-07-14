@@ -112,7 +112,6 @@ function ss_export_excel() {
 	if ( get_option( 'ssp_disable_default_login', '' ) == 'yes' ) {
 		$ss_login_setting = "checked='checked'";
 	}
-
 	$ss_login_type_default = "";
 	$ss_login_type_username = "";
 	$ss_login_type_email = "";
@@ -123,9 +122,6 @@ function ss_export_excel() {
 	} else {
 		$ss_login_type_default = "checked='checked'";
 	}
-
-
-
 ?>
 	<div id="ss-plugin" class="wrap">
 		<div class="metabox-holder">
@@ -155,7 +151,6 @@ function ss_export_excel() {
 					</form>
 				</div>
 			</div>
-
 			<div class="postbox">
 				<h3><span><?php _e( 'Allow users to log in using their username and/or email address' ); ?></span></h3>
 				<div class="inside">
@@ -182,10 +177,6 @@ function ss_export_excel() {
 					</form>
 				</div>
 			</div>
-
-			
-
-
 			<div class="postbox">
 				<h3><span><?php _e( 'Export Log Settings' ); ?></span></h3>
 				<div class="inside">
@@ -373,9 +364,6 @@ add_action( 'admin_init', 'ssp_disable_firewall' );
  * Process a disable default login module
  */
 function ssp_disable_default_login() {
-
-	
-
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
 		return;
 	if ( ! wp_verify_nonce( $_POST['ssp_disable_default_login'], 'ssp_disable_default_login' ) )
@@ -391,31 +379,23 @@ function ssp_disable_default_login() {
 		ssp_uninstall_custom_login();
 	}
 }
-
 add_action( 'admin_init', 'ssp_disable_default_login' );
 
 /**
  * Process to setup login type
  */
-
 function ssp_login_type_func() {
-	
 	if ( empty( $_POST['ssp_login_type_field'] ) || 'ssp_login_type' != $_POST['ssp_login_type_field'] )
 		return;
 	if ( ! wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
 		return;
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
-
 	if ( isset( $_POST['ssp_login_type'] ) ) {
 		update_option( 'ssp_login_type', $_POST['ssp_login_type'] );
 	}
-
 }
-
 add_action( 'admin_init', 'ssp_login_type_func' ); 
-
-
 
 /**
  * Install default pages for custom login
@@ -558,7 +538,6 @@ function ssp_login_cb() {
 }
 
 function ssp_login_page() {
-	
 	include( 'templates/login.php' );
 }
 
@@ -649,6 +628,29 @@ function ssp_login_url( $url ) {
 	return $url;
 }
 add_filter( 'login_url', 'ssp_login_url', 10, 2 );
+
+/**
+ * This is to enable custom login module 
+ */
+function ssp_custom_login_module() {
+	if ( get_option( 'ssp_login_type', '' ) == "username" ) {
+		remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );
+	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
+		remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
+	}
+}
+add_action( 'init', 'ssp_custom_login_module' );
+
+// add_filter( 'gettext', 'ss_login_text' );
+function ss_login_text( $translating ) {
+	if ( get_option( 'ssp_login_type', '' ) == "username" ) {	
+		return str_ireplace( 'Username or Email Address', 'Username', $translating );
+	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
+		return str_ireplace( 'Username or Email Address', 'Email Address', $translating );
+	} else {
+		return $translating;
+	}
+}
 
 /**
  * Process a settings export that generates a .json file of the shop settings
@@ -1006,32 +1008,3 @@ function ssp_admin_notices() {
 	}
 }
 add_action( 'admin_notices', 'ssp_admin_notices' );
-
-/**
- * This is to enable custom login module 
- */
-add_action('init', 'ssp_custom_login_module');
-
-function ssp_custom_login_module() {
-
-	if ( get_option( 'ssp_login_type', '' ) == "username" ) {
-		remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );
-	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
-		remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
-	}
-}
-
-
-
-// add_filter( 'gettext', 'ss_login_text' );
-function ss_login_text( $translating ) {
-	
-	if ( get_option( 'ssp_login_type', '' ) == "username" ) {	
-		return str_ireplace( 'Username or Email Address', 'Username', $translating );
-	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
-		return str_ireplace( 'Username or Email Address', 'Email Address', $translating );
-	} else {
-		return $translating;
-	}
-
-}

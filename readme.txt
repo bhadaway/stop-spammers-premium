@@ -22,6 +22,7 @@ OR
 
 = 2020.5 =
 * [New] Themed login pages
+* [New] Honeypot addition
 * [Update] Ability to disable firewall
 
 = 2020.4.1 =

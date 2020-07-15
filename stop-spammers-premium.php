@@ -24,6 +24,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Settings successfully updated message
+function ssp_admin_notice__success() {
+	?>
+	<div class="notice notice-success is-dismissible">
+		<p><?php _e( 'Options Updated!', 'stop-spammers-premium' ); ?></p>
+	</div>
+	<?php
+}
+
 /**
  * Checks if the Stop Spammers plugin is activated
  *
@@ -105,11 +114,11 @@ if ( empty( $license ) ) {
 
 function ss_export_excel() {
 	$ss_firewall_setting = '';
-	if ( get_option( 'ssp_disable_firewall', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_enable_firewall', '' ) == 'yes' ) {
 		$ss_firewall_setting = "checked='checked'";
 	}
 	$ss_login_setting = '';
-	if ( get_option( 'ssp_disable_default_login', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
 		$ss_login_setting = "checked='checked'";
 	}
 	$ss_login_type_default = "";
@@ -129,10 +138,10 @@ function ss_export_excel() {
 				<h3><span><?php _e( 'Firewall Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
-						<p><input type="checkbox" name="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>><?php _e( 'Disable firewall.' ); ?></p>
+						<p><input type="checkbox" name="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>><?php _e( 'Enable firewall.' ); ?></p>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
 						<p>
-							<?php wp_nonce_field( 'ssp_disable_firewall', 'ssp_disable_firewall' ); ?>
+							<?php wp_nonce_field( 'ssp_enable_firewall', 'ssp_enable_firewall' ); ?>
 							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
@@ -142,10 +151,10 @@ function ss_export_excel() {
 				<h3><span><?php _e( 'Login Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
-						<p><input type="checkbox" name="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>><?php _e( 'Disable wp-login.php.' ); ?></p>
+						<p><input type="checkbox" name="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>><?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).' ); ?></p>
 						<p><input type="hidden" name="ss_login_setting_placeholder" value="ss_login_setting" /></p>
 						<p>
-							<?php wp_nonce_field( 'ssp_disable_default_login', 'ssp_disable_default_login' ); ?>
+							<?php wp_nonce_field( 'ssp_enable_custom_login', 'ssp_enable_custom_login' ); ?>
 							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
@@ -236,22 +245,18 @@ function ss_export_excel() {
 }
 
 /**
- * Disable firewall
+ * Enable firewall
  */
-function ssp_disable_firewall() {
+function ssp_enable_firewall() {
 	if ( empty( $_POST['ss_firewall_setting_placeholder'] ) || 'ss_firewall_setting' != $_POST['ss_firewall_setting_placeholder'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_disable_firewall'], 'ssp_disable_firewall' ) )
+	if ( ! wp_verify_nonce( $_POST['ssp_enable_firewall'], 'ssp_enable_firewall' ) )
 		return;
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
 	if ( isset( $_POST['ss_firewall_setting'] ) and $_POST['ss_firewall_setting'] == 'yes' ) {
-		update_option( 'ssp_disable_firewall', 'yes' );
-		$htaccess = ABSPATH . '.htaccess';
-		return insert_with_markers( $htaccess, 'Stop Spammers Premium', '' );
-	}
-	else {
-		update_option( 'ssp_disable_firewall', 'no' );
+		update_option( 'ssp_enable_firewall', 'yes' );
+		add_action( 'admin_notices', 'ssp_admin_notice__success' );
 		$insertion = array(
 			'<IfModule mod_headers.c>',
 			'Header set X-XSS-Protection "1; mode=block"',
@@ -357,29 +362,37 @@ function ssp_disable_firewall() {
 			return insert_with_markers( $htaccess, 'Stop Spammers Premium', ( array ) $insertion );
 		}
 	}
+	else {
+		update_option( 'ssp_enable_firewall', 'no' );
+		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		$htaccess = ABSPATH . '.htaccess';
+		return insert_with_markers( $htaccess, 'Stop Spammers Premium', '' );
+	}
 }
-add_action( 'admin_init', 'ssp_disable_firewall' );
+add_action( 'admin_init', 'ssp_enable_firewall' );
 
 /**
- * Process a disable default login module
+ * Enable custom login
  */
-function ssp_disable_default_login() {
+function ssp_enable_custom_login() {
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_disable_default_login'], 'ssp_disable_default_login' ) )
+	if ( ! wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
 		return;
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
 	if ( isset( $_POST['ss_login_setting'] ) and $_POST['ss_login_setting'] == 'yes' ) {
-		update_option( 'ssp_disable_default_login', 'yes' );
+		update_option( 'ssp_enable_custom_login', 'yes' );
+		add_action( 'admin_notices', 'ssp_admin_notice__success' );
 		ssp_install_custom_login();
 	}
 	else {
-		update_option( 'ssp_disable_default_login', 'no' );
+		update_option( 'ssp_enable_custom_login', 'no' );
+		add_action( 'admin_notices', 'ssp_admin_notice__success' );
 		ssp_uninstall_custom_login();
 	}
 }
-add_action( 'admin_init', 'ssp_disable_default_login' );
+add_action( 'admin_init', 'ssp_enable_custom_login' );
 
 /**
  * Process to setup login type
@@ -393,6 +406,7 @@ function ssp_login_type_func() {
 		return;
 	if ( isset( $_POST['ssp_login_type'] ) ) {
 		update_option( 'ssp_login_type', $_POST['ssp_login_type'] );
+		add_action( 'admin_notices', 'ssp_admin_notice__success' );
 	}
 }
 add_action( 'admin_init', 'ssp_login_type_func' ); 
@@ -617,13 +631,13 @@ function ssp_forgot_password_page() {
 }
 
 function ssp_custom_login() {
-	if ( get_option( 'ssp_disable_default_login', '' ) == 'yes' and !isset( $_GET['registration'] ) and ( @$_GET['action'] != 'rp' ) )
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' and !isset( $_GET['registration'] ) and ( @$_GET['action'] != 'rp' ) )
 		echo header( "Location: " . home_url( 'login' ) );
 }
 add_action( 'login_head', 'ssp_custom_login' );
 
 function ssp_login_url( $url ) {
-	if ( get_option( 'ssp_disable_default_login', '' ) == 'yes' )
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' )
 		$url = home_url( 'login' );
 	return $url;
 }
@@ -663,13 +677,13 @@ function ssp_process_settings_export() {
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
 	$settings = get_option( 'ssp_settings' );
-	$optins = ss_get_options();
+	$options = ss_get_options();
 	ignore_user_abort( true );
 	nocache_headers();
 	header( 'Content-Type: application/json; charset=utf-8' );
 	header( 'Content-Disposition: attachment; filename=ssp-settings-export-' . date( 'm-d-Y H:i:s' ) . '.json' );
 	header( "Expires: 0" );
-	echo json_encode( $optins );
+	echo json_encode( $options );
 	exit;
 }
 add_action( 'admin_init', 'ssp_process_settings_export' );
@@ -759,14 +773,6 @@ function ssp_process_settings_reset() {
 	add_action( 'admin_notices', 'ssp_admin_notice__success' );
 }
 add_action( 'admin_init', 'ssp_process_settings_reset' );
-
-function ssp_admin_notice__success() {
-	?>
-	<div class="notice notice-success is-dismissible">
-		<p><?php _e( 'Updates have been made!', 'stop-spammers-premium' ); ?></p>
-	</div>
-	<?php
-}
 
 // license flow start
 function ssp_license_page() {

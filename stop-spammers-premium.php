@@ -5,7 +5,7 @@ Plugin URI: https://trumani.com/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Import/Export settings, reset options to default, and more.
 Author: Trumani
 Author URI: https://trumani.com/
-Version: 2020.5
+Version: 2020.5.1
 License: GNU General Public License v2.0 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -22,15 +22,6 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-}
-
-// Settings successfully updated message
-function ssp_admin_notice__success() {
-	?>
-	<div class="notice notice-success is-dismissible">
-		<p><?php _e( 'Options Updated!', 'stop-spammers-premium' ); ?></p>
-	</div>
-	<?php
 }
 
 /**
@@ -68,7 +59,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2020.5',
+			'version' => '2020.5.1',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -114,13 +105,14 @@ if ( empty( $license ) ) {
 
 function ss_export_excel() {
 	$ss_firewall_setting = '';
-	if ( get_option( 'ssp_enable_firewall', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_disable_firewall', '' ) == 'yes' ) {
 		$ss_firewall_setting = "checked='checked'";
 	}
 	$ss_login_setting = '';
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_disable_default_login', '' ) == 'yes' ) {
 		$ss_login_setting = "checked='checked'";
 	}
+
 	$ss_login_type_default = "";
 	$ss_login_type_username = "";
 	$ss_login_type_email = "";
@@ -131,6 +123,9 @@ function ss_export_excel() {
 	} else {
 		$ss_login_type_default = "checked='checked'";
 	}
+
+
+
 ?>
 	<div id="ss-plugin" class="wrap">
 		<div class="metabox-holder">
@@ -138,10 +133,10 @@ function ss_export_excel() {
 				<h3><span><?php _e( 'Firewall Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
-						<p><input type="checkbox" name="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>><?php _e( 'Enable firewall.' ); ?></p>
+						<p><input type="checkbox" name="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>><?php _e( 'Disable firewall.' ); ?></p>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
 						<p>
-							<?php wp_nonce_field( 'ssp_enable_firewall', 'ssp_enable_firewall' ); ?>
+							<?php wp_nonce_field( 'ssp_disable_firewall', 'ssp_disable_firewall' ); ?>
 							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
@@ -151,15 +146,16 @@ function ss_export_excel() {
 				<h3><span><?php _e( 'Login Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
-						<p><input type="checkbox" name="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>><?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).' ); ?></p>
+						<p><input type="checkbox" name="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>><?php _e( 'Disable wp-login.php.' ); ?></p>
 						<p><input type="hidden" name="ss_login_setting_placeholder" value="ss_login_setting" /></p>
 						<p>
-							<?php wp_nonce_field( 'ssp_enable_custom_login', 'ssp_enable_custom_login' ); ?>
+							<?php wp_nonce_field( 'ssp_disable_default_login', 'ssp_disable_default_login' ); ?>
 							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div>
 			</div>
+
 			<div class="postbox">
 				<h3><span><?php _e( 'Allow users to log in using their username and/or email address' ); ?></span></h3>
 				<div class="inside">
@@ -186,6 +182,10 @@ function ss_export_excel() {
 					</form>
 				</div>
 			</div>
+
+			
+
+
 			<div class="postbox">
 				<h3><span><?php _e( 'Export Log Settings' ); ?></span></h3>
 				<div class="inside">
@@ -245,18 +245,22 @@ function ss_export_excel() {
 }
 
 /**
- * Enable firewall
+ * Disable firewall
  */
-function ssp_enable_firewall() {
+function ssp_disable_firewall() {
 	if ( empty( $_POST['ss_firewall_setting_placeholder'] ) || 'ss_firewall_setting' != $_POST['ss_firewall_setting_placeholder'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_enable_firewall'], 'ssp_enable_firewall' ) )
+	if ( ! wp_verify_nonce( $_POST['ssp_disable_firewall'], 'ssp_disable_firewall' ) )
 		return;
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
 	if ( isset( $_POST['ss_firewall_setting'] ) and $_POST['ss_firewall_setting'] == 'yes' ) {
-		update_option( 'ssp_enable_firewall', 'yes' );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		update_option( 'ssp_disable_firewall', 'yes' );
+		$htaccess = ABSPATH . '.htaccess';
+		return insert_with_markers( $htaccess, 'Stop Spammers Premium', '' );
+	}
+	else {
+		update_option( 'ssp_disable_firewall', 'no' );
 		$insertion = array(
 			'<IfModule mod_headers.c>',
 			'Header set X-XSS-Protection "1; mode=block"',
@@ -362,54 +366,56 @@ function ssp_enable_firewall() {
 			return insert_with_markers( $htaccess, 'Stop Spammers Premium', ( array ) $insertion );
 		}
 	}
-	else {
-		update_option( 'ssp_enable_firewall', 'no' );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
-		$htaccess = ABSPATH . '.htaccess';
-		return insert_with_markers( $htaccess, 'Stop Spammers Premium', '' );
-	}
 }
-add_action( 'admin_init', 'ssp_enable_firewall' );
+add_action( 'admin_init', 'ssp_disable_firewall' );
 
 /**
- * Enable custom login
+ * Process a disable default login module
  */
-function ssp_enable_custom_login() {
+function ssp_disable_default_login() {
+
+	
+
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
+	if ( ! wp_verify_nonce( $_POST['ssp_disable_default_login'], 'ssp_disable_default_login' ) )
 		return;
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
 	if ( isset( $_POST['ss_login_setting'] ) and $_POST['ss_login_setting'] == 'yes' ) {
-		update_option( 'ssp_enable_custom_login', 'yes' );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		update_option( 'ssp_disable_default_login', 'yes' );
 		ssp_install_custom_login();
 	}
 	else {
-		update_option( 'ssp_enable_custom_login', 'no' );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		update_option( 'ssp_disable_default_login', 'no' );
 		ssp_uninstall_custom_login();
 	}
 }
-add_action( 'admin_init', 'ssp_enable_custom_login' );
+
+add_action( 'admin_init', 'ssp_disable_default_login' );
 
 /**
  * Process to setup login type
  */
+
 function ssp_login_type_func() {
+	
 	if ( empty( $_POST['ssp_login_type_field'] ) || 'ssp_login_type' != $_POST['ssp_login_type_field'] )
 		return;
 	if ( ! wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
 		return;
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
+
 	if ( isset( $_POST['ssp_login_type'] ) ) {
 		update_option( 'ssp_login_type', $_POST['ssp_login_type'] );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
 	}
+
 }
+
 add_action( 'admin_init', 'ssp_login_type_func' ); 
+
+
 
 /**
  * Install default pages for custom login
@@ -417,6 +423,7 @@ add_action( 'admin_init', 'ssp_login_type_func' );
 function ssp_install_custom_login() {
 	$pages =  array(
 		'login'        => __( 'Log In' ),
+		'logout'        => __( 'Logout' ),
 		'register'     => __( 'Register' ),
 		'forgot-password' => __( 'Forgot Password' ),
 	);
@@ -453,6 +460,7 @@ function ssp_install_custom_login() {
 function ssp_uninstall_custom_login() {
 	$pages = array(
 		'login'        => __( 'Log In' ),
+		'logout'        => __( 'Logout' ),
 		'register'     => __( 'Register' ),
 		'forgot-password' => __( 'Forgot Password' ),
 	);
@@ -461,6 +469,30 @@ function ssp_uninstall_custom_login() {
 		wp_delete_post( $page_id, true );
 	}	
 }
+
+function ssp_logout() {
+ 	
+ 	if(is_page('logout')) {
+ 		
+ 		$user = wp_get_current_user();
+
+		wp_logout();
+
+		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+			$redirect_to = $requested_redirect_to = $_REQUEST['redirect_to'];
+		} else {
+			$redirect_to = site_url( 'wp-login.php?loggedout=true' );
+			$requested_redirect_to = '';
+		}
+
+		$redirect_to = apply_filters( 'logout_redirect', $redirect_to, $requested_redirect_to, $user );
+		wp_safe_redirect( $redirect_to );
+
+ 	}
+ 
+}
+
+add_action( 'template_redirect', 'ssp_logout' );
 
 function ssp_get_page_id( $slug ) {
 	$page = get_page_by_path( $slug );
@@ -552,6 +584,7 @@ function ssp_login_cb() {
 }
 
 function ssp_login_page() {
+	
 	include( 'templates/login.php' );
 }
 
@@ -631,40 +664,17 @@ function ssp_forgot_password_page() {
 }
 
 function ssp_custom_login() {
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' and !isset( $_GET['registration'] ) and ( @$_GET['action'] != 'rp' ) )
+	if ( get_option( 'ssp_disable_default_login', '' ) == 'yes' and !isset( $_GET['registration'] ) and ( @$_GET['action'] != 'rp' ) )
 		echo header( "Location: " . home_url( 'login' ) );
 }
 add_action( 'login_head', 'ssp_custom_login' );
 
 function ssp_login_url( $url ) {
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' )
+	if ( get_option( 'ssp_disable_default_login', '' ) == 'yes' )
 		$url = home_url( 'login' );
 	return $url;
 }
 add_filter( 'login_url', 'ssp_login_url', 10, 2 );
-
-/**
- * This is to enable custom login module 
- */
-function ssp_custom_login_module() {
-	if ( get_option( 'ssp_login_type', '' ) == "username" ) {
-		remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );
-	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
-		remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
-	}
-}
-add_action( 'init', 'ssp_custom_login_module' );
-
-// add_filter( 'gettext', 'ss_login_text' );
-function ss_login_text( $translating ) {
-	if ( get_option( 'ssp_login_type', '' ) == "username" ) {	
-		return str_ireplace( 'Username or Email Address', 'Username', $translating );
-	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
-		return str_ireplace( 'Username or Email Address', 'Email Address', $translating );
-	} else {
-		return $translating;
-	}
-}
 
 /**
  * Process a settings export that generates a .json file of the shop settings
@@ -677,13 +687,13 @@ function ssp_process_settings_export() {
 	if ( ! current_user_can( 'manage_options' ) )
 		return;
 	$settings = get_option( 'ssp_settings' );
-	$options = ss_get_options();
+	$optins = ss_get_options();
 	ignore_user_abort( true );
 	nocache_headers();
 	header( 'Content-Type: application/json; charset=utf-8' );
 	header( 'Content-Disposition: attachment; filename=ssp-settings-export-' . date( 'm-d-Y H:i:s' ) . '.json' );
 	header( "Expires: 0" );
-	echo json_encode( $options );
+	echo json_encode( $optins );
 	exit;
 }
 add_action( 'admin_init', 'ssp_process_settings_export' );
@@ -773,6 +783,14 @@ function ssp_process_settings_reset() {
 	add_action( 'admin_notices', 'ssp_admin_notice__success' );
 }
 add_action( 'admin_init', 'ssp_process_settings_reset' );
+
+function ssp_admin_notice__success() {
+	?>
+	<div class="notice notice-success is-dismissible">
+		<p><?php _e( 'Updates have been made!', 'stop-spammers-premium' ); ?></p>
+	</div>
+	<?php
+}
 
 // license flow start
 function ssp_license_page() {
@@ -1014,3 +1032,176 @@ function ssp_admin_notices() {
 	}
 }
 add_action( 'admin_notices', 'ssp_admin_notices' );
+
+/**
+ * This is to enable custom login module 
+ */
+add_action('init', 'ssp_custom_login_module');
+
+function ssp_custom_login_module() {
+
+	if ( get_option( 'ssp_login_type', '' ) == "username" ) {
+		remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );
+	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
+		remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
+	}
+}
+
+
+
+// add_filter( 'gettext', 'ss_login_text' );
+function ss_login_text( $translating ) {
+	
+	if ( get_option( 'ssp_login_type', '' ) == "username" ) {	
+		return str_ireplace( 'Username or Email Address', 'Username', $translating );
+	} else if ( get_option( 'ssp_login_type', '' ) == "email" ) {
+		return str_ireplace( 'Username or Email Address', 'Email Address', $translating );
+	} else {
+		return $translating;
+	}
+
+}
+
+
+// Add menu option for Login/Logout Links
+
+add_action('admin_head-nav-menus.php', 'ssp_add_nav_menu_metabox');
+
+function ssp_add_nav_menu_metabox() {
+	if(get_option( 'ssp_disable_default_login', '' ) == 'yes')
+		add_meta_box('ssp_menu_option', 'Stop Spammers', 'ssp_nav_menu_metabox', 'nav-menus', 'side', 'default');
+
+}
+
+
+function ssp_nav_menu_metabox($object) {
+
+	global $nav_menu_selected_id;
+
+	$elems = array(
+		'#ssp-nav-login' => 'Log In',
+		'#ssp-nav-logout' => 'Logout',
+		'#ssp-nav-register' => 'Register',
+		'#ssp-nav-loginout' => 'Log In' .'/'.'Logout'
+	);
+
+	$temp = (object) array(
+				'ID' => 1,
+				'object_id' => 1,
+				'type_label' => '',
+				'title' => '',
+				'url' => '',
+				'type' => 'custom',
+				'object' => 'ssp-slug',
+				'db_id' => 0,
+				'menu_item_parent' => 0,
+				'post_parent' => 0,
+				'target' => '',
+				'attr_title' => '',
+				'description' => '',
+				'classes' => array(),
+				'xfn' => '',
+			);
+
+	// Create an array of objects that imitate Post objects
+	$ssp_items = array();
+	$i = 0;
+	foreach ($elems as $k => $v) {
+		
+		$ssp_items[$i] = (object) array();
+		$ssp_items[$i]->ID			= 1;
+		$ssp_items[$i]->url 		= esc_attr($k);
+		$ssp_items[$i]->title 		= esc_attr($v);
+		$ssp_items[$i]->object_id	= esc_attr($k);
+		$ssp_items[$i]->type_label 	= "Dynamic Link";
+		$ssp_items[$i]->type 		= 'custom';
+		$ssp_items[$i]->object 		= 'ssp-slug';
+		$ssp_items[$i]->db_id 		= 0;
+		$ssp_items[$i]->menu_item_parent = 0;
+		$ssp_items[$i]->post_parent 	 = 0;
+		$ssp_items[$i]->target 			 = '';
+		$ssp_items[$i]->attr_title 		 = '';
+		$ssp_items[$i]->description 	 = '';
+		$ssp_items[$i]->classes 		 = array();
+		$ssp_items[$i]->xfn 			 = '';
+		
+		$i++;
+
+	}
+
+
+	$walker = new Walker_Nav_Menu_Checklist( array() );
+
+	?>
+	<div id="ssp-div">
+		<div id="tabs-panel-ssp-all" class="tabs-panel tabs-panel-active">
+			<ul id="ssp-checklist-pop" class="categorychecklist form-no-clear" >
+				<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $ssp_items ), 0, (object) array( 'walker' => $walker ) ); ?>
+			</ul>
+			<p class="button-controls">
+				<span class="add-to-menu">
+					<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="ssp-menu-item" id="submit-ssp-div" />
+					<span class="spinner"></span>
+				</span>
+			</p>
+		</div>
+	<?php
+}
+
+
+function ssp_nav_menu_type_label($menu_item) {
+	$elems = array('#ssp-nav-login', '#ssp-nav-logout', '#ssp-nav-register', '#ssp-nav-loginout');
+	if(isset($menu_item->object, $menu_item->url) && 'custom' == $menu_item->object && in_array($menu_item->url, $elems)) {
+		$menu_item->type_label = 'Dynamic Link';
+	}
+
+	return $menu_item;
+}
+add_filter('wp_setup_nav_menu_item', 'ssp_nav_menu_type_label');
+
+
+function ssp_loginout_title($title) {
+	$titles = explode('/', $title);
+
+	if(!is_user_logged_in()) {
+		return esc_html(isset($titles[0]) ? $titles[0]: 'Log In');
+	} else {
+		return esc_html(isset($titles[1]) ? $titles[1] : 'Logout');
+	}
+}
+
+
+function ssp_setup_nav_menu_item($item) {
+
+	global $pagenow;
+	if($pagenow != 'nav-menus.php' && !defined('DOING_AJAX') && isset($item->url) && strstr($item->url, '#ssp-nav') and get_option( 'ssp_disable_default_login', '' ) != 'yes') {
+		$item->_invalid = true;	
+
+	} else if($pagenow != 'nav-menus.php' && !defined('DOING_AJAX') && isset($item->url) && strstr($item->url, '#ssp-nav') != '') {
+		
+		$login_url 	= get_permalink( get_page_by_path( 'login' ) );
+		$logout_url = get_permalink( get_page_by_path( 'logout' ) );
+
+		switch($item->url) {
+			case '#ssp-nav-login':
+				$item->url = get_permalink( get_page_by_path( 'login' ) );
+				$item->_invalid = (is_user_logged_in()) ?  true : false;
+				break;
+			case '#ssp-nav-logout':
+				$item->url = get_permalink( get_page_by_path( 'logout' ) );
+				$item->_invalid = (!is_user_logged_in()) ?  true : false;
+				break;
+			case '#ssp-nav-register':
+				$item->url = get_permalink( get_page_by_path( 'register' ) );
+				$item->_invalid = (is_user_logged_in()) ?  true : false;
+			break;
+			default: 
+			$item->url = (is_user_logged_in()) ? $logout_url : $login_url;
+			$item->title = ssp_loginout_title($item->title);
+		}
+
+	}
+
+	return $item;
+}
+add_filter('wp_setup_nav_menu_item', 'ssp_setup_nav_menu_item');

@@ -20,6 +20,13 @@ OR
 
 == Changelog ==
 
+= 2020.5.1 =
+* [New] Menu links for themed login pages
+--Login
+--Logout
+--Register
+--Dynamic Login/Logout
+
 = 2020.5 =
 * [New] Themed login pages
 * [New] Honeypot addition

@@ -385,8 +385,7 @@ function ssp_enable_custom_login() {
 		update_option( 'ssp_enable_custom_login', 'yes' );
 		add_action( 'admin_notices', 'ssp_admin_notice__success' );
 		ssp_install_custom_login();
-	}
-	else {
+	} else {
 		update_option( 'ssp_enable_custom_login', 'no' );
 		add_action( 'admin_notices', 'ssp_admin_notice__success' );
 		ssp_uninstall_custom_login();
@@ -1021,8 +1020,9 @@ add_action( 'admin_notices', 'ssp_admin_notices' );
 add_action('admin_head-nav-menus.php', 'ssp_add_nav_menu_metabox');
 
 function ssp_add_nav_menu_metabox() {
-	if(get_option( 'ssp_disable_default_login', '' ) == 'yes')
+	if(get_option( 'ssp_enable_custom_login', '' ) == 'yes'){
 		add_meta_box('ssp_menu_option', 'Stop Spammers', 'ssp_nav_menu_metabox', 'nav-menus', 'side', 'default');
+	}
 
 }
 
@@ -1127,7 +1127,7 @@ function ssp_loginout_title($title) {
 function ssp_setup_nav_menu_item($item) {
 
 	global $pagenow;
-	if($pagenow != 'nav-menus.php' && !defined('DOING_AJAX') && isset($item->url) && strstr($item->url, '#ssp-nav') and get_option( 'ssp_disable_default_login', '' ) != 'yes') {
+	if($pagenow != 'nav-menus.php' && !defined('DOING_AJAX') && isset($item->url) && strstr($item->url, '#ssp-nav') and get_option( 'ssp_enable_custom_login', '' ) != 'yes') {
 		$item->_invalid = true;	
 
 	} else if($pagenow != 'nav-menus.php' && !defined('DOING_AJAX') && isset($item->url) && strstr($item->url, '#ssp-nav') != '') {

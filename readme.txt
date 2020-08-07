@@ -1,6 +1,6 @@
 === Stop Spammers Premium ===
 
-Contributors: Trumani, bhadaway
+Contributors: Trumani, bhadaway, hiteshchandwani
 License: URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
@@ -20,15 +20,9 @@ OR
 
 == Changelog ==
 
-= 2020.5.1 =
-* [NEW] Menu options to access the themed form including
---Login
---Logout
---Login/Logout
---Register
-
 = 2020.5 =
 * [New] Themed login pages
+* [New] Honeypot addition
 * [Update] Ability to disable firewall
 
 = 2020.4.1 =

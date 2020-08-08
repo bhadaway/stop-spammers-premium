@@ -665,6 +665,125 @@ function ss_login_text( $translating ) {
 	}
 }
 
+// Add menu option for login/logout links
+function ssp_add_nav_menu_metabox() {
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
+		add_meta_box( 'ssp_menu_option', 'Stop Spammers', 'ssp_nav_menu_metabox', 'nav-menus', 'side', 'default' );
+	}
+}
+add_action( 'admin_head-nav-menus.php', 'ssp_add_nav_menu_metabox' );
+
+function ssp_nav_menu_metabox( $object ) {
+	global $nav_menu_selected_id;
+	$elems = array(
+		'#ssp-nav-login' => 'Log In',
+		'#ssp-nav-logout' => 'Logout',
+		'#ssp-nav-register' => 'Register',
+		'#ssp-nav-loginout' => 'Log In' .'/'.'Logout'
+	);
+	$temp = ( object ) array(
+				'ID' => 1,
+				'object_id' => 1,
+				'type_label' => '',
+				'title' => '',
+				'url' => '',
+				'type' => 'custom',
+				'object' => 'ssp-slug',
+				'db_id' => 0,
+				'menu_item_parent' => 0,
+				'post_parent' => 0,
+				'target' => '',
+				'attr_title' => '',
+				'description' => '',
+				'classes' => array(),
+				'xfn' => '',
+			);
+	// Create an array of objects that imitate Post objects
+	$ssp_items = array();
+	$i = 0;
+	foreach ( $elems as $k => $v ) {
+		$ssp_items[$i] = ( object ) array();
+		$ssp_items[$i]->ID			= 1;
+		$ssp_items[$i]->url 		= esc_attr( $k );
+		$ssp_items[$i]->title 		= esc_attr( $v );
+		$ssp_items[$i]->object_id	= esc_attr( $k );
+		$ssp_items[$i]->type_label 	= "Dynamic Link";
+		$ssp_items[$i]->type 		= 'custom';
+		$ssp_items[$i]->object 		= 'ssp-slug';
+		$ssp_items[$i]->db_id 		= 0;
+		$ssp_items[$i]->menu_item_parent = 0;
+		$ssp_items[$i]->post_parent 	 = 0;
+		$ssp_items[$i]->target 			 = '';
+		$ssp_items[$i]->attr_title 		 = '';
+		$ssp_items[$i]->description 	 = '';
+		$ssp_items[$i]->classes 		 = array();
+		$ssp_items[$i]->xfn 			 = '';
+		$i++;
+	}
+	$walker = new Walker_Nav_Menu_Checklist( array() );
+	?>
+	<div id="ssp-div">
+		<div id="tabs-panel-ssp-all" class="tabs-panel tabs-panel-active">
+			<ul id="ssp-checklist-pop" class="categorychecklist form-no-clear" >
+				<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $ssp_items ), 0, ( object ) array( 'walker' => $walker ) ); ?>
+			</ul>
+			<p class="button-controls">
+				<span class="add-to-menu">
+					<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="ssp-menu-item" id="submit-ssp-div" />
+					<span class="spinner"></span>
+				</span>
+			</p>
+		</div>
+	<?php
+}
+
+function ssp_nav_menu_type_label( $menu_item ) {
+	$elems = array( '#ssp-nav-login', '#ssp-nav-logout', '#ssp-nav-register', '#ssp-nav-loginout' );
+	if ( isset( $menu_item->object, $menu_item->url ) && 'custom' == $menu_item->object && in_array( $menu_item->url, $elems ) ) {
+		$menu_item->type_label = 'Dynamic Link';
+	}
+	return $menu_item;
+}
+add_filter( 'wp_setup_nav_menu_item', 'ssp_nav_menu_type_label' );
+
+function ssp_loginout_title( $title ) {
+	$titles = explode( '/', $title );
+	if ( !is_user_logged_in() ) {
+		return esc_html( isset( $titles[0] ) ? $titles[0]: 'Log In' );
+	} else {
+		return esc_html( isset($titles[1] ) ? $titles[1] : 'Logout' );
+	}
+}
+
+function ssp_setup_nav_menu_item( $item ) {
+	global $pagenow;
+	if ( $pagenow != 'nav-menus.php' && !defined( 'DOING_AJAX' ) && isset( $item->url ) && strstr( $item->url, '#ssp-nav' ) and get_option( 'ssp_enable_custom_login', '' ) != 'yes' ) {
+		$item->_invalid = true;	
+	} else if ( $pagenow != 'nav-menus.php' && !defined( 'DOING_AJAX' ) && isset( $item->url ) && strstr( $item->url, '#ssp-nav' ) != '' ) {	
+		$login_url 	= get_permalink( get_page_by_path( 'login' ) );
+		$logout_url = get_permalink( get_page_by_path( 'logout' ) );
+		switch( $item->url ) {
+			case '#ssp-nav-login':
+				$item->url = get_permalink( get_page_by_path( 'login' ) );
+				$item->_invalid = ( is_user_logged_in() ) ?  true : false;
+				break;
+			case '#ssp-nav-logout':
+				$item->url = get_permalink( get_page_by_path( 'logout' ) );
+				$item->_invalid = ( !is_user_logged_in() ) ?  true : false;
+				break;
+			case '#ssp-nav-register':
+				$item->url = get_permalink( get_page_by_path( 'register' ) );
+				$item->_invalid = ( is_user_logged_in() ) ?  true : false;
+			break;
+			default: 
+			$item->url = ( is_user_logged_in() ) ? $logout_url : $login_url;
+			$item->title = ssp_loginout_title( $item->title );
+		}
+	}
+	return $item;
+}
+add_filter( 'wp_setup_nav_menu_item', 'ssp_setup_nav_menu_item' );
+
 /**
  * Process a settings export that generates a .json file of the shop settings
  */
@@ -1013,148 +1132,3 @@ function ssp_admin_notices() {
 	}
 }
 add_action( 'admin_notices', 'ssp_admin_notices' );
-
-
-// Add menu option for Login/Logout Links
-
-add_action('admin_head-nav-menus.php', 'ssp_add_nav_menu_metabox');
-
-function ssp_add_nav_menu_metabox() {
-	if(get_option( 'ssp_enable_custom_login', '' ) == 'yes'){
-		add_meta_box('ssp_menu_option', 'Stop Spammers', 'ssp_nav_menu_metabox', 'nav-menus', 'side', 'default');
-	}
-
-}
-
-
-function ssp_nav_menu_metabox($object) {
-
-	global $nav_menu_selected_id;
-
-	$elems = array(
-		'#ssp-nav-login' => 'Log In',
-		'#ssp-nav-logout' => 'Logout',
-		'#ssp-nav-register' => 'Register',
-		'#ssp-nav-loginout' => 'Log In' .'/'.'Logout'
-	);
-
-	$temp = (object) array(
-				'ID' => 1,
-				'object_id' => 1,
-				'type_label' => '',
-				'title' => '',
-				'url' => '',
-				'type' => 'custom',
-				'object' => 'ssp-slug',
-				'db_id' => 0,
-				'menu_item_parent' => 0,
-				'post_parent' => 0,
-				'target' => '',
-				'attr_title' => '',
-				'description' => '',
-				'classes' => array(),
-				'xfn' => '',
-			);
-
-	// Create an array of objects that imitate Post objects
-	$ssp_items = array();
-	$i = 0;
-	foreach ($elems as $k => $v) {
-		
-		$ssp_items[$i] = (object) array();
-		$ssp_items[$i]->ID			= 1;
-		$ssp_items[$i]->url 		= esc_attr($k);
-		$ssp_items[$i]->title 		= esc_attr($v);
-		$ssp_items[$i]->object_id	= esc_attr($k);
-		$ssp_items[$i]->type_label 	= "Dynamic Link";
-		$ssp_items[$i]->type 		= 'custom';
-		$ssp_items[$i]->object 		= 'ssp-slug';
-		$ssp_items[$i]->db_id 		= 0;
-		$ssp_items[$i]->menu_item_parent = 0;
-		$ssp_items[$i]->post_parent 	 = 0;
-		$ssp_items[$i]->target 			 = '';
-		$ssp_items[$i]->attr_title 		 = '';
-		$ssp_items[$i]->description 	 = '';
-		$ssp_items[$i]->classes 		 = array();
-		$ssp_items[$i]->xfn 			 = '';
-		
-		$i++;
-
-	}
-
-
-	$walker = new Walker_Nav_Menu_Checklist( array() );
-
-	?>
-	<div id="ssp-div">
-		<div id="tabs-panel-ssp-all" class="tabs-panel tabs-panel-active">
-			<ul id="ssp-checklist-pop" class="categorychecklist form-no-clear" >
-				<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $ssp_items ), 0, (object) array( 'walker' => $walker ) ); ?>
-			</ul>
-			<p class="button-controls">
-				<span class="add-to-menu">
-					<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="ssp-menu-item" id="submit-ssp-div" />
-					<span class="spinner"></span>
-				</span>
-			</p>
-		</div>
-	<?php
-}
-
-
-function ssp_nav_menu_type_label($menu_item) {
-	$elems = array('#ssp-nav-login', '#ssp-nav-logout', '#ssp-nav-register', '#ssp-nav-loginout');
-	if(isset($menu_item->object, $menu_item->url) && 'custom' == $menu_item->object && in_array($menu_item->url, $elems)) {
-		$menu_item->type_label = 'Dynamic Link';
-	}
-
-	return $menu_item;
-}
-add_filter('wp_setup_nav_menu_item', 'ssp_nav_menu_type_label');
-
-
-function ssp_loginout_title($title) {
-	$titles = explode('/', $title);
-
-	if(!is_user_logged_in()) {
-		return esc_html(isset($titles[0]) ? $titles[0]: 'Log In');
-	} else {
-		return esc_html(isset($titles[1]) ? $titles[1] : 'Logout');
-	}
-}
-
-
-function ssp_setup_nav_menu_item($item) {
-
-	global $pagenow;
-	if($pagenow != 'nav-menus.php' && !defined('DOING_AJAX') && isset($item->url) && strstr($item->url, '#ssp-nav') and get_option( 'ssp_enable_custom_login', '' ) != 'yes') {
-		$item->_invalid = true;	
-
-	} else if($pagenow != 'nav-menus.php' && !defined('DOING_AJAX') && isset($item->url) && strstr($item->url, '#ssp-nav') != '') {
-		
-		$login_url 	= get_permalink( get_page_by_path( 'login' ) );
-		$logout_url = get_permalink( get_page_by_path( 'logout' ) );
-
-		switch($item->url) {
-			case '#ssp-nav-login':
-				$item->url = get_permalink( get_page_by_path( 'login' ) );
-				$item->_invalid = (is_user_logged_in()) ?  true : false;
-				break;
-			case '#ssp-nav-logout':
-				$item->url = get_permalink( get_page_by_path( 'logout' ) );
-				$item->_invalid = (!is_user_logged_in()) ?  true : false;
-				break;
-			case '#ssp-nav-register':
-				$item->url = get_permalink( get_page_by_path( 'register' ) );
-				$item->_invalid = (is_user_logged_in()) ?  true : false;
-			break;
-			default: 
-			$item->url = (is_user_logged_in()) ? $logout_url : $login_url;
-			$item->title = ssp_loginout_title($item->title);
-		}
-
-	}
-
-	return $item;
-}
-add_filter('wp_setup_nav_menu_item', 'ssp_setup_nav_menu_item');

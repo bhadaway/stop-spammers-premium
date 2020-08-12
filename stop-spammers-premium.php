@@ -416,6 +416,7 @@ add_action( 'admin_init', 'ssp_login_type_func' );
 function ssp_install_custom_login() {
 	$pages =  array(
 		'login'        => __( 'Log In' ),
+		'logout'       => __( 'Logout' ),
 		'register'     => __( 'Register' ),
 		'forgot-password' => __( 'Forgot Password' ),
 	);
@@ -452,6 +453,7 @@ function ssp_install_custom_login() {
 function ssp_uninstall_custom_login() {
 	$pages = array(
 		'login'        => __( 'Log In' ),
+		'logout'       => __( 'Logout' ),
 		'register'     => __( 'Register' ),
 		'forgot-password' => __( 'Forgot Password' ),
 	);
@@ -471,7 +473,20 @@ function ssp_get_page_id( $slug ) {
 
 add_action( 'template_redirect', function() {
 	global $post;
-	if ( is_user_logged_in() && ( $post->post_name == 'login' or $post->post_name == 'register' or $post->post_name == 'forgot-password' ) ) {
+	if( is_page( 'logout' ) ) {
+ 		$user = wp_get_current_user();
+ 		wp_logout();
+ 		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+ 			$redirect_to = $requested_redirect_to = $_REQUEST['redirect_to'];
+		} else {
+			$redirect_to = site_url( 'wp-login.php?loggedout=true' );
+			$requested_redirect_to = '';
+		}
+		$redirect_to = apply_filters( 'logout_redirect', $redirect_to, $requested_redirect_to, $user );
+		wp_safe_redirect( $redirect_to );
+		exit;
+ 	}
+ 	if ( is_user_logged_in() && ( $post->post_name == 'login' or $post->post_name == 'register' or $post->post_name == 'forgot-password' ) ) {
 		wp_redirect( admin_url() );
 		exit;
 	}

@@ -5,7 +5,7 @@ Plugin URI: https://trumani.com/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Import/Export settings, reset options to default, and more.
 Author: Trumani
 Author URI: https://trumani.com/
-Version: 2020.5.2
+Version: 2020.5.1
 License: GNU General Public License v2.0 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -46,9 +46,9 @@ function ssprem_activate() {
 		include_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 	}
 	if ( current_user_can( 'activate_plugins' ) && ! class_exists( 'be_module' ) ) {
-		// Deactivate the plugin.
+		// deactivate the plugin
 		deactivate_plugins( plugin_basename( __FILE__ ) );
-		// Throw an error in the WordPress admin console.
+		// throw an error in the WordPress admin console
 		$error_message = '<p class="dependency">' . esc_html__( 'This plugin requires the ', 'ssprem' ) . '<a href="' . esc_url( 'https://wordpress.org/plugins/stop-spammer-registrations-plugin/' ) . '" target="_blank">Stop Spammers</a>' . esc_html__( ' plugin to be active.', 'ssprem' ) . '</p>';
 		die( $error_message ); // WPCS: XSS ok.
 	}
@@ -68,7 +68,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2020.5.2',
+			'version' => '2020.5.1',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -245,6 +245,34 @@ function ss_export_excel() {
 }
 
 /**
+ * Add honeypot to Contact Form 7
+ */
+function ssp_cf7_add_honeypot( $form ) {
+	$html  = '';
+	$html .= '<p class="ssp-user">';
+	$html .= 	'<label> Your Website (required)<br />';
+	$html .= 		'<span class="wpcf7-form-control-wrap your-website">';
+	$html .= 			'<input type="text" name="your-website" value="https://example.com/" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" />';
+	$html .= 		'</span>';
+	$html .= 	'<label>';
+	$html .= '</p>';
+	$html .= '<style>.ssp-user{display:none!important}</style>';
+	return $html.$form;
+}
+add_filter( 'wpcf7_form_elements', 'ssp_cf7_add_honeypot', 10, 1 );
+
+function ssp_cf7_verify_honeypot( $spam ) {
+	if ( $spam ) {
+		return $spam;
+	}
+	if ( $_POST['your-website'] != 'https://example.com/' ) {
+		return true;
+	}
+	return $spam;
+}
+add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
+
+/**
  * Enable firewall
  */
 function ssp_enable_firewall() {
@@ -416,7 +444,7 @@ add_action( 'admin_init', 'ssp_login_type_func' );
 function ssp_install_custom_login() {
 	$pages =  array(
 		'login'        => __( 'Log In' ),
-		'logout'       => __( 'Logout' ),
+		'logout'       => __( 'Log Out' ),
 		'register'     => __( 'Register' ),
 		'forgot-password' => __( 'Forgot Password' ),
 	);
@@ -453,7 +481,7 @@ function ssp_install_custom_login() {
 function ssp_uninstall_custom_login() {
 	$pages = array(
 		'login'        => __( 'Log In' ),
-		'logout'       => __( 'Logout' ),
+		'logout'       => __( 'Log Out' ),
 		'register'     => __( 'Register' ),
 		'forgot-password' => __( 'Forgot Password' ),
 	);
@@ -692,9 +720,9 @@ function ssp_nav_menu_metabox( $object ) {
 	global $nav_menu_selected_id;
 	$elems = array(
 		'#ssp-nav-login' => 'Log In',
-		'#ssp-nav-logout' => 'Logout',
+		'#ssp-nav-logout' => 'Log Out',
 		'#ssp-nav-register' => 'Register',
-		'#ssp-nav-loginout' => 'Log In' .'/'.'Logout'
+		'#ssp-nav-loginout' => 'Log In' .'/'.'Log Out'
 	);
 	$temp = ( object ) array(
 				'ID' => 1,
@@ -766,7 +794,7 @@ function ssp_loginout_title( $title ) {
 	if ( !is_user_logged_in() ) {
 		return esc_html( isset( $titles[0] ) ? $titles[0]: 'Log In' );
 	} else {
-		return esc_html( isset($titles[1] ) ? $titles[1] : 'Logout' );
+		return esc_html( isset($titles[1] ) ? $titles[1] : 'Log Out' );
 	}
 }
 
@@ -1147,31 +1175,3 @@ function ssp_admin_notices() {
 	}
 }
 add_action( 'admin_notices', 'ssp_admin_notices' );
-
-/**
- * Add Honeypot to contact form 7
- */
-function ssp_cf7_add_honeypot( $form ) {
-	$html  = '';
-	$html .= '<p class="ssp-user">';
-	$html .= 	'<label> Your Website (required)<br>';
-	$html .= 		'<span class="wpcf7-form-control-wrap your-website">';
-	$html .= 			'<input type="text" name="your-website" value="https://example.com/" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false">';
-	$html .= 		'</span>';
-	$html .= 	'<label>';
-	$html .= '</p>';
-	$html .= '<style> .ssp-user { display:none !important; } </style>';
-	return $html.$form;
-}
-add_filter( 'wpcf7_form_elements', 'ssp_cf7_add_honeypot', 10, 1 );
-
-function ssp_cf7_verify_honeypot( $spam ) {
-	if ( $spam ) {
-		return $spam;
-	}
-	if ( $_POST['your-website'] != 'https://example.com/' ) {
-		return true;
-	}
-	return $spam;
-}
-add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );

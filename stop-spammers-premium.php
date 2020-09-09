@@ -5,7 +5,7 @@ Plugin URI: https://trumani.com/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Import/Export settings, reset options to default, and more.
 Author: Trumani
 Author URI: https://trumani.com/
-Version: 2020.5.1
+Version: 2020.5.2
 License: GNU General Public License v2.0 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -68,7 +68,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2020.5.1',
+			'version' => '2020.5.2',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -243,6 +243,103 @@ function ss_export_excel() {
 	</div>
 <?php
 }
+
+/**
+ * Add contact form shortcode
+ */
+function ssp_contact_form_shortcode() {
+	ob_start();
+	echo '
+<form id="ssp-contact-form" method="post" action="#send">
+    <p id="name"><input type="text" name="sign" placeholder="Name" size="35"/></p>
+    <p id="email"><input type="email" name="email" placeholder="Email" size="35" required /></p>
+    <p id="phone"><input type="tel" name="phone" placeholder="Phone (optional)" size="35"/></p>
+    <p id="url"><input type="url" name="url" placeholder="URL" value="https://example.com/" size="35"/></p>
+    <p id="message"><textarea name="message" placeholder="Message" rows="5" cols="100"></textarea></p>
+    <p id="submit"><input type="submit" value="Submit"/></p>
+</form>
+<style>
+    #ssp-contact-form, #ssp-contact-form * {
+        box-sizing: border-box;
+        transition: all 0.5s ease
+    }
+    #ssp-contact-form input, #ssp-contact-form textarea {
+        width: 100%;
+        font-family: arial, sans-serif;
+        font-size: 14px;
+        color: #767676;
+        padding: 15px;
+        border: 1px solid transparent;
+        background: #f6f6f6
+    }
+    #ssp-contact-form input:focus, #ssp-contact-form textarea:focus {
+        color: #000;
+        border: 1px solid #007acc
+    }
+    #ssp-contact-form #submit input {
+        display: inline-block;
+        font-size: 18px;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        padding: 15px 25px;
+        background: #007acc;
+        cursor: pointer
+    }
+    #ssp-contact-form #submit input:hover, #submit input:focus {
+        opacity: 0.8
+    }
+    #ssp-contact-form #url {
+        display: none
+    }
+    #send {
+        text-align: center;
+        padding: 5%
+    }
+    #send.success {
+        color: green
+    }
+    #send.fail {
+        color: red
+    }
+</style>
+';
+	if ( esc_url( $_POST['url'] ) == 'https://example.com/' ) {
+		$to        = sanitize_email( get_option( 'admin_email' ) );
+		$subject   = 'Inquiry | ' . esc_html( get_option( 'blogname' ) ) . '';
+		$name      = sanitize_text_field( $_POST['sign'] );
+		$email     = sanitize_email( $_POST['email'] );
+		$phone     = sanitize_text_field( $_POST['phone'] );
+		$message   = esc_textarea( $_POST['message'] );
+		$validated = true;
+		if ( ! $validated ) {
+			print '<p id="send" class="fail">Message Failed</p>';
+			exit;
+		}
+		$body    = "";
+		$body   .= "Name: ";
+		$body   .= $name;
+		$body   .= "\n";
+		$body   .= "Email: ";
+		$body   .= $email;
+		$body   .= "\n";
+		$body   .= "Phone: ";
+		$body   .= $phone;
+		$body   .= "\n\n";
+		$body   .= $message;
+		$body   .= "\n";
+		$success = wp_mail( $to, $subject, $body, "From: <$email>" );
+		if ( $success ) {
+			print '<p id="send" class="success">Message Sent Successfully</p>';
+		} else {
+			print '<p id="send" class="fail">Message Failed</p>';
+		}
+	}
+	$output = ob_get_clean();
+	return $output;
+}
+add_shortcode( 'ssp-contact-form', 'ssp_contact_form_shortcode' );
+add_filter( 'widget_text', 'do_shortcode' );
 
 /**
  * Add honeypot to Contact Form 7

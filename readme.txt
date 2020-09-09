@@ -20,6 +20,9 @@ OR
 
 == Changelog ==
 
+= 2020.5.2 =
+* [New] Contact form
+
 = 2020.5.1 =
 * [New] Contact Form 7 protection
 * [New] Menu links for themed login pages

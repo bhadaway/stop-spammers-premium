@@ -304,7 +304,8 @@ function ssp_contact_form_shortcode() {
     }
 </style>
 ';
-	if ( esc_url( $_POST['url'] ) == 'https://example.com/' ) {
+	$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
+	if ( esc_url( $url ) == 'https://example.com/' ) {
 		$to        = sanitize_email( get_option( 'admin_email' ) );
 		$subject   = 'Inquiry | ' . esc_html( get_option( 'blogname' ) ) . '';
 		$name      = sanitize_text_field( $_POST['sign'] );

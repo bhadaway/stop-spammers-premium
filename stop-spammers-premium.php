@@ -135,6 +135,12 @@ function ss_export_excel() {
 	<div id="ss-plugin" class="wrap">
 		<div class="metabox-holder">
 			<div class="postbox">
+				<h3><span><?php _e( 'Contact Form' ); ?></span></h3>
+				<div class="inside">
+					<p>Add a secure contact form to any page, post, or text widget with the shortcode: <strong>[ssp-contact-form]</strong>.</p>
+				</div>
+			</div>
+			<div class="postbox">
 				<h3><span><?php _e( 'Firewall Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">

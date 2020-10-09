@@ -377,6 +377,29 @@ function ssp_cf7_verify_honeypot( $spam ) {
 add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
 
 /**
+ * Add honeypot to bbPress
+ */
+function ssp_bbp_add_honeypot() {
+	$html  = '';
+	$html .= '<p class="ssp-user">';
+	$html .= 	'<label for="bbp_your-website">Your Website:</label><br>';
+	$html .=	'<input type="text" value="https://example.com/" size="40" name="bbp_your-website" id="bbp_your-website">';
+	$html .= '</p>';
+	$html .= '<style>.ssp-user{display:none!important}</style>';
+	echo $html;
+}
+add_action( 'bbp_theme_before_reply_form_submit_wrapper', 'ssp_bbp_add_honeypot' );
+add_action( 'bbp_theme_before_topic_form_submit_wrapper', 'ssp_bbp_add_honeypot' );
+
+function ssp_bbp_verify_honeypot() {
+	if ( $_POST['bbp_your-website'] != 'https://example.com/' ) {
+		bbp_add_error( 'bbp_throw_error', __( "<strong>ERROR</strong>: Something went wrong!", 'ssprem') );
+	}
+}
+add_action('bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot');
+add_action('bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot');
+
+/**
  * Enable firewall
  */
 function ssp_enable_firewall() {

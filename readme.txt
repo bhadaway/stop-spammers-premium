@@ -20,11 +20,16 @@ OR
 
 == Changelog ==
 
+
+= 2020.5.3 =
+* [New] bbPress honeypot integration
+
+
 = 2020.5.2 =
 * [New] Contact form
 
 = 2020.5.1 =
-* [New] Contact Form 7 protection
+* [New] Contact Form 7 honeypot integration
 * [New] Menu links for themed login pages
 --Login
 --Logout

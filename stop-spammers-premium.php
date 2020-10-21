@@ -828,6 +828,7 @@ function ssp_login_url( $url ) {
 		global $wp_query;
 		$wp_query->set_404();
 		status_header( 404 );
+		include( get_query_template( '404' ) );
 		exit;
 	}
 	return $url;

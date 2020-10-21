@@ -400,6 +400,30 @@ add_action('bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot');
 add_action('bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot');
 
 /**
+ * Add honeypot to Elementor Form
+ */
+function ssp_elementor_add_honeypot( $content, $widget ) {
+	if ( 'form' === $widget->get_name() ) {
+		$html = '';
+		$html .= '<div class="elementor-field-type-text">';
+		$html .= 	'<input size="40" type="text" value="https://example.com/" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm">';
+		$html .= '</div>';
+		$html .= '<style>#form-field-your-website{display:none !important;}</style>';
+		$content = str_replace( '<div class="elementor-field-group', $html . '<div class="elementor-field-group', $content );
+		return $content;
+	}
+	return $content;
+}
+add_action( 'elementor/widget/render_content', 'ssp_elementor_add_honeypot', 10, 2 );
+
+function ssp_elementor_verify_honeypot( $record, $ajax_handler ) {
+	if( $_POST['form_fields']['your-website'] != 'https://example.com/' ) {
+		$ajax_handler->add_error( 'your-website', 'Something went wrong!' );
+	}
+}
+add_action( 'elementor_pro/forms/validation', 'ssp_elementor_verify_honeypot', 10, 2 );
+
+/**
  * Enable firewall
  */
 function ssp_enable_firewall() {
@@ -634,7 +658,7 @@ add_action( 'template_redirect', function() {
 		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
 			$redirect_to = $requested_redirect_to = $_REQUEST['redirect_to'];
 		} else {
-			$redirect_to = site_url( 'wp-login.php?loggedout=true' );
+			$redirect_to = site_url( 'login/?loggedout=true' );
 			$requested_redirect_to = '';
 		}
 		$redirect_to = apply_filters( 'logout_redirect', $redirect_to, $requested_redirect_to, $user );
@@ -799,18 +823,23 @@ function ssp_forgot_password_page() {
 	include( 'templates/forgot-password.php' );
 }
 
-function ssp_custom_login() {
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' and !isset( $_GET['registration'] ) and ( @$_GET['action'] != 'rp' ) )
-		echo header( "Location: " . home_url( 'login' ) );
-}
-add_action( 'login_head', 'ssp_custom_login' );
-
 function ssp_login_url( $url ) {
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' )
-		$url = home_url( 'login' );
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header( 404 );
+		exit;
+	}
 	return $url;
 }
 add_filter( 'login_url', 'ssp_login_url', 10, 2 );
+
+function ssp_logout_url( $url, $redirect ) {
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' )
+		$url = home_url( 'logout' );
+	return $url;
+}
+add_filter( 'logout_url', 'ssp_logout_url', 10, 2 );
 
 /**
  * This is to enable custom login module 

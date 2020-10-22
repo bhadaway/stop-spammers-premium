@@ -118,7 +118,7 @@ function ss_export_excel() {
 		$ss_firewall_setting = "checked='checked'";
 	}
 	$ss_login_setting = '';
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' and !is_user_logged_in() ) {
 		$ss_login_setting = "checked='checked'";
 	}
 	$ss_login_type_default = "";

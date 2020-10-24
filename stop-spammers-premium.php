@@ -824,7 +824,7 @@ function ssp_forgot_password_page() {
 }
 
 function ssp_login_url( $url ) {
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' and ! is_user_logged_in() ) {
 		global $wp_query;
 		$wp_query->set_404();
 		status_header( 404 );

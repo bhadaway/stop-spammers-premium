@@ -5,7 +5,7 @@ Plugin URI: https://trumani.com/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Import/Export settings, reset options to default, and more.
 Author: Trumani
 Author URI: https://trumani.com/
-Version: 2020.5.3
+Version: 2020.6
 License: GNU General Public License v2.0 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -45,7 +45,7 @@ function ssprem_activate() {
 	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 		include_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 	}
-	if ( current_user_can( 'activate_plugins' ) && ! class_exists( 'be_module' ) ) {
+	if ( current_user_can( 'activate_plugins' ) && ( ! class_exists( 'be_module' ) and ! is_plugin_active( 'stop-spammer-registrations-plugin/stop-spammer-registrations-new.php' ) ) ) {
 		// deactivate the plugin
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 		// throw an error in the WordPress admin console
@@ -68,7 +68,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2020.5.3',
+			'version' => '2020.6',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',

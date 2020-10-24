@@ -20,6 +20,10 @@ OR
 
 == Changelog ==
 
+= 2020.6 =
+* [New] Brute force protection for the themed login form
+* [New] Divi builder honeypot integration
+* [New] Redirect wp-login.php to 404 when themed login enabled
 
 = 2020.5.3 =
 * [New] bbPress honeypot integration

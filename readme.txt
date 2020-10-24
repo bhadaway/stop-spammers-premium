@@ -22,8 +22,10 @@ OR
 
 = 2020.6 =
 * [New] Brute force protection for the themed login form
+* [New] Elementor builder honeypot integration
 * [New] Divi builder honeypot integration
 * [New] Redirect wp-login.php to 404 when themed login enabled
+* [Update] Enhancements to the UI of the premium features page
 
 = 2020.5.3 =
 * [New] bbPress honeypot integration

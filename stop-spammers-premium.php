@@ -2,7 +2,7 @@
 /*
 Plugin Name: Stop Spammers Premium
 Plugin URI: https://trumani.com/downloads/stop-spammers-premium/
-Description: Add even more features to the popular Stop Spammers plugin. Import/Export settings, reset options to default, and more.
+Description: Add even more features to the popular Stop Spammers plugin. Firewall, honeypot, themable login, import/export tool, and more.
 Author: Trumani
 Author URI: https://trumani.com/
 Version: 2020.6
@@ -133,15 +133,20 @@ function ss_export_excel() {
 	}
 ?>
 	<div id="ss-plugin" class="wrap">
+		<h1 class="ss_head">Stop Spammers Premium Features</h1>
 		<div class="metabox-holder">
 			<div class="postbox">
-				<h3><span><?php _e( 'Contact Form' ); ?></span></h3>
+				<h3 style="font-size:18px"><span><?php _e( 'Shortcodes' ); ?></span></h3>
 				<div class="inside">
-					<p>Add a secure contact form to any page, post, or text widget with the shortcode: <strong>[ssp-contact-form]</strong>.</p>
+					<p>Add a lightweight, secure contact form to any page, post, or text widget by adding the following: <strong>[ssp-contact-form]</strong></p>
+					<p>Add our secure, themable login form to any page, post, or text widget by adding the following: <strong>[ssp-login]</strong></p>
+					<p>Show Display Name for Logged In Visitors: <strong>[show_displayname_as]</strong></p>
+					<p>Show First Name and Last Name for Logged In Visitors: <strong>[show_fullname_as]</strong></p>
+					<p>Show Email Address for Logged In Visitors: <strong>[show_email_as]</strong></p>
 				</div>
 			</div>
 			<div class="postbox">
-				<h3><span><?php _e( 'Firewall Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
 						<p><input type="checkbox" name="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>><?php _e( 'Enable firewall.' ); ?></p>
@@ -154,7 +159,7 @@ function ss_export_excel() {
 				</div>
 			</div>
 			<div class="postbox">
-				<h3><span><?php _e( 'Login Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Login Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
 						<p><input type="checkbox" name="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>><?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).' ); ?></p>
@@ -167,7 +172,7 @@ function ss_export_excel() {
 				</div>
 			</div>
 			<div class="postbox">
-				<h3><span><?php _e( 'Allow users to log in using their username and/or email address' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Allow users to log in using their username and/or email address' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
 						<p><input type="hidden" name="ssp_login_type_field" value="ssp_login_type" /></p>
@@ -193,7 +198,7 @@ function ss_export_excel() {
 				</div>
 			</div>
 			<div class="postbox">
-				<h3><span><?php _e( 'Export Log Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Export Log Settings' ); ?></span></h3>
 				<div class="inside">
 					<p><?php _e( 'Export the Log records to an Excel file.' ); ?></p>
 					<form method="post">
@@ -206,7 +211,7 @@ function ss_export_excel() {
 				</div>
 			</div>
 			<div class="postbox">
-				<h3><span><?php _e( 'Export Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Export Settings' ); ?></span></h3>
 				<div class="inside">
 					<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.' ); ?></p>
 					<form method="post">
@@ -219,7 +224,7 @@ function ss_export_excel() {
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 			<div class="postbox">
-				<h3><span><?php _e( 'Import Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Import Settings' ); ?></span></h3>
 				<div class="inside">
 					<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
@@ -233,7 +238,7 @@ function ss_export_excel() {
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 			<div class="postbox">
-				<h3><span><?php _e( 'Reset Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Reset Settings' ); ?></span></h3>
 				<div class="inside">
 					<p><?php _e( 'Reset the plugin settings for this site. This allows you to easily reset the configuration.' ); ?></p>
 					<form method="post">
@@ -1150,6 +1155,62 @@ function ssp_sanitize_license( $new ) {
 	return $new;
 }
 
+/* Shortcodes to print the username, name, and email */
+
+function show_loggedin_function( $atts ) {
+
+	global $current_user, $user_login;
+      	wp_get_current_user();
+	add_filter('widget_text', 'do_shortcode');
+	if ($user_login) 
+		return $current_user->display_name;
+	
+}
+add_shortcode( 'show_displayname_as', 'show_loggedin_function' );
+
+function show_fullname_function( $atts ) {
+
+	global $current_user, $user_login;
+      	wp_get_current_user();
+	add_filter('widget_text', 'do_shortcode');
+	if ($user_login) 
+		return $current_user->user_firstname . ' ' . $current_user->user_lastname;
+	
+}
+add_shortcode( 'show_fullname_as', 'show_fullname_function' );
+
+function show_id_function( $atts ) {
+
+	global $current_user, $user_login;
+      	wp_get_current_user();
+	add_filter('widget_text', 'do_shortcode');
+	if ($user_login) 
+		return $current_user->ID;
+	
+}
+add_shortcode( 'show_id_as', 'show_id_function' );
+
+function show_level_function( $atts ) {
+
+	global $current_user, $user_login;
+      	wp_get_current_user();
+	add_filter('widget_text', 'do_shortcode');
+	if ($user_login) 
+		return $current_user->user_level;	
+}
+add_shortcode( 'show_level_as', 'show_level_function' );
+
+
+
+function show_email_function( $atts ) {
+
+	global $current_user, $user_login;
+      	wp_get_current_user();
+	add_filter('widget_text', 'do_shortcode');
+	if ($user_login) 
+		return $current_user->user_email;
+}
+add_shortcode( 'show_email_as', 'show_email_function' );
 /************************************
 * this illustrates how to activate
 * a license key

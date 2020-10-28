@@ -118,7 +118,7 @@ function ss_export_excel() {
 		$ss_firewall_setting = "checked='checked'";
 	}
 	$ss_login_setting = '';
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' and !is_user_logged_in() ) {
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
 		$ss_login_setting = "checked='checked'";
 	}
 	$ss_login_type_default = "";
@@ -428,6 +428,49 @@ function ssp_elementor_verify_honeypot( $record, $ajax_handler ) {
 }
 add_action( 'elementor_pro/forms/validation', 'ssp_elementor_verify_honeypot', 10, 2 );
 
+/**
+ * Add honeypot to Divi Contact Form and Opt-in
+ */
+function ssp_et_add_honeypot( $output, $render_slug, $module ) {
+	if( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {
+		unset( $_POST['et_pb_contact_your_website'] );
+		$post_last_key = array_key_last( $_POST );
+		$form_json =  json_decode( stripslashes( $_POST[$post_last_key] ) );
+		array_pop($form_json);
+		$_POST[$post_last_key] = json_encode($form_json);
+	}
+	$html = '';
+	if( $render_slug == 'et_pb_contact_form' ) {
+		$html .= '<p class="et_pb_contact_field et_pb_contact_your_website">';
+		$html .= 	'<label for="et_pb_contact_your_website" class="et_pb_contact_form_label">Your Website</label>';
+		$html .= 	'<input type="text" name="et_pb_contact_your_website" id="et_pb_contact_your_website" placeholder="Your Website" value="https://example.com/">';
+		$html .= '</p>';
+		$html .= '<style>.et_pb_contact_your_website{display:none !important;}</style>';
+		$html .= '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit';
+		$output = str_replace( '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit', $html, $output );
+	} else if($render_slug == 'et_pb_signup' ) {
+		$html = '';
+		$html .= '<p class="et_pb_signup_custom_field et_pb_signup_your_website et_pb_newsletter_field et_pb_contact_field_last et_pb_contact_field_last_tablet et_pb_contact_field_last_phone">';
+		$html .= 	'<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">Your Website</label>';
+		$html .= 	'<input type="text" class="input" id="et_pb_signup_your_website" placeholder="Your Website" value="https://example.com/" data-original_id="your-website">';
+		$html .= '</p>';
+		$html .= '<style>.et_pb_signup_your_website{display:none !important;}</style>';
+		$html .= '<p class="et_pb_newsletter_button_wrap">';
+		$output = str_replace( '<p class="et_pb_newsletter_button_wrap">', $html, $output );
+	}
+	return $output;
+}
+add_filter( 'et_module_shortcode_output', 'ssp_et_add_honeypot', 20, 3 );
+
+function ssp_divi_email_optin_verify_honeypot() {
+	if( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] != 'https://example.com/' ) { 
+		echo '{"error":"Subscription Error: An error occurred, please try later."}';
+		exit;
+	} else if( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] == 'https://example.com/' ) { 
+		unset( $_POST['et_custom_fields']['your-website'] );
+	}
+}
+add_action( 'admin_init', 'ssp_divi_email_optin_verify_honeypot');
 /**
  * Enable firewall
  */

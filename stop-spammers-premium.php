@@ -121,6 +121,10 @@ function ss_export_excel() {
 	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
 		$ss_login_setting = "checked='checked'";
 	}
+	$ssp_login_attempts = '';
+	if ( get_option( 'ssp_login_attempts', '' ) == 'yes' ) {
+		$ssp_login_attempts = "checked='checked'";
+	}
 	$ss_login_type_default = "";
 	$ss_login_type_username = "";
 	$ss_login_type_email = "";
@@ -163,6 +167,25 @@ function ss_export_excel() {
 				<div class="inside">
 					<form method="post">
 						<p><input type="checkbox" name="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>><?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).' ); ?></p>
+						<p>
+							<input type="checkbox" name="ssp_login_attempts" value="yes" <?php echo $ssp_login_attempts; ?>><strong><?php _e( 'Login Attempts:'); ?></strong>
+							After
+							<input type="text" name="ssp_login_attempts_threshold" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_threshold', 5 ); ?>">
+							failed login attempts within
+							<input type="text" name="ssp_login_attempts_duration" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_duration', 1 ); ?>">
+							<select name="ssp_login_attempts_unit" id="ssp_login_attempts_unit" class="ss-small-dropbox">
+								<option value="minute" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>>minute(s)</option>
+								<option value="hour" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>>hour(s)</option>
+								<option value="day" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>>day(s)</option>
+							</select>,
+							lockout the account for
+							<input type="text" name="ssp_login_lockout_duration" id="ssp_login_lockout_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_lockout_duration', 24 ); ?>"> 
+							<select name="ssp_login_lockout_unit" id="ssp_login_lockout_unit" class="ss-small-dropbox">
+								<option value="minute" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>>minute(s)</option>
+								<option value="hour" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>>hour(s)</option>
+								<option value="day" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>>day(s)</option>
+							</select>.
+						</p>
 						<p><input type="hidden" name="ss_login_setting_placeholder" value="ss_login_setting" /></p>
 						<p>
 							<?php wp_nonce_field( 'ssp_enable_custom_login', 'ssp_enable_custom_login' ); ?>
@@ -1031,6 +1054,100 @@ function ssp_setup_nav_menu_item( $item ) {
 	return $item;
 }
 add_filter( 'wp_setup_nav_menu_item', 'ssp_setup_nav_menu_item' );
+
+/**
+ * This is to enable limit login attempts
+ */
+function ssp_limit_login_attempts() {
+	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
+		return;
+	if ( ! wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
+		return;
+	if ( ! current_user_can( 'manage_options' ) )
+		return;
+
+	if ( isset( $_POST['ssp_login_attempts'] ) and $_POST['ssp_login_attempts'] == 'yes' ) {
+		update_option( 'ssp_login_attempts', 'yes' );
+	} else {
+		update_option( 'ssp_login_attempts', 'no' );
+	}
+	update_option( 'ssp_login_attempts_threshold', $_POST['ssp_login_attempts_threshold'] );
+	update_option( 'ssp_login_attempts_duration', $_POST['ssp_login_attempts_duration'] );
+	update_option( 'ssp_login_attempts_unit', $_POST['ssp_login_attempts_unit'] );
+	update_option( 'ssp_login_lockout_duration', $_POST['ssp_login_lockout_duration'] );
+	update_option( 'ssp_login_lockout_unit', $_POST['ssp_login_lockout_unit'] );
+}
+add_action( 'admin_init', 'ssp_limit_login_attempts' );
+
+function ssp_authenticate( $user, $username, $password ) {
+	$field = is_email( $username ) ? 'email' : 'login';
+	$time = time();
+	if ( ! $userdata = get_user_by( $field, $username ) )
+		return $user;
+	if ( ssp_is_user_locked( $userdata->ID ) && get_option( 'ssp_login_attempts', 'no' ) === 'yes'  ) {
+		if ( $expiration = ssp_get_user_lock_expiration( $userdata->ID ) ) {
+			return new WP_Error( 'locked_account', sprintf( __( '<strong>ERROR</strong>: This account has been locked because of too many failed login attempts. You may try again in %s.' ), human_time_diff( $time, $expiration ) ) );
+		} else {
+			return new WP_Error( 'locked_account', __( '<strong>ERROR</strong>: This account has been locked.' ) );
+		}
+	} elseif ( is_wp_error( $user ) && 'incorrect_password' == $user->get_error_code() && get_option( 'ssp_login_attempts', 'no') === 'yes' ) {
+		ssp_add_failed_login_attempt( $userdata->ID );
+		$attempts = get_user_meta( $userdata->ID, 'ssp_failed_login_attempts', true);
+		if ( count( $attempts ) >= ( get_option( 'ssp_login_attempts_threshold', 5 ) * 2 ) ) {
+			$lockout_expiry = '+' . get_option( 'ssp_login_lockout_duration', 24 ) . ' ' . get_option( 'ssp_login_lockout_unit', 'hour' );
+			$expiration = strtotime( $lockout_expiry );
+			ssp_lock_user( $userdata->ID, $expiration );
+			return new WP_Error( 'locked_account', sprintf( __( '<strong>ERROR</strong>: This account has been locked because of too many failed login attempts. You may try again in %s.', 'theme-my-login' ), human_time_diff( $time, $expiration ) ) );
+		}
+	}
+	return $user;
+}
+add_action( 'authenticate', 'ssp_authenticate', 100, 3 );
+
+function ssp_add_failed_login_attempt( $user_id ) {
+	$new_attempts = array();
+	$threshold = '-'. get_option( 'ssp_login_attempts_duration', 5 ) . ' ' . get_option( 'ssp_login_attempts_unit', 'hour' );
+	$threshold_date_time = strtotime( $threshold );
+	$attempts = get_user_meta( $user_id, 'ssp_failed_login_attempts', true );
+	if( ! is_array( $attempts ) )
+		$attempts = array();
+	$attempts[] = array( 'time' => time(), 'ip' => $_SERVER['REMOTE_ADDR'] );
+	foreach( $attempts as $a ) {
+		if( $threshold_date_time < $a['time'] )
+			$new_attempts[] = $a;
+	}
+	update_user_meta( $user_id, 'ssp_failed_login_attempts', array() );
+	update_user_meta( $user_id, 'ssp_failed_login_attempts', $new_attempts );
+}
+
+function ssp_is_user_locked( $user_id ) {
+	if ( get_user_meta( $user_id, 'ssp_is_locked', true ) == false)
+		return false;
+	if ( ! $expires = ssp_get_user_lock_expiration( $user_id ) )
+		return true;
+	$time = time();
+	if ( $time > $expires ) {
+		ssp_unlock_user( $user_id );
+		return false;
+	}
+	return true;
+}
+
+function ssp_get_user_lock_expiration( $user_id ) {
+	return get_user_meta( $user_id, 'ssp_lock_expiration', true );
+}
+
+function ssp_lock_user ( $user_id, $expiration ) {	
+	update_user_meta( $user_id, 'ssp_is_locked', true );
+	update_user_meta( $user_id, 'ssp_lock_expiration', $expiration );
+	update_user_meta( $user_id, 'ssp_failed_login_attempts', array() );
+}
+
+function ssp_unlock_user( $user_id ) {
+	update_user_meta( $user_id, 'ssp_is_locked', false );
+	update_user_meta( $user_id, 'ssp_lock_expiration', '' );
+	update_user_meta( $user_id, 'ssp_failed_login_attempts', array() );
+}
 
 /**
  * Process a settings export that generates a .json file of the shop settings

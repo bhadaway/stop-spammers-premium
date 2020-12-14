@@ -1,13 +1,14 @@
 <?php
 /*
 Plugin Name: Stop Spammers Premium
-Plugin URI: https://trumani.com/downloads/stop-spammers-premium/
+Plugin URI: https://stopspammers.io/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Firewall, honeypot, themable login, import/export tool, and more.
+Version: 2021
 Author: Trumani
-Author URI: https://trumani.com/
-Version: 2020.6
-License: GNU General Public License v2.0 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Author URI: https://stopspammers.io/
+License: https://www.gnu.org/licenses/gpl.html
+Domain Path: /languages
+Text Domain: stop-spammers
 */
 
 $composer = __DIR__ . '/vendor/autoload.php';
@@ -24,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Settings successfully updated message
+// settings successfully updated message
 function ssp_admin_notice__success() {
 	?>
 	<div class="notice notice-success is-dismissible">
@@ -55,8 +56,8 @@ function ssprem_activate() {
 }
 register_activation_hook( __FILE__, 'ssprem_activate' ); 
 
-define( 'SSP_STORE_URL', 'https://trumani.com' ); 
-define( 'SSP_ITEM_ID', 21210 ); 
+define( 'SSP_STORE_URL', 'https://stopspammers.io' ); 
+define( 'SSP_ITEM_ID', 104 ); 
 define( 'SSP_ITEM_NAME', 'STOP SPAMMERS PREMIUM' ); 
 define( 'SSP_LICENSE_PAGE', 'ssp_license' );
 
@@ -68,7 +69,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2020.6',
+			'version' => '2021',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -279,18 +280,18 @@ function ss_export_excel() {
 }
 
 /**
- * Add contact form shortcode
+ * add contact form shortcode
  */
 function ssp_contact_form_shortcode() {
 	ob_start();
 	echo '
 <form id="ssp-contact-form" method="post" action="#send">
-    <p id="name"><input type="text" name="sign" placeholder="Name" size="35"/></p>
-    <p id="email"><input type="email" name="email" placeholder="Email" size="35" required /></p>
-    <p id="phone"><input type="tel" name="phone" placeholder="Phone (optional)" size="35"/></p>
-    <p id="url"><input type="url" name="url" placeholder="URL" value="https://example.com/" size="35"/></p>
+    <p id="name"><input type="text" name="sign" placeholder="Name" autocomplete="off" size="35" required /></p>
+    <p id="email"><input type="email" name="email" placeholder="Email" autocomplete="off" size="35" required /></p>
+    <p id="phone"><input type="tel" name="phone" placeholder="Phone (optional)" autocomplete="off" size="35" /></p>
+    <p id="url"><input type="url" name="url" placeholder="URL" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
     <p id="message"><textarea name="message" placeholder="Message" rows="5" cols="100"></textarea></p>
-    <p id="submit"><input type="submit" value="Submit"/></p>
+    <p id="submit"><input type="submit" value="Submit" /></p>
 </form>
 <style>
     #ssp-contact-form, #ssp-contact-form * {
@@ -324,7 +325,13 @@ function ssp_contact_form_shortcode() {
         opacity: 0.8
     }
     #ssp-contact-form #url {
-        display: none
+        position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		height: 0;
+		opacity: 0;
+		z-index: -1
     }
     #send {
         text-align: center;
@@ -377,18 +384,18 @@ add_shortcode( 'ssp-contact-form', 'ssp_contact_form_shortcode' );
 add_filter( 'widget_text', 'do_shortcode' );
 
 /**
- * Add honeypot to Contact Form 7
+ * add honeypot to Contact Form 7
  */
 function ssp_cf7_add_honeypot( $form ) {
 	$html  = '';
 	$html .= '<p class="ssp-user">';
 	$html .= 	'<label> Your Website (required)<br />';
 	$html .= 		'<span class="wpcf7-form-control-wrap your-website">';
-	$html .= 			'<input type="text" name="your-website" value="https://example.com/" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" />';
+	$html .= 			'<input type="text" name="your-website" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required />';
 	$html .= 		'</span>';
 	$html .= 	'<label>';
 	$html .= '</p>';
-	$html .= '<style>.ssp-user{display:none!important}</style>';
+	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 	return $html.$form;
 }
 add_filter( 'wpcf7_form_elements', 'ssp_cf7_add_honeypot', 10, 1 );
@@ -405,15 +412,15 @@ function ssp_cf7_verify_honeypot( $spam ) {
 add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
 
 /**
- * Add honeypot to bbPress
+ * add honeypot to bbPress
  */
 function ssp_bbp_add_honeypot() {
 	$html  = '';
 	$html .= '<p class="ssp-user">';
 	$html .= 	'<label for="bbp_your-website">Your Website:</label><br>';
-	$html .=	'<input type="text" value="https://example.com/" size="40" name="bbp_your-website" id="bbp_your-website">';
+	$html .=	'<input type="text" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" name="bbp_your-website" id="bbp_your-website" required />';
 	$html .= '</p>';
-	$html .= '<style>.ssp-user{display:none!important}</style>';
+	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 	echo $html;
 }
 add_action( 'bbp_theme_before_reply_form_submit_wrapper', 'ssp_bbp_add_honeypot' );
@@ -428,15 +435,15 @@ add_action('bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot');
 add_action('bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot');
 
 /**
- * Add honeypot to Elementor Form
+ * add honeypot to Elementor form
  */
 function ssp_elementor_add_honeypot( $content, $widget ) {
 	if ( 'form' === $widget->get_name() ) {
 		$html = '';
 		$html .= '<div class="elementor-field-type-text">';
-		$html .= 	'<input size="40" type="text" value="https://example.com/" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm">';
+		$html .= 	'<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
 		$html .= '</div>';
-		$html .= '<style>#form-field-your-website{display:none !important;}</style>';
+		$html .= '<style>#form-field-your-website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 		$content = str_replace( '<div class="elementor-field-group', $html . '<div class="elementor-field-group', $content );
 		return $content;
 	}
@@ -445,17 +452,17 @@ function ssp_elementor_add_honeypot( $content, $widget ) {
 add_action( 'elementor/widget/render_content', 'ssp_elementor_add_honeypot', 10, 2 );
 
 function ssp_elementor_verify_honeypot( $record, $ajax_handler ) {
-	if( $_POST['form_fields']['your-website'] != 'https://example.com/' ) {
+	if ( $_POST['form_fields']['your-website'] != 'https://example.com/' ) {
 		$ajax_handler->add_error( 'your-website', 'Something went wrong!' );
 	}
 }
 add_action( 'elementor_pro/forms/validation', 'ssp_elementor_verify_honeypot', 10, 2 );
 
 /**
- * Add honeypot to Divi Contact Form and Opt-in
+ * add honeypot to Divi contact form and opt-in
  */
 function ssp_et_add_honeypot( $output, $render_slug, $module ) {
-	if( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {
+	if ( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {
 		unset( $_POST['et_pb_contact_your_website'] );
 		$post_last_key = array_key_last( $_POST );
 		$form_json =  json_decode( stripslashes( $_POST[$post_last_key] ) );
@@ -463,21 +470,21 @@ function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 		$_POST[$post_last_key] = json_encode($form_json);
 	}
 	$html = '';
-	if( $render_slug == 'et_pb_contact_form' ) {
+	if ( $render_slug == 'et_pb_contact_form' ) {
 		$html .= '<p class="et_pb_contact_field et_pb_contact_your_website">';
 		$html .= 	'<label for="et_pb_contact_your_website" class="et_pb_contact_form_label">Your Website</label>';
-		$html .= 	'<input type="text" name="et_pb_contact_your_website" id="et_pb_contact_your_website" placeholder="Your Website" value="https://example.com/">';
+		$html .= 	'<input type="text" name="et_pb_contact_your_website" id="et_pb_contact_your_website" placeholder="Your Website" value="https://example.com/" autocomplete="off" tabindex="-1" required />';
 		$html .= '</p>';
-		$html .= '<style>.et_pb_contact_your_website{display:none !important;}</style>';
+		$html .= '<style>.et_pb_contact_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 		$html .= '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit';
 		$output = str_replace( '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit', $html, $output );
 	} else if($render_slug == 'et_pb_signup' ) {
 		$html = '';
 		$html .= '<p class="et_pb_signup_custom_field et_pb_signup_your_website et_pb_newsletter_field et_pb_contact_field_last et_pb_contact_field_last_tablet et_pb_contact_field_last_phone">';
 		$html .= 	'<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">Your Website</label>';
-		$html .= 	'<input type="text" class="input" id="et_pb_signup_your_website" placeholder="Your Website" value="https://example.com/" data-original_id="your-website">';
+		$html .= 	'<input type="text" class="input" id="et_pb_signup_your_website" placeholder="Your Website" value="https://example.com/" autocomplete="off" tabindex="-1" data-original_id="your-website" required />';
 		$html .= '</p>';
-		$html .= '<style>.et_pb_signup_your_website{display:none !important;}</style>';
+		$html .= '<style>.et_pb_signup_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 		$html .= '<p class="et_pb_newsletter_button_wrap">';
 		$output = str_replace( '<p class="et_pb_newsletter_button_wrap">', $html, $output );
 	}
@@ -494,8 +501,9 @@ function ssp_divi_email_optin_verify_honeypot() {
 	}
 }
 add_action( 'admin_init', 'ssp_divi_email_optin_verify_honeypot');
+
 /**
- * Enable firewall
+ * enable firewall
  */
 function ssp_enable_firewall() {
 	if ( empty( $_POST['ss_firewall_setting_placeholder'] ) || 'ss_firewall_setting' != $_POST['ss_firewall_setting_placeholder'] )
@@ -622,7 +630,7 @@ function ssp_enable_firewall() {
 add_action( 'admin_init', 'ssp_enable_firewall' );
 
 /**
- * Enable custom login
+ * enable custom login
  */
 function ssp_enable_custom_login() {
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
@@ -644,7 +652,7 @@ function ssp_enable_custom_login() {
 add_action( 'admin_init', 'ssp_enable_custom_login' );
 
 /**
- * Process to setup login type
+ * process to setup login type
  */
 function ssp_login_type_func() {
 	if ( empty( $_POST['ssp_login_type_field'] ) || 'ssp_login_type' != $_POST['ssp_login_type_field'] )
@@ -661,7 +669,7 @@ function ssp_login_type_func() {
 add_action( 'admin_init', 'ssp_login_type_func' ); 
 
 /**
- * Install default pages for custom login
+ * install default pages for custom login
  */
 function ssp_install_custom_login() {
 	$pages =  array(
@@ -698,7 +706,7 @@ function ssp_install_custom_login() {
 }
 
 /**
- * Uninstall default pages for custom login
+ * uninstall default pages for custom login
  */
 function ssp_uninstall_custom_login() {
 	$pages = array(
@@ -856,7 +864,7 @@ function ssp_login() {
 	$interim_login = isset( $_REQUEST['interim-login'] );
 	if ( ! empty( $_REQUEST['redirect_to'] ) ) {
 		$redirect_to = $_REQUEST['redirect_to'];
-		// Redirect to https if user wants ssl
+		// redirect to https if user wants SSL
 		if ( $secure_cookie && false !== strpos( $redirect_to, 'wp-admin' ) )
 			$redirect_to = preg_replace( '|^http://|', 'https://', $redirect_to );
 	} else {
@@ -866,7 +874,7 @@ function ssp_login() {
 	if ( isset( $_POST['log'] ) || isset( $_GET['testcookie'] ) ) {
 		$user = wp_signon( array(), $secure_cookie );
 		$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
-		//$user = wp_get_current_user();
+		// $user = wp_get_current_user();
 		if ( ! is_wp_error( $user ) && ! $reauth ) {
 			if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
 				// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
@@ -914,7 +922,7 @@ function ssp_logout_url( $url, $redirect ) {
 add_filter( 'logout_url', 'ssp_logout_url', 10, 2 );
 
 /**
- * This is to enable custom login module 
+ * enable custom login module 
  */
 function ssp_custom_login_module() {
 	if ( get_option( 'ssp_login_type', '' ) == "username" ) {
@@ -936,7 +944,7 @@ function ss_login_text( $translating ) {
 	}
 }
 
-// Add menu option for login/logout links
+// add menu option for login/logout links
 function ssp_add_nav_menu_metabox() {
 	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
 		add_meta_box( 'ssp_menu_option', 'Stop Spammers', 'ssp_nav_menu_metabox', 'nav-menus', 'side', 'default' );
@@ -969,7 +977,7 @@ function ssp_nav_menu_metabox( $object ) {
 				'classes' => array(),
 				'xfn' => '',
 			);
-	// Create an array of objects that imitate Post objects
+	// create an array of objects that imitate post objects
 	$ssp_items = array();
 	$i = 0;
 	foreach ( $elems as $k => $v ) {
@@ -1056,7 +1064,7 @@ function ssp_setup_nav_menu_item( $item ) {
 add_filter( 'wp_setup_nav_menu_item', 'ssp_setup_nav_menu_item' );
 
 /**
- * This is to enable limit login attempts
+ * enable limit login attempts
  */
 function ssp_limit_login_attempts() {
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
@@ -1150,7 +1158,7 @@ function ssp_unlock_user( $user_id ) {
 }
 
 /**
- * Process a settings export that generates a .json file of the shop settings
+ * export that generates a .json file of the shop settings
  */
 function ssp_process_settings_export() {
 	if ( empty( $_POST['ssp_action'] ) || 'export_settings' != $_POST['ssp_action'] )
@@ -1198,11 +1206,11 @@ function ss_export_excel_data(){
 		$sheet->setCellValue( 'F'.$index, $value[4] );
 		$index++;
 		}
-		// Redirect output to a client’s web browser (Xlsx)
+		// redirect output to a client's web browser (xlsx)
 		header( 'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' );
 		header( 'Content-Disposition: attachment;filename="ss_premium_log_'.time().'.xlsx"' );
 		header( 'Cache-Control: max-age=0' );
-		// If you're serving to IE 9, then the following may be needed
+		// if you're serving to IE 9, then the following may be needed
 		header( 'Cache-Control: max-age=1' );
 		$writer = IOFactory::createWriter( $spreadsheet, 'Xlsx' );
 		$writer->save( 'php://output' );
@@ -1211,7 +1219,7 @@ function ss_export_excel_data(){
 add_action( 'admin_init', 'ss_export_excel_data' );
 
 /**
- * Process a settings import from a json file
+ * settings import from a json file
  */
 function ssp_process_settings_import() {
 	if ( empty( $_POST['ssp_action'] ) || 'import_settings' != $_POST['ssp_action'] )
@@ -1230,7 +1238,7 @@ function ssp_process_settings_import() {
 	if ( empty( $import_file ) ) {
 		wp_die( __( 'Please upload a file to import' ) );
 	}
-	// Retrieve the settings from the file and convert the json object to an array.
+	// retrieve the settings from the file and convert the json object to an array
 	$options = ( array ) json_decode( file_get_contents( $import_file ) );	
 	ss_set_options( $options );
 	add_action( 'admin_notices', 'ssp_admin_notice__success' );
@@ -1241,7 +1249,7 @@ function ssp_process_settings_import() {
 add_action( 'admin_init', 'ssp_process_settings_import' );
 
 /**
- * Process a settings import from a json file
+ * settings reset from a json file
  */
 function ssp_process_settings_reset() {
 	if ( empty( $_POST['ssp_action'] ) || 'reset_settings' != $_POST['ssp_action'] )
@@ -1315,67 +1323,57 @@ function ssp_sanitize_license( $new ) {
 	return $new;
 }
 
-/* Shortcodes to print the username, name, and email */
+/* shortcodes to print the username, name, and email */
 
 function show_loggedin_function( $atts ) {
-
 	global $current_user, $user_login;
       	wp_get_current_user();
-	add_filter('widget_text', 'do_shortcode');
-	if ($user_login) 
+	add_filter( 'widget_text', 'do_shortcode' );
+	if ( $user_login ) 
 		return $current_user->display_name;
-	
 }
 add_shortcode( 'show_displayname_as', 'show_loggedin_function' );
 
 function show_fullname_function( $atts ) {
-
 	global $current_user, $user_login;
       	wp_get_current_user();
-	add_filter('widget_text', 'do_shortcode');
-	if ($user_login) 
+	add_filter( 'widget_text', 'do_shortcode' );
+	if ( $user_login ) 
 		return $current_user->user_firstname . ' ' . $current_user->user_lastname;
-	
 }
 add_shortcode( 'show_fullname_as', 'show_fullname_function' );
 
 function show_id_function( $atts ) {
-
 	global $current_user, $user_login;
       	wp_get_current_user();
-	add_filter('widget_text', 'do_shortcode');
-	if ($user_login) 
+	add_filter( 'widget_text', 'do_shortcode' );
+	if ( $user_login ) 
 		return $current_user->ID;
-	
 }
 add_shortcode( 'show_id_as', 'show_id_function' );
 
 function show_level_function( $atts ) {
-
 	global $current_user, $user_login;
       	wp_get_current_user();
-	add_filter('widget_text', 'do_shortcode');
-	if ($user_login) 
+	add_filter( 'widget_text', 'do_shortcode' );
+	if ( $user_login ) 
 		return $current_user->user_level;	
 }
 add_shortcode( 'show_level_as', 'show_level_function' );
 
-
-
 function show_email_function( $atts ) {
-
 	global $current_user, $user_login;
       	wp_get_current_user();
-	add_filter('widget_text', 'do_shortcode');
-	if ($user_login) 
+	add_filter( 'widget_text', 'do_shortcode' );
+	if ( $user_login ) 
 		return $current_user->user_email;
 }
 add_shortcode( 'show_email_as', 'show_email_function' );
+
 /************************************
 * this illustrates how to activate
 * a license key
 *************************************/
-
 function ssp_activate_license() {
 	// listen for our activate button to be clicked
 	if ( isset( $_POST['ssp_license_activate'] ) ) {
@@ -1391,11 +1389,10 @@ function ssp_activate_license() {
 			'item_name'  => urlencode( SSP_ITEM_NAME ),
 			'url'        => home_url()
 		);
-		// Call the custom API.
+		// call the custom API
 		$response = wp_remote_post( SSP_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 		// make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-
 			if ( is_wp_error( $response ) ) {
 				$message = $response->get_error_message();
 			} else {
@@ -1434,7 +1431,7 @@ function ssp_activate_license() {
 				}
 			}
 		}
-		// Check if anything passed on a message constituting a failure
+		// check if anything passed on a message constituting a failure
 		if ( ! empty( $message ) ) {
 			$base_url = admin_url( 'admin.php?page=' . SSP_LICENSE_PAGE );
 			$redirect = add_query_arg( array( 'sl_activation' => 'false', 'message' => urlencode( $message ) ), $base_url );
@@ -1453,7 +1450,6 @@ add_action( 'admin_init', 'ssp_activate_license' );
 * Illustrates how to deactivate a license key.
 * This will decrease the site count
 ***********************************************/
-
 function ssp_deactivate_license() {
 	// listen for our activate button to be clicked
 	if ( isset( $_POST['ssp_license_deactivate'] ) ) {
@@ -1469,7 +1465,7 @@ function ssp_deactivate_license() {
 			'item_name'  => urlencode( SSP_ITEM_NAME ), // the name of our product in EDD
 			'url'        => home_url()
 		);
-		// Call the custom API.
+		// call the custom API
 		$response = wp_remote_post( SSP_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 		// make sure the response came back okay
 		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
@@ -1502,7 +1498,6 @@ add_action( 'admin_init', 'ssp_deactivate_license' );
 * so this is only needed if you
 * want to do something custom
 *************************************/
-
 function ssp_check_license() {
 	global $wp_version;
 	$license = trim( get_option( 'ssp_license_key' ) );
@@ -1512,7 +1507,7 @@ function ssp_check_license() {
 		'item_name' => urlencode( SSP_ITEM_NAME ),
 		'url'       => home_url()
 	);
-	// Call the custom API.
+	// call the custom API
 	$response = wp_remote_post( SSP_STORE_URL, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1527,7 +1522,7 @@ function ssp_check_license() {
 }
 
 /**
- * This is a means of catching errors from the activation method above and displaying it to the customer
+ * catch errors from the activation method above and display it to the customer
  */
 function ssp_admin_notices() {
 	if ( isset( $_GET['sl_activation'] ) && ! empty( $_GET['message'] ) ) {
@@ -1547,7 +1542,7 @@ function ssp_admin_notices() {
 					<p><?php echo 'Success'; ?></p>
 				</div>
 				<?php
-				// Developers can put a custom success message here for when activation is successful if they way.
+				// developers can put a custom success message here for when activation is successful if they way
 				break;
 		}
 	}

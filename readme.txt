@@ -1,7 +1,7 @@
 === Stop Spammers Premium ===
 
 Contributors: Trumani, bhadaway, hiteshchandwani
-License: URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: https://www.gnu.org/licenses/gpl.html
 
 == Description ==
 
@@ -20,6 +20,11 @@ OR
 
 == Changelog ==
 
+= 2021 =
+* [New] Brute force protection
+* [Enhanced] Improved honeypot security
+* [Enhanced] Code audit and cleanup
+
 = 2020.6 =
 * [New] Brute force protection for the themed login form
 * [New] Elementor builder honeypot integration
@@ -29,7 +34,6 @@ OR
 
 = 2020.5.3 =
 * [New] bbPress honeypot integration
-
 
 = 2020.5.2 =
 * [New] Contact form

@@ -156,10 +156,9 @@ function ss_export_excel() {
 					<form method="post">
 						<div class="checkbox switcher">
 							<label for="ss_firewall_setting">
-								<small>
-									<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
-									<span><small></small></span>
-									<?php _e( 'Enable firewall.' ); ?>
+								<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
+								<span><small></small></span>
+								<?php _e( 'Enable firewall.' ); ?>
 							</label>
 						</div>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
@@ -222,16 +221,31 @@ function ss_export_excel() {
 						<p><input type="hidden" name="ssp_login_type_field" value="ssp_login_type" /></p>
 						<ul class="ss-spacer">
 							<li>
-								<input name="ssp_login_type" type="radio" id="ssp-login-type-default" value="default" <?php echo $ss_login_type_default; ?>>
-								<label for="ssp-login-type-default"><?php _e('Username or Email');?></label>
+								<div class="checkbox switcher">
+									<label for="ssp-login-type-default">
+										<input name="ssp_login_type" type="radio" id="ssp-login-type-default" value="default" <?php echo $ss_login_type_default; ?>>
+										<span><small></small></span>
+										<?php _e('Username or Email');?>
+									</label>
+								</div>
 							</li>
 							<li>
-								<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
-								<label for="ssp-login-type-username"><?php _e('Username only');?></label>
+								<div class="checkbox switcher">
+									<label for="ssp-login-type-username">
+										<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
+										<span><small></small></span>
+										<?php _e('Username only');?>
+									</label>
+								</div>
 							</li>
 							<li>
-								<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
-								<label for="ssp-login-type-email"><?php _e('Email only');?></label>
+								<div class="checkbox switcher">
+									<label for="ssp-login-type-email">
+										<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
+										<span><small></small></span>
+										<?php _e('Email only');?>
+									</label>
+								</div>
 							</li>
 						</ul>
 						<hr>

@@ -154,8 +154,16 @@ function ss_export_excel() {
 				<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
-						<p><input type="checkbox" name="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>><?php _e( 'Enable firewall.' ); ?></p>
+						<div class="checkbox switcher">
+							<label for="ss_firewall_setting">
+								<small>
+									<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
+									<span><small></small></span>
+									<?php _e( 'Enable firewall.' ); ?>
+							</label>
+						</div>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
+						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_enable_firewall', 'ssp_enable_firewall' ); ?>
 							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
@@ -167,27 +175,39 @@ function ss_export_excel() {
 				<h3 style="font-size:16px!important"><span><?php _e( 'Login Settings' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
-						<p><input type="checkbox" name="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>><?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).' ); ?></p>
-						<p>
-							<input type="checkbox" name="ssp_login_attempts" value="yes" <?php echo $ssp_login_attempts; ?>><strong><?php _e( 'Login Attempts:'); ?></strong>
-							After
-							<input type="text" name="ssp_login_attempts_threshold" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_threshold', 5 ); ?>">
-							failed login attempts within
-							<input type="text" name="ssp_login_attempts_duration" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_duration', 1 ); ?>">
-							<select name="ssp_login_attempts_unit" id="ssp_login_attempts_unit" class="ss-small-dropbox">
-								<option value="minute" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>>minute(s)</option>
-								<option value="hour" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>>hour(s)</option>
-								<option value="day" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>>day(s)</option>
-							</select>,
-							lockout the account for
-							<input type="text" name="ssp_login_lockout_duration" id="ssp_login_lockout_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_lockout_duration', 24 ); ?>"> 
-							<select name="ssp_login_lockout_unit" id="ssp_login_lockout_unit" class="ss-small-dropbox">
-								<option value="minute" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>>minute(s)</option>
-								<option value="hour" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>>hour(s)</option>
-								<option value="day" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>>day(s)</option>
-							</select>.
-						</p>
+						<div class="checkbox switcher">
+							<label for="ss_login_setting">
+								<input type="checkbox" name="ss_login_setting" id="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>>
+								<span><small></small></span>
+								<?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).' ); ?>
+							</label>
+						</div>
+						<br>
+						<div class="checkbox switcher">
+							<label for="ssp_login_attempts">
+								<input type="checkbox" name="ssp_login_attempts" id="ssp_login_attempts" value="yes" <?php echo $ssp_login_attempts; ?>>
+								<span><small></small></span>
+								<strong><?php _e( 'Login Attempts:'); ?></strong>
+								After
+								<input type="text" name="ssp_login_attempts_threshold" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_threshold', 5 ); ?>">
+								failed login attempts within
+								<input type="text" name="ssp_login_attempts_duration" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_duration', 1 ); ?>">
+								<select name="ssp_login_attempts_unit" id="ssp_login_attempts_unit" class="ss-small-dropbox">
+									<option value="minute" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>>minute(s)</option>
+									<option value="hour" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>>hour(s)</option>
+									<option value="day" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>>day(s)</option>
+								</select>,
+								lockout the account for
+								<input type="text" name="ssp_login_lockout_duration" id="ssp_login_lockout_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_lockout_duration', 24 ); ?>"> 
+								<select name="ssp_login_lockout_unit" id="ssp_login_lockout_unit" class="ss-small-dropbox">
+									<option value="minute" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>>minute(s)</option>
+									<option value="hour" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>>hour(s)</option>
+									<option value="day" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>>day(s)</option>
+								</select>.
+							</label>
+						</div>
 						<p><input type="hidden" name="ss_login_setting_placeholder" value="ss_login_setting" /></p>
+						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_enable_custom_login', 'ssp_enable_custom_login' ); ?>
 							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
@@ -214,6 +234,7 @@ function ss_export_excel() {
 								<label for="ssp-login-type-email"><?php _e('Email only');?></label>
 							</li>
 						</ul>
+						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
 							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
@@ -227,6 +248,7 @@ function ss_export_excel() {
 					<p><?php _e( 'Export the Log records to an Excel file.' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="export_log" value="export_log_data" /></p>
+						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_export_action', 'ssp_export_action' ); ?>
 							<?php submit_button( __( 'Export' ), 'secondary', 'submit', false ); ?>
@@ -240,6 +262,7 @@ function ss_export_excel() {
 					<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="ssp_action" value="export_settings" /></p>
+						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_export_nonce', 'ssp_export_nonce' ); ?>
 							<?php submit_button( __( 'Export' ), 'secondary', 'submit', false ); ?>
@@ -253,6 +276,7 @@ function ss_export_excel() {
 					<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
 						<p><input type="file" name="import_file" /></p>
+						<hr>
 						<p>
 							<input type="hidden" name="ssp_action" value="import_settings" />
 							<?php wp_nonce_field( 'ssp_import_nonce', 'ssp_import_nonce' ); ?>
@@ -267,6 +291,7 @@ function ss_export_excel() {
 					<p><?php _e( 'Reset the plugin settings for this site. This allows you to easily reset the configuration.' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="ssp_action" value="reset_settings" /></p>
+						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_reset_nonce', 'ssp_reset_nonce' ); ?>
 							<?php submit_button( __( 'Reset' ), 'secondary', 'submit', false ); ?>

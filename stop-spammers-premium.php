@@ -8,7 +8,7 @@ Author: Trumani
 Author URI: https://stopspammers.io/
 License: https://www.gnu.org/licenses/gpl.html
 Domain Path: /languages
-Text Domain: stop-spammers
+Text Domain: stop-spammers-premium
 */
 
 $composer = __DIR__ . '/vendor/autoload.php';

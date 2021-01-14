@@ -2,21 +2,21 @@
 	<?php ssp_show_error(); ?>
 	<p class="ssp-input-wrapper">
 		<?php if ( get_option( 'ssp_login_type', '' ) == 'email' ): ?>
-			<label for="user_login"><?php _e( 'Email Address' ); ?></label>
+			<label for="user_login"><?php _e( 'Email Address', 'stop-spammers-premium' ); ?></label>
 		<?php elseif ( get_option( 'ssp_login_type', '' ) == 'username' ): ?>
-			<label for="user_login"><?php _e( 'Username' ); ?></label>
+			<label for="user_login"><?php _e( 'Username', 'stop-spammers-premium' ); ?></label>
 		<?php else: ?>
-			<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
+			<label for="user_login"><?php _e( 'Username or Email Address', 'stop-spammers-premium' ); ?></label>
 		<?php endif; ?>
 		<input type="text" name="log" id="user_login" class="input" value="" size="20" />
 	</p>
 	<p class="ssp-input-wrapper">
-		<label for="user_pass"><?php _e( 'Password' ); ?></label>
+		<label for="user_pass"><?php _e( 'Password', 'stop-spammers-premium' ); ?></label>
 		<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" />
 	</p>
 	<?php do_action( 'login_form' ); ?>
 	<p class="ssp-input-wrapper">
-		<label><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> <?php _e( 'Remember Me' ); ?></label>
+		<label><input name="rememberme" type="checkbox" id="rememberme" value="forever" /> <?php _e( 'Remember Me', 'stop-spammers-premium' ); ?></label>
 	</p>
 	<p class="ssp-submit-wrapper">
 		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary" value="<?php esc_attr_e( 'Log In' ); ?>" />
@@ -27,7 +27,7 @@
 		<?php endif; ?>
 	</p>
 	<p class="ssp-link-wrapper">
-		<a href="<?php echo home_url( '/register/' ); ?>">Register</a> | <a href="<?php echo home_url( '/forgot-password/' ); ?>">Forgot password?</a>
+		<a href="<?php echo home_url( '/register/' ); ?>"><?php _e( 'Register', 'stop-spammers-premium' ); ?></a> | <a href="<?php echo home_url( '/forgot-password/' ); ?>">Forgot password?</a>
 	</p>
 </form>
 	

@@ -25,6 +25,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// making translation-ready
+function ssp_load_plugin_textdomain() {
+    load_plugin_textdomain( 'stop-spammers-premium', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+}
+add_action( 'plugins_loaded', 'ssp_load_plugin_textdomain' );
+
 // settings successfully updated message
 function ssp_admin_notice__success() {
 	?>
@@ -50,7 +56,7 @@ function ssprem_activate() {
 		// deactivate the plugin
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 		// throw an error in the WordPress admin console
-		$error_message = '<p class="dependency">' . esc_html__( 'This plugin requires the ', 'ssprem' ) . '<a href="' . esc_url( 'https://wordpress.org/plugins/stop-spammer-registrations-plugin/' ) . '" target="_blank">Stop Spammers</a>' . esc_html__( ' plugin to be active.', 'ssprem' ) . '</p>';
+		$error_message = '<p class="dependency">' . esc_html__( 'This plugin requires the ', 'stop-spammers-premium' ) . '<a href="' . esc_url( 'https://wordpress.org/plugins/stop-spammer-registrations-plugin/' ) . '" target="_blank">Stop Spammers</a>' . esc_html__( ' plugin to be active.', 'stop-spammers-premium' ) . '</p>';
 		die( $error_message ); // WPCS: XSS ok.
 	}
 }
@@ -82,8 +88,8 @@ add_action( 'admin_init', 'ssp_plugin_updater', 0 );
 function ssp_license_menu() {
 	add_submenu_page( 
 		'stop_spammers', //parent_slug
-		'Stop Spammers License', //page_title
-		'License Key',  //menu_title
+		__( 'Stop Spammers License', 'stop-spammers-premium' ), //page_title
+		__( 'License Key', 'stop-spammers-premium' ),  //menu_title
 		'manage_options', //capability
 		SSP_LICENSE_PAGE, //menu_slug
 		'ssp_license_page' //function  
@@ -93,8 +99,8 @@ function ssp_license_menu() {
 	if ( $status !== false && $status == 'valid' ) { 
 		add_submenu_page( 
 			'stop_spammers', //parent_slug
-			'Stop Spammers Premium Features', //page_title
-			'Premium Features',  //menu_title
+			__( 'Stop Spammers Premium Features', 'stop-spammers-premium' ), //page_title
+			__( 'Premium Features', 'stop-spammers-premium' ),  //menu_title
 			'manage_options', //capability
 			'ssp_premium', //menu_slug
 			'ss_export_excel' //function  
@@ -108,7 +114,7 @@ $license = get_option( 'ssp_license_key' );
 if ( empty( $license ) ) {
 	add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'ssp_license_link' );
 	function ssp_license_link( $links ) {
-		$links = array_merge( array( '<a href="' . admin_url( 'admin.php?page=ssp_license' ) . '">' . __( 'Enter License Key' ) . '</a>' ), $links );
+		$links = array_merge( array( '<a href="' . admin_url( 'admin.php?page=ssp_license' ) . '">' . __( 'Enter License Key', 'stop-spammers-premium' ) . '</a>' ), $links );
 		return $links;
 	}
 }
@@ -138,70 +144,70 @@ function ss_export_excel() {
 	}
 ?>
 	<div id="ss-plugin" class="wrap">
-		<h1 class="ss_head">Stop Spammers Premium Features</h1>
+		<h1 class="ss_head"><?php _e( 'Stop Spammers Premium Features', 'stop-spammers-premium' ); ?></h1>
 		<div class="metabox-holder">
 			<div class="postbox">
-				<h3 style="font-size:18px"><span><?php _e( 'Shortcodes' ); ?></span></h3>
+				<h3 style="font-size:18px"><span><?php _e( 'Shortcodes', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
-					<p>Add a lightweight, secure contact form to any page, post, or text widget by adding the following: <strong>[ssp-contact-form]</strong></p>
-					<p>Add our secure, themable login form to any page, post, or text widget by adding the following: <strong>[ssp-login]</strong></p>
-					<p>Show Display Name for Logged In Visitors: <strong>[show_displayname_as]</strong></p>
-					<p>Show First Name and Last Name for Logged In Visitors: <strong>[show_fullname_as]</strong></p>
-					<p>Show Email Address for Logged In Visitors: <strong>[show_email_as]</strong></p>
+					<p><?php _e( 'Add a lightweight, secure contact form to any page, post, or text widget by adding the following: <strong>[ssp-contact-form]</strong>', 'stop-spammers-premium' ); ?></p>
+					<p><?php _e( 'Add our secure, themable login form to any page, post, or text widget by adding the following: <strong>[ssp-login]</strong>', 'stop-spammers-premium' ); ?></p>
+					<p><?php _e( 'Show Display Name for Logged In Visitors: <strong>[show_displayname_as]</strong>', 'stop-spammers-premium' ); ?></p>
+					<p><?php _e( 'Show First Name and Last Name for Logged In Visitors: <strong>[show_fullname_as]</strong>', 'stop-spammers-premium' ); ?></p>
+					<p><?php _e( 'Show Email Address for Logged In Visitors: <strong>[show_email_as]</strong>', 'stop-spammers-premium' ); ?></p>
 				</div>
 			</div>
 			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
 						<div class="checkbox switcher">
 							<label for="ss_firewall_setting">
 								<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
 								<span><small></small></span>
-								<?php _e( 'Enable firewall.' ); ?>
+								<?php _e( 'Enable firewall.', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
 						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_enable_firewall', 'ssp_enable_firewall' ); ?>
-							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div>
 			</div>
 			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Login Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Login Settings', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
 						<div class="checkbox switcher">
 							<label for="ss_login_setting">
-								<input type="checkbox" name="ss_login_setting" id="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?>>
+								<input type="checkbox" name="ss_login_setting" id="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?> />
 								<span><small></small></span>
-								<?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).' ); ?>
+								<?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
 						<br>
 						<div class="checkbox switcher">
 							<label for="ssp_login_attempts">
-								<input type="checkbox" name="ssp_login_attempts" id="ssp_login_attempts" value="yes" <?php echo $ssp_login_attempts; ?>>
+								<input type="checkbox" name="ssp_login_attempts" id="ssp_login_attempts" value="yes" <?php echo $ssp_login_attempts; ?> />
 								<span><small></small></span>
-								<strong><?php _e( 'Login Attempts:'); ?></strong>
-								After
-								<input type="text" name="ssp_login_attempts_threshold" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_threshold', 5 ); ?>">
-								failed login attempts within
-								<input type="text" name="ssp_login_attempts_duration" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_duration', 1 ); ?>">
+								<strong><?php _e( 'Login Attempts:', 'stop-spammers-premium' ); ?></strong>
+								<?php _e( 'After', 'stop-spammers-premium' ); ?>
+								<input type="text" name="ssp_login_attempts_threshold" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_threshold', 5 ); ?>" />
+								<?php _e( 'failed login attempts within', 'stop-spammers-premium' ); ?>
+								<input type="text" name="ssp_login_attempts_duration" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_duration', 1 ); ?>" />
 								<select name="ssp_login_attempts_unit" id="ssp_login_attempts_unit" class="ss-small-dropbox">
-									<option value="minute" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>>minute(s)</option>
-									<option value="hour" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>>hour(s)</option>
-									<option value="day" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>>day(s)</option>
+									<option value="minute" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>><?php _e( 'minute(s)', 'stop-spammers-premium' ); ?></option>
+									<option value="hour" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>><?php _e( 'hour(s)', 'stop-spammers-premium' ); ?></option>
+									<option value="day" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>><?php _e( 'day(s)', 'stop-spammers-premium' ); ?></option>
 								</select>,
-								lockout the account for
-								<input type="text" name="ssp_login_lockout_duration" id="ssp_login_lockout_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_lockout_duration', 24 ); ?>"> 
+								<?php _e( 'lockout the account for', 'stop-spammers-premium' ); ?>
+								<input type="text" name="ssp_login_lockout_duration" id="ssp_login_lockout_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_lockout_duration', 24 ); ?>" /> 
 								<select name="ssp_login_lockout_unit" id="ssp_login_lockout_unit" class="ss-small-dropbox">
-									<option value="minute" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>>minute(s)</option>
-									<option value="hour" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>>hour(s)</option>
-									<option value="day" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>>day(s)</option>
+									<option value="minute" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>><?php _e( 'minute(s)', 'stop-spammers-premium' ); ?></option>
+									<option value="hour" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>><?php _e( 'hour(s)', 'stop-spammers-premium' ); ?></option>
+									<option value="day" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>><?php _e( 'day(s)', 'stop-spammers-premium' ); ?></option>
 								</select>.
 							</label>
 						</div>
@@ -209,13 +215,13 @@ function ss_export_excel() {
 						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_enable_custom_login', 'ssp_enable_custom_login' ); ?>
-							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div>
 			</div>
 			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Allow users to log in using their username and/or email address' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Allow users to log in using their username and/or email address', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
 					<form method="post">
 						<p><input type="hidden" name="ssp_login_type_field" value="ssp_login_type" /></p>
@@ -225,7 +231,7 @@ function ss_export_excel() {
 									<label for="ssp-login-type-default">
 										<input name="ssp_login_type" type="radio" id="ssp-login-type-default" value="default" <?php echo $ss_login_type_default; ?>>
 										<span><small></small></span>
-										<?php _e('Username or Email');?>
+										<?php _e( 'Username or Email', 'stop-spammers-premium' ); ?>
 									</label>
 								</div>
 							</li>
@@ -234,7 +240,7 @@ function ss_export_excel() {
 									<label for="ssp-login-type-username">
 										<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
 										<span><small></small></span>
-										<?php _e('Username only');?>
+										<?php _e( 'Username only', 'stop-spammers-premium' ); ?>
 									</label>
 								</div>
 							</li>
@@ -243,7 +249,7 @@ function ss_export_excel() {
 									<label for="ssp-login-type-email">
 										<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
 										<span><small></small></span>
-										<?php _e('Email only');?>
+										<?php _e( 'Email only', 'stop-spammers-premium' ); ?>
 									</label>
 								</div>
 							</li>
@@ -251,64 +257,64 @@ function ss_export_excel() {
 						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
-							<?php submit_button( __( 'Save' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div>
 			</div>
 			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Export Log Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Export Log Settings', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
-					<p><?php _e( 'Export the Log records to an Excel file.' ); ?></p>
+					<p><?php _e( 'Export the Log records to an Excel file.', 'stop-spammers-premium' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="export_log" value="export_log_data" /></p>
 						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_export_action', 'ssp_export_action' ); ?>
-							<?php submit_button( __( 'Export' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Export', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div>
 			</div>
 			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Export Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Export Settings', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
-					<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.' ); ?></p>
+					<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'stop-spammers-premium' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="ssp_action" value="export_settings" /></p>
 						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_export_nonce', 'ssp_export_nonce' ); ?>
-							<?php submit_button( __( 'Export' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Export', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Import Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Import Settings', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
-					<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.' ); ?></p>
+					<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'stop-spammers-premium' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
 						<p><input type="file" name="import_file" /></p>
-						<hr>
+						<hr />
 						<p>
 							<input type="hidden" name="ssp_action" value="import_settings" />
 							<?php wp_nonce_field( 'ssp_import_nonce', 'ssp_import_nonce' ); ?>
-							<?php submit_button( __( 'Import' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Import', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Reset Settings' ); ?></span></h3>
+				<h3 style="font-size:16px!important"><span><?php _e( 'Reset Settings', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
-					<p><?php _e( 'Reset the plugin settings for this site. This allows you to easily reset the configuration.' ); ?></p>
+					<p><?php _e( 'Reset the plugin settings for this site. This allows you to easily reset the configuration.', 'stop-spammers-premium' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="ssp_action" value="reset_settings" /></p>
-						<hr>
+						<hr />
 						<p>
 							<?php wp_nonce_field( 'ssp_reset_nonce', 'ssp_reset_nonce' ); ?>
-							<?php submit_button( __( 'Reset' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Reset', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 						</p>
 					</form>
 				</div><!-- .inside -->
@@ -323,14 +329,14 @@ function ss_export_excel() {
  */
 function ssp_contact_form_shortcode() {
 	ob_start();
-	echo '
+	_e( '
 <form id="ssp-contact-form" method="post" action="#send">
-    <p id="name"><input type="text" name="sign" placeholder="Name" autocomplete="off" size="35" required /></p>
-    <p id="email"><input type="email" name="email" placeholder="Email" autocomplete="off" size="35" required /></p>
-    <p id="phone"><input type="tel" name="phone" placeholder="Phone (optional)" autocomplete="off" size="35" /></p>
-    <p id="url"><input type="url" name="url" placeholder="URL" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
-    <p id="message"><textarea name="message" placeholder="Message" rows="5" cols="100"></textarea></p>
-    <p id="submit"><input type="submit" value="Submit" /></p>
+    <p id="name"><input type="text" name="sign" placeholder="' . __( 'Name', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
+    <p id="email"><input type="email" name="email" placeholder="' . __( 'Email', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
+    <p id="phone"><input type="tel" name="phone" placeholder="' . __( 'Phone (optional)', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" /></p>
+    <p id="url"><input type="url" name="url" placeholder="' . __( 'URL', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
+    <p id="message"><textarea name="message" placeholder="' . __( 'Message', 'stop-spammers-premium' ) . '" rows="5" cols="100"></textarea></p>
+    <p id="submit"><input type="submit" value="' . __( 'Submit', 'stop-spammers-premium' ) . '" /></p>
 </form>
 <style>
     #ssp-contact-form, #ssp-contact-form * {
@@ -383,37 +389,37 @@ function ssp_contact_form_shortcode() {
         color: red
     }
 </style>
-';
+', 'stop-spammers-premium' );
 	$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
 	if ( esc_url( $url ) == 'https://example.com/' ) {
 		$to        = sanitize_email( get_option( 'admin_email' ) );
-		$subject   = 'Inquiry | ' . esc_html( get_option( 'blogname' ) ) . '';
+		$subject   = '' . __( 'Inquiry', 'stop-spammers-premium' ) . ' | ' . esc_html( get_option( 'blogname' ) ) . '';
 		$name      = sanitize_text_field( $_POST['sign'] );
 		$email     = sanitize_email( $_POST['email'] );
 		$phone     = sanitize_text_field( $_POST['phone'] );
 		$message   = esc_textarea( $_POST['message'] );
 		$validated = true;
 		if ( ! $validated ) {
-			print '<p id="send" class="fail">Message Failed</p>';
+			print '<p id="send" class="fail">' . __( 'Message Failed', 'stop-spammers-premium' ) . '</p>';
 			exit;
 		}
 		$body    = "";
-		$body   .= "Name: ";
+		$body   .= "" . __( 'Name: ', 'stop-spammers-premium' ) . "";
 		$body   .= $name;
 		$body   .= "\n";
-		$body   .= "Email: ";
+		$body   .= "" . __( 'Email: ', 'stop-spammers-premium' ) . "";
 		$body   .= $email;
 		$body   .= "\n";
-		$body   .= "Phone: ";
+		$body   .= "" . __( 'Phone: ', 'stop-spammers-premium' ) . "";
 		$body   .= $phone;
 		$body   .= "\n\n";
 		$body   .= $message;
 		$body   .= "\n";
-		$success = wp_mail( $to, $subject, $body, "From: <$email>" );
+		$success = wp_mail( $to, $subject, $body, "" . __( 'From: ', 'stop-spammers-premium' ) . "<$email>" );
 		if ( $success ) {
-			print '<p id="send" class="success">Message Sent Successfully</p>';
+			print '<p id="send" class="success">' . __( 'Message Sent Successfully', 'stop-spammers-premium' ) . '</p>';
 		} else {
-			print '<p id="send" class="fail">Message Failed</p>';
+			print '<p id="send" class="fail">' . __( 'Message Failed', 'stop-spammers-premium' ) . '</p>';
 		}
 	}
 	$output = ob_get_clean();
@@ -428,7 +434,7 @@ add_filter( 'widget_text', 'do_shortcode' );
 function ssp_cf7_add_honeypot( $form ) {
 	$html  = '';
 	$html .= '<p class="ssp-user">';
-	$html .= 	'<label> Your Website (required)<br />';
+	$html .= 	'<label>' . __( 'Your Website (required)', 'stop-spammers-premium' ) . '<br />';
 	$html .= 		'<span class="wpcf7-form-control-wrap your-website">';
 	$html .= 			'<input type="text" name="your-website" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required />';
 	$html .= 		'</span>';
@@ -456,7 +462,7 @@ add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
 function ssp_bbp_add_honeypot() {
 	$html  = '';
 	$html .= '<p class="ssp-user">';
-	$html .= 	'<label for="bbp_your-website">Your Website:</label><br>';
+	$html .= 	'<label for="bbp_your-website">' . __( 'Your Website:', 'stop-spammers-premium' ) . '</label><br>';
 	$html .=	'<input type="text" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" name="bbp_your-website" id="bbp_your-website" required />';
 	$html .= '</p>';
 	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
@@ -467,7 +473,7 @@ add_action( 'bbp_theme_before_topic_form_submit_wrapper', 'ssp_bbp_add_honeypot'
 
 function ssp_bbp_verify_honeypot() {
 	if ( $_POST['bbp_your-website'] != 'https://example.com/' ) {
-		bbp_add_error( 'bbp_throw_error', __( "<strong>ERROR</strong>: Something went wrong!", 'ssprem') );
+		bbp_add_error( 'bbp_throw_error', __( "<strong>ERROR</strong>: Something went wrong!", 'stop-spammers-premium' ) );
 	}
 }
 add_action('bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot');
@@ -480,7 +486,7 @@ function ssp_elementor_add_honeypot( $content, $widget ) {
 	if ( 'form' === $widget->get_name() ) {
 		$html = '';
 		$html .= '<div class="elementor-field-type-text">';
-		$html .= 	'<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
+		$html .= '<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
 		$html .= '</div>';
 		$html .= '<style>#form-field-your-website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 		$content = str_replace( '<div class="elementor-field-group', $html . '<div class="elementor-field-group', $content );
@@ -492,7 +498,7 @@ add_action( 'elementor/widget/render_content', 'ssp_elementor_add_honeypot', 10,
 
 function ssp_elementor_verify_honeypot( $record, $ajax_handler ) {
 	if ( $_POST['form_fields']['your-website'] != 'https://example.com/' ) {
-		$ajax_handler->add_error( 'your-website', 'Something went wrong!' );
+		$ajax_handler->add_error( 'your-website', __( 'Something went wrong!', 'stop-spammers-premium' ) );
 	}
 }
 add_action( 'elementor_pro/forms/validation', 'ssp_elementor_verify_honeypot', 10, 2 );
@@ -510,21 +516,21 @@ function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 	}
 	$html = '';
 	if ( $render_slug == 'et_pb_contact_form' ) {
-		$html .= '<p class="et_pb_contact_field et_pb_contact_your_website">';
-		$html .= 	'<label for="et_pb_contact_your_website" class="et_pb_contact_form_label">Your Website</label>';
-		$html .= 	'<input type="text" name="et_pb_contact_your_website" id="et_pb_contact_your_website" placeholder="Your Website" value="https://example.com/" autocomplete="off" tabindex="-1" required />';
-		$html .= '</p>';
-		$html .= '<style>.et_pb_contact_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
-		$html .= '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit';
+		$html  .= '<p class="et_pb_contact_field et_pb_contact_your_website">';
+		$html  .= '<label for="et_pb_contact_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
+		$html  .= '<input type="text" name="et_pb_contact_your_website" id="et_pb_contact_your_website" placeholder="' . __( 'Your Website', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" required />';
+		$html  .= '</p>';
+		$html  .= '<style>.et_pb_contact_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+		$html  .= '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit';
 		$output = str_replace( '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit', $html, $output );
 	} else if($render_slug == 'et_pb_signup' ) {
-		$html = '';
-		$html .= '<p class="et_pb_signup_custom_field et_pb_signup_your_website et_pb_newsletter_field et_pb_contact_field_last et_pb_contact_field_last_tablet et_pb_contact_field_last_phone">';
-		$html .= 	'<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">Your Website</label>';
-		$html .= 	'<input type="text" class="input" id="et_pb_signup_your_website" placeholder="Your Website" value="https://example.com/" autocomplete="off" tabindex="-1" data-original_id="your-website" required />';
-		$html .= '</p>';
-		$html .= '<style>.et_pb_signup_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
-		$html .= '<p class="et_pb_newsletter_button_wrap">';
+		$html   = '';
+		$html  .= '<p class="et_pb_signup_custom_field et_pb_signup_your_website et_pb_newsletter_field et_pb_contact_field_last et_pb_contact_field_last_tablet et_pb_contact_field_last_phone">';
+		$html  .= 	'<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
+		$html  .= 	'<input type="text" class="input" id="et_pb_signup_your_website" placeholder="' . __( 'Your Website', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" data-original_id="your-website" required />';
+		$html  .= '</p>';
+		$html  .= '<style>.et_pb_signup_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+		$html  .= '<p class="et_pb_newsletter_button_wrap">';
 		$output = str_replace( '<p class="et_pb_newsletter_button_wrap">', $html, $output );
 	}
 	return $output;
@@ -712,10 +718,10 @@ add_action( 'admin_init', 'ssp_login_type_func' );
  */
 function ssp_install_custom_login() {
 	$pages =  array(
-		'login'        => __( 'Log In' ),
-		'logout'       => __( 'Log Out' ),
-		'register'     => __( 'Register' ),
-		'forgot-password' => __( 'Forgot Password' ),
+		'login'        => __( 'Log In', 'stop-spammers-premium' ),
+		'logout'       => __( 'Log Out', 'stop-spammers-premium' ),
+		'register'     => __( 'Register', 'stop-spammers-premium' ),
+		'forgot-password' => __( 'Forgot Password', 'stop-spammers-premium' ),
 	);
 	foreach( $pages as $slug => $title ) {
 		$page_id = ssp_get_page_id( $slug );
@@ -749,10 +755,10 @@ function ssp_install_custom_login() {
  */
 function ssp_uninstall_custom_login() {
 	$pages = array(
-		'login'        => __( 'Log In' ),
-		'logout'       => __( 'Log Out' ),
-		'register'     => __( 'Register' ),
-		'forgot-password' => __( 'Forgot Password' ),
+		'login'        => __( 'Log In', 'stop-spammers-premium' ),
+		'logout'       => __( 'Log Out', 'stop-spammers-premium' ),
+		'register'     => __( 'Register', 'stop-spammers-premium' ),
+		'forgot-password' => __( 'Forgot Password', 'stop-spammers-premium' ),
 	);
 	foreach( $pages as $slug => $title ) {
 		$page_id = ssp_get_page_id( $slug );
@@ -770,7 +776,7 @@ function ssp_get_page_id( $slug ) {
 
 add_action( 'template_redirect', function() {
 	global $post;
-	if( is_page( 'logout' ) ) {
+	if ( is_page( 'logout' ) ) {
 		$user = wp_get_current_user();
 		wp_logout();
 		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
@@ -791,7 +797,7 @@ add_action( 'template_redirect', function() {
 		ssp_login();
 	elseif ( $post->post_name == 'register' )
 		ssp_register();
-	elseif( $post->post_name == 'forgot-password' )
+	elseif ( $post->post_name == 'forgot-password' )
 		ssp_forgot_password();
 } );
 
@@ -801,11 +807,11 @@ function ssp_forgot_password() {
 		return;
 	$errors = new WP_Error();
 	if ( empty( $_POST['user_login'] ) ) {
-		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or e-mail address.' ) );
+		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or e-mail address.', 'stop-spammers-premium' ) );
 	} else if ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 		if ( empty( $user_data ) )
-			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no user registered with that email address.' ) );
+			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no user registered with that email address.', 'stop-spammers-premium' ) );
 	} else {
 		$login = trim( $_POST['user_login'] );
 		$user_data = get_user_by( 'login', $login );
@@ -816,7 +822,7 @@ function ssp_forgot_password() {
 		return;
 	}
 	if ( ! $user_data ) {
-		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: Invalid username or e-mail.') );
+		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: Invalid username or email.', 'stop-spammers-premium' ) );
 		$GLOBALS['ssp_error'] = $errors;
 		return;
 	}
@@ -826,18 +832,18 @@ function ssp_forgot_password() {
 	if ( is_wp_error( $key ) ) {
 		$GLOBALS['ssp_error'] = $key;
 	}
-	$message = __( 'Someone requested that the password be reset for the following account:' ) . "\r\n\r\n";
+	$message = __( 'Someone requested that the password be reset for the following account:', 'stop-spammers-premium' ) . "\r\n\r\n";
 	$message .= network_home_url( '/' ) . "\r\n\r\n";
-	$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
-	$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.') . "\r\n\r\n";
-	$message .= __( 'To reset your password, visit the following address:') . "\r\n\r\n";
+	$message .= sprintf( __( 'Username: %s', 'stop-spammers-premium' ), $user_login ) . "\r\n\r\n";
+	$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.', 'stop-spammers-premium' ) . "\r\n\r\n";
+	$message .= __( 'To reset your password, visit the following address:', 'stop-spammers-premium' ) . "\r\n\r\n";
 	$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
 	$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-	$title = sprintf( __( '[%s] Password Reset' ), $blogname );
+	$title = sprintf( __( '[%s] Password Reset', 'stop-spammers-premium' ), $blogname );
 	$title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
 	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 	if ( $message && ! wp_mail( $user_email, $title, $message ) )
-		wp_die( __( 'The email could not be sent.' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...' ) );
+		wp_die( __( 'The email could not be sent.', 'stop-spammers-premium' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...', 'stop-spammers-premium' ) );
 	wp_redirect( home_url( '/login/?rp=link(target, link)-sent' ) );
 	exit;
 }
@@ -994,10 +1000,10 @@ add_action( 'admin_head-nav-menus.php', 'ssp_add_nav_menu_metabox' );
 function ssp_nav_menu_metabox( $object ) {
 	global $nav_menu_selected_id;
 	$elems = array(
-		'#ssp-nav-login' => 'Log In',
-		'#ssp-nav-logout' => 'Log Out',
-		'#ssp-nav-register' => 'Register',
-		'#ssp-nav-loginout' => 'Log In' .'/'.'Log Out'
+		'#ssp-nav-login' => __( 'Log In', 'stop-spammers-premium' ),
+		'#ssp-nav-logout' => __( 'Log Out', 'stop-spammers-premium' ),
+		'#ssp-nav-register' => __( 'Register', 'stop-spammers-premium' ),
+		'#ssp-nav-loginout' => __( 'Log In', 'stop-spammers-premium' ) . '/' . __( 'Log Out', 'stop-spammers-premium' )
 	);
 	$temp = ( object ) array(
 				'ID' => 1,
@@ -1047,7 +1053,7 @@ function ssp_nav_menu_metabox( $object ) {
 			</ul>
 			<p class="button-controls">
 				<span class="add-to-menu">
-					<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="ssp-menu-item" id="submit-ssp-div" />
+					<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'stop-spammers-premium' ); ?>" name="ssp-menu-item" id="submit-ssp-div" />
 					<span class="spinner"></span>
 				</span>
 			</p>
@@ -1067,9 +1073,9 @@ add_filter( 'wp_setup_nav_menu_item', 'ssp_nav_menu_type_label' );
 function ssp_loginout_title( $title ) {
 	$titles = explode( '/', $title );
 	if ( !is_user_logged_in() ) {
-		return esc_html( isset( $titles[0] ) ? $titles[0]: 'Log In' );
+		return esc_html( isset( $titles[0] ) ? $titles[0]: __( 'Log In', 'stop-spammers-premium' ) );
 	} else {
-		return esc_html( isset($titles[1] ) ? $titles[1] : 'Log Out' );
+		return esc_html( isset($titles[1] ) ? $titles[1] : __( 'Log Out', 'stop-spammers-premium' ) );
 	}
 }
 
@@ -1133,9 +1139,9 @@ function ssp_authenticate( $user, $username, $password ) {
 		return $user;
 	if ( ssp_is_user_locked( $userdata->ID ) && get_option( 'ssp_login_attempts', 'no' ) === 'yes'  ) {
 		if ( $expiration = ssp_get_user_lock_expiration( $userdata->ID ) ) {
-			return new WP_Error( 'locked_account', sprintf( __( '<strong>ERROR</strong>: This account has been locked because of too many failed login attempts. You may try again in %s.' ), human_time_diff( $time, $expiration ) ) );
+			return new WP_Error( 'locked_account', sprintf( __( '<strong>ERROR</strong>: This account has been locked because of too many failed login attempts. You may try again in %s.', 'stop-spammers-premium' ), human_time_diff( $time, $expiration ) ) );
 		} else {
-			return new WP_Error( 'locked_account', __( '<strong>ERROR</strong>: This account has been locked.' ) );
+			return new WP_Error( 'locked_account', __( '<strong>ERROR</strong>: This account has been locked.', 'stop-spammers-premium' ) );
 		}
 	} elseif ( is_wp_error( $user ) && 'incorrect_password' == $user->get_error_code() && get_option( 'ssp_login_attempts', 'no') === 'yes' ) {
 		ssp_add_failed_login_attempt( $userdata->ID );
@@ -1144,7 +1150,7 @@ function ssp_authenticate( $user, $username, $password ) {
 			$lockout_expiry = '+' . get_option( 'ssp_login_lockout_duration', 24 ) . ' ' . get_option( 'ssp_login_lockout_unit', 'hour' );
 			$expiration = strtotime( $lockout_expiry );
 			ssp_lock_user( $userdata->ID, $expiration );
-			return new WP_Error( 'locked_account', sprintf( __( '<strong>ERROR</strong>: This account has been locked because of too many failed login attempts. You may try again in %s.', 'theme-my-login' ), human_time_diff( $time, $expiration ) ) );
+			return new WP_Error( 'locked_account', sprintf( __( '<strong>ERROR</strong>: This account has been locked because of too many failed login attempts. You may try again in %s.', 'stop-spammers-premium' ), human_time_diff( $time, $expiration ) ) );
 		}
 	}
 	return $user;
@@ -1271,11 +1277,11 @@ function ssp_process_settings_import() {
 	$extension = $_FILES['import_file']['type'] ;
 // if ( $extension != 'json' ) {
 	if ( $extension != 'application/json' ) {
-		wp_die( __( 'Please upload a valid .json file' ) );
+		wp_die( __( 'Please upload a valid .json file', 'stop-spammers-premium' ) );
 	}
 	$import_file = $_FILES['import_file']['tmp_name'];
 	if ( empty( $import_file ) ) {
-		wp_die( __( 'Please upload a file to import' ) );
+		wp_die( __( 'Please upload a file to import', 'stop-spammers-premium' ) );
 	}
 	// retrieve the settings from the file and convert the json object to an array
 	$options = ( array ) json_decode( file_get_contents( $import_file ) );	
@@ -1310,33 +1316,33 @@ function ssp_license_page() {
 	$status  = get_option( 'ssp_license_status' );
 	?>
 	<div class="wrap">
-		<h2><?php _e( 'Stop Spammers Premium Plugin License Options' ); ?></h2>
+		<h2><?php _e( 'Stop Spammers Premium Plugin License Options', 'stop-spammers-premium' ); ?></h2>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'ssp_license' ); ?>
 			<table class="form-table">
 				<tbody>
 					<tr valign="top">
 						<th scope="row" valign="top">
-							<?php _e( 'License Key' ); ?>
+							<?php _e( 'License Key', 'stop-spammers-premium' ); ?>
 						</th>
 						<td>
 							<input id="ssp_license_key" name="ssp_license_key" type="text" class="regular-text" value="<?php esc_attr_e( $license ); ?>" />
-							<label class="description" for="ssp_license_key"><?php _e( 'Enter your license key' ); ?></label>
+							<label class="description" for="ssp_license_key"><?php _e( 'Enter your license key', 'stop-spammers-premium' ); ?></label>
 						</td>
 					</tr>
 					<?php if( false !== $license ) { ?>
 						<tr valign="top">
 							<th scope="row" valign="top">
-								<?php _e( 'Activate License' ); ?>
+								<?php _e( 'Activate License', 'stop-spammers-premium' ); ?>
 							</th>
 							<td>
 								<?php if ( $status !== false && $status == 'valid' ) { ?>
 									<span style="color:green"><?php _e( 'active' ); ?></span>
 									<?php wp_nonce_field( 'ssp_nonce', 'ssp_nonce' ); ?>
-									<input type="submit" class="button-secondary" name="ssp_license_deactivate" value="<?php _e( 'Deactivate License' ); ?>"/>
+									<input type="submit" class="button-secondary" name="ssp_license_deactivate" value="<?php _e( 'Deactivate License', 'stop-spammers-premium' ); ?>"/>
 								<?php } else {
 									wp_nonce_field( 'ssp_nonce', 'ssp_nonce' ); ?>
-									<input type="submit" class="button-secondary" name="ssp_license_activate" value="<?php _e( 'Activate License' ); ?>"/>
+									<input type="submit" class="button-secondary" name="ssp_license_activate" value="<?php _e( 'Activate License', 'stop-spammers-premium' ); ?>"/>
 								<?php } ?>
 							</td>
 						</tr>
@@ -1435,7 +1441,7 @@ function ssp_activate_license() {
 			if ( is_wp_error( $response ) ) {
 				$message = $response->get_error_message();
 			} else {
-				$message = __( 'An error occurred, please try again.' );
+				$message = __( 'An error occurred, please try again.', 'stop-spammers-premium' );
 			}
 		} else {
 			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -1443,29 +1449,29 @@ function ssp_activate_license() {
 				switch( $license_data->error ) {
 					case 'expired' :
 						$message = sprintf(
-							__( 'Your license key expired on %s.' ),
+							__( 'Your license key expired on %s.', 'stop-spammers-premium' ),
 							date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
 						);
 						break;
 					case 'disabled' :
 					case 'revoked' :
-						$message = __( 'Your license key has been disabled.' );
+						$message = __( 'Your license key has been disabled.', 'stop-spammers-premium' );
 						break;
 					case 'missing' :
-						$message = __( 'Invalid license.' );
+						$message = __( 'Invalid license.', 'stop-spammers-premium' );
 						break;
 					case 'invalid' :
 					case 'site_inactive' :
-						$message = __( 'Your license is not active for this URL.' );
+						$message = __( 'Your license is not active for this URL.', 'stop-spammers-premium' );
 						break;
 					case 'item_name_mismatch' :
-						$message = sprintf( __( 'This appears to be an invalid license key for %s.' ), SSP_ITEM_NAME );
+						$message = sprintf( __( 'This appears to be an invalid license key for %s.', 'stop-spammers-premium' ), SSP_ITEM_NAME );
 						break;
 					case 'no_activations_left':
-						$message = __( 'Your license key has reached its activation limit.' );
+						$message = __( 'Your license key has reached its activation limit.', 'stop-spammers-premium' );
 						break;
 					default :
-						$message = __( 'An error occurred, please try again.' );
+						$message = __( 'An error occurred, please try again.', 'stop-spammers-premium' );
 						break;
 				}
 			}
@@ -1511,7 +1517,7 @@ function ssp_deactivate_license() {
 			if ( is_wp_error( $response ) ) {
 				$message = $response->get_error_message();
 			} else {
-				$message = __( 'An error occurred, please try again.' );
+				$message = __( 'An error occurred, please try again.', 'stop-spammers-premium' );
 			}
 			$base_url = admin_url( 'admin.php?page=' . SSP_LICENSE_PAGE );
 			$redirect = add_query_arg( array( 'sl_activation' => 'false', 'message' => urlencode( $message ) ), $base_url );
@@ -1578,7 +1584,7 @@ function ssp_admin_notices() {
 			default:
 			?>
 				<div class="success">
-					<p><?php echo 'Success'; ?></p>
+					<p><?php _e( 'Success', 'stop-spammers-premium' ); ?></p>
 				</div>
 				<?php
 				// developers can put a custom success message here for when activation is successful if they way

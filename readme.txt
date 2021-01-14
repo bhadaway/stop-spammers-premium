@@ -2,6 +2,8 @@
 
 Contributors: Trumani, bhadaway, hiteshchandwani
 License: https://www.gnu.org/licenses/gpl.html
+Domain Path: /languages
+Text Domain: stop-spammer-registrations-plugin
 
 == Description ==
 

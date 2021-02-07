@@ -343,7 +343,7 @@ $row = $cell->getRow() - 1;
 $column = Coordinate::columnIndexFromString($cell->getColumn()) - 1;
 // Don't break Excel break the code!
 if ($row > 65535 || $column > 255) {
-throw new WriterException('Rows or columns overflow! Excel5 has limit to 65535 rows and 255 columns. Use XLSX instead.');
+throw new WriterException('Rows or columns overflow!Excel5 has limit to 65535 rows and 255 columns. Use XLSX instead.');
 }
 // Write cell value
 $xfIndex = $cell->getXfIndex() + 15; // there are 15 cell style Xfs

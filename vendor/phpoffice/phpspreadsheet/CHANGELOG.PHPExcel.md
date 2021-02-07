@@ -611,7 +611,7 @@ confused with PhpSpreadsheet versions.
 - Correct behaviour when referencing Named Ranges that exist on several worksheets
 - Support for Excel ^ (Exponential) and % (Percentage) operators
 - Support for matrices within basic arithmetic formulae (e.g. ={1,2,3;4,5,6;7,8,9}/2)
-- Better trapping/handling of NaN and infinity results (return #NUM! error)
+- Better trapping/handling of NaN and infinity results (return #NUM!error)
 - Improved handling of empty parameters for Excel functions
 - Optional logging of calculation steps- New calculation engine can be accessed independently of workbooks (for use as a standalone calculator) - @MarkBaker
 - Implement more Excel calculation functions - @MarkBaker
@@ -1098,7 +1098,7 @@ documentation for more information on entering dates into a cell.
 - Feature request: PHPExcel_Writer_PDF - @MarkBaker [CodePlex #6039](https://phpexcel.codeplex.com/workitem/6039)
 - DefinedNames null check - @MarkBaker [CodePlex #5517](https://phpexcel.codeplex.com/workitem/5517)
 - Hyperlinks should not always have trailing slash - @MarkBaker [CodePlex #5463](https://phpexcel.codeplex.com/workitem/5463)
-- Saving Error - Uncaught exception (#REF! named range) - @MarkBaker [CodePlex #5592](https://phpexcel.codeplex.com/workitem/5592)
+- Saving Error - Uncaught exception (#REF!named range) - @MarkBaker [CodePlex #5592](https://phpexcel.codeplex.com/workitem/5592)
 - Error when creating Zip file on Linux System (Not Windows) - @MarkBaker [CodePlex #5634](https://phpexcel.codeplex.com/workitem/5634)
 - Time incorrecly formated - @MarkBaker [CodePlex #5876](https://phpexcel.codeplex.com/workitem/5876)
 - Conditional formatting - second rule not applied - @MarkBaker [CodePlex #5914](https://phpexcel.codeplex.com/workitem/5914)

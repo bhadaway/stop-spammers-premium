@@ -217,7 +217,7 @@ return $retValue;
 *                                value as the year. For example, DATE(2008,1,2) returns January 2,
 *                                2008.
 *                                If year is less than 0 or is 10000 or greater, Excel returns the
-*                                #NUM! error value.
+*                                #NUM!error value.
 * @param int $month A positive or negative integer representing the month of the year
 *                                from 1 to 12 (January to December).
 *                                If month is greater than 12, month adds that number of months to
@@ -424,7 +424,7 @@ return $phpDateObject;
 *                                    January 1, 1900, to December 31, 9999. Using the default date
 *                                    system in Excel for the Macintosh, date_text must represent a date
 *                                    from January 1, 1904, to December 31, 9999. DATEVALUE returns the
-*                                    #VALUE! error value if date_text is out of this range.
+*                                    #VALUE!error value if date_text is out of this range.
 *
 * @return mixed Excel date/time serial value, PHP date/time serial value or PHP date/time object,
 *                        depending on the value of the ReturnDateType flag

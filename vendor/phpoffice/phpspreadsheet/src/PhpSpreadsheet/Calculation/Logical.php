@@ -70,7 +70,7 @@ return $returnValue;
 *
 *        Boolean arguments are treated as True or False as appropriate
 *        Integer or floating point arguments are treated as True, except for 0 or 0.0 which are False
-*        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string holds
+*        If any argument value is a string, or a Null, the function returns a #VALUE!error, unless the string holds
 *            the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
 *
 * @category Logical Functions
@@ -108,7 +108,7 @@ return ($returnValue > 0) && ($returnValue == $argCount);
 *
 *        Boolean arguments are treated as True or False as appropriate
 *        Integer or floating point arguments are treated as True, except for 0 or 0.0 which are False
-*        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string holds
+*        If any argument value is a string, or a Null, the function returns a #VALUE!error, unless the string holds
 *            the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
 *
 * @category Logical Functions
@@ -146,7 +146,7 @@ return $returnValue > 0;
 *
 *        Boolean arguments are treated as True or False as appropriate
 *        Integer or floating point arguments are treated as True, except for 0 or 0.0 which are False
-*        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string holds
+*        If any argument value is a string, or a Null, the function returns a #VALUE!error, unless the string holds
 *            the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
 *
 * @category Logical Functions
@@ -182,7 +182,7 @@ return $returnValue % 2 == 1;
 *
 *        Boolean arguments are treated as True or False as appropriate
 *        Integer or floating point arguments are treated as True, except for 0 or 0.0 which are False
-*        If any argument value is a string, or a Null, the function returns a #VALUE! error, unless the string holds
+*        If any argument value is a string, or a Null, the function returns a #VALUE!error, unless the string holds
 *            the value TRUE or FALSE, in which case it is evaluated as the corresponding boolean value
 *
 * @category Logical Functions

@@ -767,11 +767,11 @@ return substr($xVal, -10);
 * @category Engineering Functions
 *
 * @param float $x The value at which to evaluate the function.
-*                                If x is nonnumeric, BESSELI returns the #VALUE! error value.
+*                                If x is nonnumeric, BESSELI returns the #VALUE!error value.
 * @param int $ord The order of the Bessel function.
 *                                If ord is not an integer, it is truncated.
-*                                If $ord is nonnumeric, BESSELI returns the #VALUE! error value.
-*                                If $ord < 0, BESSELI returns the #NUM! error value.
+*                                If $ord is nonnumeric, BESSELI returns the #VALUE!error value.
+*                                If $ord < 0, BESSELI returns the #NUM!error value.
 *
 * @return float
 */
@@ -816,10 +816,10 @@ return Functions::VALUE();
 * @category Engineering Functions
 *
 * @param float $x The value at which to evaluate the function.
-*                                If x is nonnumeric, BESSELJ returns the #VALUE! error value.
+*                                If x is nonnumeric, BESSELJ returns the #VALUE!error value.
 * @param int $ord The order of the Bessel function. If n is not an integer, it is truncated.
-*                                If $ord is nonnumeric, BESSELJ returns the #VALUE! error value.
-*                                If $ord < 0, BESSELJ returns the #NUM! error value.
+*                                If $ord is nonnumeric, BESSELJ returns the #VALUE!error value.
+*                                If $ord < 0, BESSELJ returns the #NUM!error value.
 *
 * @return float
 */
@@ -899,10 +899,10 @@ return $fRet;
 * @category Engineering Functions
 *
 * @param float $x The value at which to evaluate the function.
-*                                If x is nonnumeric, BESSELK returns the #VALUE! error value.
+*                                If x is nonnumeric, BESSELK returns the #VALUE!error value.
 * @param int $ord The order of the Bessel function. If n is not an integer, it is truncated.
-*                                If $ord is nonnumeric, BESSELK returns the #VALUE! error value.
-*                                If $ord < 0, BESSELK returns the #NUM! error value.
+*                                If $ord is nonnumeric, BESSELK returns the #VALUE!error value.
+*                                If $ord < 0, BESSELK returns the #NUM!error value.
 *
 * @return float
 */
@@ -977,10 +977,10 @@ return $fRet;
 * @category Engineering Functions
 *
 * @param float $x The value at which to evaluate the function.
-*                                If x is nonnumeric, BESSELK returns the #VALUE! error value.
+*                                If x is nonnumeric, BESSELK returns the #VALUE!error value.
 * @param int $ord The order of the Bessel function. If n is not an integer, it is truncated.
-*                                If $ord is nonnumeric, BESSELK returns the #VALUE! error value.
-*                                If $ord < 0, BESSELK returns the #NUM! error value.
+*                                If $ord is nonnumeric, BESSELK returns the #VALUE!error value.
+*                                If $ord < 0, BESSELK returns the #NUM!error value.
 *
 * @return float
 */
@@ -1028,7 +1028,7 @@ return Functions::VALUE();
 *                                bit of number is the sign bit. The remaining 9 bits are magnitude bits.
 *                                Negative numbers are represented using two's-complement notation.
 *                                If number is not a valid binary number, or if number contains more than
-*                                10 characters (10 bits), BIN2DEC returns the #NUM! error value.
+*                                10 characters (10 bits), BIN2DEC returns the #NUM!error value.
 *
 * @return string
 */
@@ -1073,13 +1073,13 @@ return bindec($x);
 *                                bit of number is the sign bit. The remaining 9 bits are magnitude bits.
 *                                Negative numbers are represented using two's-complement notation.
 *                                If number is not a valid binary number, or if number contains more than
-*                                10 characters (10 bits), BIN2HEX returns the #NUM! error value.
+*                                10 characters (10 bits), BIN2HEX returns the #NUM!error value.
 * @param int $places The number of characters to use. If places is omitted, BIN2HEX uses the
 *                                minimum number of characters necessary. Places is useful for padding the
 *                                return value with leading 0s (zeros).
 *                                If places is not an integer, it is truncated.
-*                                If places is nonnumeric, BIN2HEX returns the #VALUE! error value.
-*                                If places is negative, BIN2HEX returns the #NUM! error value.
+*                                If places is nonnumeric, BIN2HEX returns the #VALUE!error value.
+*                                If places is negative, BIN2HEX returns the #NUM!error value.
 *
 * @return string
 */
@@ -1126,13 +1126,13 @@ return self::nbrConversionFormat($hexVal, $places);
 *                                bit of number is the sign bit. The remaining 9 bits are magnitude bits.
 *                                Negative numbers are represented using two's-complement notation.
 *                                If number is not a valid binary number, or if number contains more than
-*                                10 characters (10 bits), BIN2OCT returns the #NUM! error value.
+*                                10 characters (10 bits), BIN2OCT returns the #NUM!error value.
 * @param int $places The number of characters to use. If places is omitted, BIN2OCT uses the
 *                                minimum number of characters necessary. Places is useful for padding the
 *                                return value with leading 0s (zeros).
 *                                If places is not an integer, it is truncated.
-*                                If places is nonnumeric, BIN2OCT returns the #VALUE! error value.
-*                                If places is negative, BIN2OCT returns the #NUM! error value.
+*                                If places is nonnumeric, BIN2OCT returns the #VALUE!error value.
+*                                If places is negative, BIN2OCT returns the #NUM!error value.
 *
 * @return string
 */
@@ -1178,17 +1178,17 @@ return self::nbrConversionFormat($octVal, $places);
 *                                (10-bit) binary number in which the most significant bit is the sign
 *                                bit. The remaining 9 bits are magnitude bits. Negative numbers are
 *                                represented using two's-complement notation.
-*                                If number < -512 or if number > 511, DEC2BIN returns the #NUM! error
+*                                If number < -512 or if number > 511, DEC2BIN returns the #NUM!error
 *                                value.
-*                                If number is nonnumeric, DEC2BIN returns the #VALUE! error value.
+*                                If number is nonnumeric, DEC2BIN returns the #VALUE!error value.
 *                                If DEC2BIN requires more than places characters, it returns the #NUM!
 *                                error value.
 * @param int $places The number of characters to use. If places is omitted, DEC2BIN uses
 *                                the minimum number of characters necessary. Places is useful for
 *                                padding the return value with leading 0s (zeros).
 *                                If places is not an integer, it is truncated.
-*                                If places is nonnumeric, DEC2BIN returns the #VALUE! error value.
-*                                If places is zero or negative, DEC2BIN returns the #NUM! error value.
+*                                If places is nonnumeric, DEC2BIN returns the #VALUE!error value.
+*                                If places is zero or negative, DEC2BIN returns the #NUM!error value.
 *
 * @return string
 */
@@ -1235,16 +1235,16 @@ return self::nbrConversionFormat($r, $places);
 *                                bit. The remaining 39 bits are magnitude bits. Negative numbers
 *                                are represented using two's-complement notation.
 *                                If number < -549,755,813,888 or if number > 549,755,813,887,
-*                                DEC2HEX returns the #NUM! error value.
-*                                If number is nonnumeric, DEC2HEX returns the #VALUE! error value.
+*                                DEC2HEX returns the #NUM!error value.
+*                                If number is nonnumeric, DEC2HEX returns the #VALUE!error value.
 *                                If DEC2HEX requires more than places characters, it returns the
-*                                #NUM! error value.
+*                                #NUM!error value.
 * @param int $places The number of characters to use. If places is omitted, DEC2HEX uses
 *                                the minimum number of characters necessary. Places is useful for
 *                                padding the return value with leading 0s (zeros).
 *                                If places is not an integer, it is truncated.
-*                                If places is nonnumeric, DEC2HEX returns the #VALUE! error value.
-*                                If places is zero or negative, DEC2HEX returns the #NUM! error value.
+*                                If places is nonnumeric, DEC2HEX returns the #VALUE!error value.
+*                                If places is zero or negative, DEC2HEX returns the #NUM!error value.
 *
 * @return string
 */
@@ -1287,16 +1287,16 @@ return self::nbrConversionFormat($r, $places);
 *                                The remaining 29 bits are magnitude bits. Negative numbers are
 *                                represented using two's-complement notation.
 *                                If number < -536,870,912 or if number > 536,870,911, DEC2OCT
-*                                returns the #NUM! error value.
-*                                If number is nonnumeric, DEC2OCT returns the #VALUE! error value.
+*                                returns the #NUM!error value.
+*                                If number is nonnumeric, DEC2OCT returns the #VALUE!error value.
 *                                If DEC2OCT requires more than places characters, it returns the
-*                                #NUM! error value.
+*                                #NUM!error value.
 * @param int $places The number of characters to use. If places is omitted, DEC2OCT uses
 *                                the minimum number of characters necessary. Places is useful for
 *                                padding the return value with leading 0s (zeros).
 *                                If places is not an integer, it is truncated.
-*                                If places is nonnumeric, DEC2OCT returns the #VALUE! error value.
-*                                If places is zero or negative, DEC2OCT returns the #NUM! error value.
+*                                If places is nonnumeric, DEC2OCT returns the #VALUE!error value.
+*                                If places is zero or negative, DEC2OCT returns the #NUM!error value.
 *
 * @return string
 */
@@ -1342,14 +1342,14 @@ return self::nbrConversionFormat($r, $places);
 *                  If number is negative, HEX2BIN ignores places and returns a 10-character binary number.
 *                  If number is negative, it cannot be less than FFFFFFFE00,
 *                      and if number is positive, it cannot be greater than 1FF.
-*                  If number is not a valid hexadecimal number, HEX2BIN returns the #NUM! error value.
-*                  If HEX2BIN requires more than places characters, it returns the #NUM! error value.
+*                  If number is not a valid hexadecimal number, HEX2BIN returns the #NUM!error value.
+*                  If HEX2BIN requires more than places characters, it returns the #NUM!error value.
 * @param int $places The number of characters to use. If places is omitted,
 *                                    HEX2BIN uses the minimum number of characters necessary. Places
 *                                    is useful for padding the return value with leading 0s (zeros).
 *                                    If places is not an integer, it is truncated.
-*                                    If places is nonnumeric, HEX2BIN returns the #VALUE! error value.
-*                                    If places is negative, HEX2BIN returns the #NUM! error value.
+*                                    If places is nonnumeric, HEX2BIN returns the #VALUE!error value.
+*                                    If places is negative, HEX2BIN returns the #NUM!error value.
 *
 * @return string
 */
@@ -1382,7 +1382,7 @@ return self::DECTOBIN(self::HEXTODEC($x), $places);
 *                                bits. Negative numbers are represented using two's-complement
 *                                notation.
 *                                If number is not a valid hexadecimal number, HEX2DEC returns the
-*                                #NUM! error value.
+*                                #NUM!error value.
 *
 * @return string
 */
@@ -1431,16 +1431,16 @@ return bindec($binX);
 *                                    If number is negative, it cannot be less than FFE0000000, and
 *                                    if number is positive, it cannot be greater than 1FFFFFFF.
 *                                    If number is not a valid hexadecimal number, HEX2OCT returns
-*                                    the #NUM! error value.
+*                                    the #NUM!error value.
 *                                    If HEX2OCT requires more than places characters, it returns
-*                                    the #NUM! error value.
+*                                    the #NUM!error value.
 * @param int $places The number of characters to use. If places is omitted, HEX2OCT
 *                                    uses the minimum number of characters necessary. Places is
 *                                    useful for padding the return value with leading 0s (zeros).
 *                                    If places is not an integer, it is truncated.
-*                                    If places is nonnumeric, HEX2OCT returns the #VALUE! error
+*                                    If places is nonnumeric, HEX2OCT returns the #VALUE!error
 *                                    value.
-*                                    If places is negative, HEX2OCT returns the #NUM! error value.
+*                                    If places is negative, HEX2OCT returns the #NUM!error value.
 *
 * @return string
 */
@@ -1481,9 +1481,9 @@ return self::DECTOOCT($decimal, $places);
 *                                    If number is negative, it cannot be less than 7777777000,
 *                                    and if number is positive, it cannot be greater than 777.
 *                                    If number is not a valid octal number, OCT2BIN returns
-*                                    the #NUM! error value.
+*                                    the #NUM!error value.
 *                                    If OCT2BIN requires more than places characters, it
-*                                    returns the #NUM! error value.
+*                                    returns the #NUM!error value.
 * @param int $places The number of characters to use. If places is omitted,
 *                                    OCT2BIN uses the minimum number of characters necessary.
 *                                    Places is useful for padding the return value with
@@ -1491,7 +1491,7 @@ return self::DECTOOCT($decimal, $places);
 *                                    If places is not an integer, it is truncated.
 *                                    If places is nonnumeric, OCT2BIN returns the #VALUE!
 *                                    error value.
-*                                    If places is negative, OCT2BIN returns the #NUM! error
+*                                    If places is negative, OCT2BIN returns the #NUM!error
 *                                    value.
 *
 * @return string
@@ -1525,7 +1525,7 @@ return self::DECTOBIN(self::OCTTODEC($x), $places);
 *                                magnitude bits. Negative numbers are represented using
 *                                two's-complement notation.
 *                                If number is not a valid octal number, OCT2DEC returns the
-*                                #NUM! error value.
+*                                #NUM!error value.
 *
 * @return string
 */
@@ -1569,15 +1569,15 @@ return bindec($binX);
 *                                    If number is negative, OCT2HEX ignores places and returns a
 *                                    10-character hexadecimal number.
 *                                    If number is not a valid octal number, OCT2HEX returns the
-*                                    #NUM! error value.
+*                                    #NUM!error value.
 *                                    If OCT2HEX requires more than places characters, it returns
-*                                    the #NUM! error value.
+*                                    the #NUM!error value.
 * @param int $places The number of characters to use. If places is omitted, OCT2HEX
 *                                    uses the minimum number of characters necessary. Places is useful
 *                                    for padding the return value with leading 0s (zeros).
 *                                    If places is not an integer, it is truncated.
-*                                    If places is nonnumeric, OCT2HEX returns the #VALUE! error value.
-*                                    If places is negative, OCT2HEX returns the #NUM! error value.
+*                                    If places is nonnumeric, OCT2HEX returns the #VALUE!error value.
+*                                    If places is negative, OCT2HEX returns the #NUM!error value.
 *
 * @return string
 */
@@ -2343,7 +2343,7 @@ return $number >> $shiftAmount;
 * Returns the error function integrated between the lower and upper bound arguments.
 *
 *    Note: In Excel 2007 or earlier, if you input a negative value for the upper or lower bound arguments,
-*            the function would return a #NUM! error. However, in Excel 2010, the function algorithm was
+*            the function would return a #NUM!error. However, in Excel 2010, the function algorithm was
 *            improved, so that it can now calculate the function for both positive and negative ranges.
 *            PhpSpreadsheet follows Excel 2010 behaviour, and accepts negative arguments.
 *
@@ -2423,7 +2423,7 @@ return self::$oneSqrtPi * exp(-$x * $x) * $q2;
 *    Returns the complementary ERF function integrated between x and infinity
 *
 *    Note: In Excel 2007 or earlier, if you input a negative value for the lower bound argument,
-*        the function would return a #NUM! error. However, in Excel 2010, the function algorithm was
+*        the function would return a #NUM!error. However, in Excel 2010, the function algorithm was
 *        improved, so that it can now calculate the function for both positive and negative x values.
 *            PhpSpreadsheet follows Excel 2010 behaviour, and accepts nagative arguments.
 *

@@ -21,8 +21,9 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if ( !defined( 'ABSPATH' ) ) {
+	http_response_code( 404 );
+	die();
 }
 
 // making translation-ready
@@ -49,10 +50,10 @@ function ssp_admin_notice__success() {
  * @since 1.0.0
  */
 function ssprem_activate() {
-	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+	if ( !function_exists( 'is_plugin_active_for_network' ) ) {
 		include_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 	}
-	if ( current_user_can( 'activate_plugins' ) && ( ! class_exists( 'be_module' ) and ! is_plugin_active( 'stop-spammer-registrations-plugin/stop-spammer-registrations-new.php' ) ) ) {
+	if ( current_user_can( 'activate_plugins' ) && ( !class_exists( 'be_module' ) and !is_plugin_active( 'stop-spammer-registrations-plugin/stop-spammer-registrations-new.php' ) ) ) {
 		// deactivate the plugin
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 		// throw an error in the WordPress admin console
@@ -399,7 +400,7 @@ function ssp_contact_form_shortcode() {
 		$phone     = sanitize_text_field( $_POST['phone'] );
 		$message   = esc_textarea( $_POST['message'] );
 		$validated = true;
-		if ( ! $validated ) {
+		if ( !$validated ) {
 			print '<p id="send" class="fail">' . __( 'Message Failed', 'stop-spammers-premium' ) . '</p>';
 			exit;
 		}
@@ -553,9 +554,9 @@ add_action( 'admin_init', 'ssp_divi_email_optin_verify_honeypot');
 function ssp_enable_firewall() {
 	if ( empty( $_POST['ss_firewall_setting_placeholder'] ) || 'ss_firewall_setting' != $_POST['ss_firewall_setting_placeholder'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_enable_firewall'], 'ssp_enable_firewall' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_enable_firewall'], 'ssp_enable_firewall' ) )
 		return;
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( !current_user_can( 'manage_options' ) )
 		return;
 	if ( isset( $_POST['ss_firewall_setting'] ) and $_POST['ss_firewall_setting'] == 'yes' ) {
 		update_option( 'ssp_enable_firewall', 'yes' );
@@ -680,9 +681,9 @@ add_action( 'admin_init', 'ssp_enable_firewall' );
 function ssp_enable_custom_login() {
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
 		return;
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( !current_user_can( 'manage_options' ) )
 		return;
 	if ( isset( $_POST['ss_login_setting'] ) and $_POST['ss_login_setting'] == 'yes' ) {
 		update_option( 'ssp_enable_custom_login', 'yes' );
@@ -702,9 +703,9 @@ add_action( 'admin_init', 'ssp_enable_custom_login' );
 function ssp_login_type_func() {
 	if ( empty( $_POST['ssp_login_type_field'] ) || 'ssp_login_type' != $_POST['ssp_login_type_field'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
 		return;
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( !current_user_can( 'manage_options' ) )
 		return;
 	if ( isset( $_POST['ssp_login_type'] ) ) {
 		update_option( 'ssp_login_type', $_POST['ssp_login_type'] );
@@ -768,7 +769,7 @@ function ssp_uninstall_custom_login() {
 
 function ssp_get_page_id( $slug ) {
 	$page = get_page_by_path( $slug );
-	if ( ! isset( $page->ID ) )
+	if ( !isset( $page->ID ) )
 		return null;
 	else 
 		return $page->ID;
@@ -779,7 +780,7 @@ add_action( 'template_redirect', function() {
 	if ( is_page( 'logout' ) ) {
 		$user = wp_get_current_user();
 		wp_logout();
-		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+		if ( !empty( $_REQUEST['redirect_to'] ) ) {
 			$redirect_to = $requested_redirect_to = $_REQUEST['redirect_to'];
 		} else {
 			$redirect_to = site_url( 'login/?loggedout=true' );
@@ -821,7 +822,7 @@ function ssp_forgot_password() {
 		$GLOBALS['ssp_error'] = $errors;
 		return;
 	}
-	if ( ! $user_data ) {
+	if ( !$user_data ) {
 		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: Invalid username or email.', 'stop-spammers-premium' ) );
 		$GLOBALS['ssp_error'] = $errors;
 		return;
@@ -842,7 +843,7 @@ function ssp_forgot_password() {
 	$title = sprintf( __( '[%s] Password Reset', 'stop-spammers-premium' ), $blogname );
 	$title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
 	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
-	if ( $message && ! wp_mail( $user_email, $title, $message ) )
+	if ( $message && !wp_mail( $user_email, $title, $message ) )
 		wp_die( __( 'The email could not be sent.', 'stop-spammers-premium' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...', 'stop-spammers-premium' ) );
 	wp_redirect( home_url( '/login/?rp=link(target, link)-sent' ) );
 	exit;
@@ -884,7 +885,7 @@ function ssp_show_error() {
 }
 
 function ssp_register() {
-	if ( ! get_option( 'users_can_register' ) ) {
+	if ( !get_option( 'users_can_register' ) ) {
 		$redirect_to = site_url( 'wp-login.php?registration=disabled' );
 		wp_redirect( $redirect_to );
 		exit;
@@ -895,8 +896,8 @@ function ssp_register() {
 		$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
 		$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
 		$register_error = register_new_user( $user_login, $user_email );
-		if ( ! is_wp_error( $register_error ) ) {
-			$redirect_to = ! empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : site_url( 'wp-login.php?checkemail=registered' );
+		if ( !is_wp_error( $register_error ) ) {
+			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : site_url( 'wp-login.php?checkemail=registered' );
 			wp_safe_redirect( $redirect_to );
 			exit;
 		}
@@ -907,7 +908,7 @@ function ssp_register() {
 function ssp_login() {
 	$secure_cookie = '';
 	$interim_login = isset( $_REQUEST['interim-login'] );
-	if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+	if ( !empty( $_REQUEST['redirect_to'] ) ) {
 		$redirect_to = $_REQUEST['redirect_to'];
 		// redirect to https if user wants SSL
 		if ( $secure_cookie && false !== strpos( $redirect_to, 'wp-admin' ) )
@@ -920,14 +921,14 @@ function ssp_login() {
 		$user = wp_signon( array(), $secure_cookie );
 		$redirect_to = apply_filters( 'login_redirect', $redirect_to, isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '', $user );
 		// $user = wp_get_current_user();
-		if ( ! is_wp_error( $user ) && ! $reauth ) {
+		if ( !is_wp_error( $user ) && !$reauth ) {
 			if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
 				// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
-				if ( is_multisite() && ! get_active_blog_for_user( $user->ID ) && ! is_super_admin( $user->ID ) )
+				if ( is_multisite() && !get_active_blog_for_user( $user->ID ) && !is_super_admin( $user->ID ) )
 					$redirect_to = user_admin_url();
-				elseif ( is_multisite() && ! $user->has_cap( 'read' ) )
+				elseif ( is_multisite() && !$user->has_cap( 'read' ) )
 					$redirect_to = get_dashboard_url( $user->ID );
-				elseif ( ! $user->has_cap( 'edit_posts' ) )
+				elseif ( !$user->has_cap( 'edit_posts' ) )
 					$redirect_to = $user->has_cap( 'read' ) ? admin_url( 'profile.php' ) : home_url();
 					wp_redirect( $redirect_to );
 				exit;
@@ -948,7 +949,7 @@ function ssp_forgot_password_page() {
 }
 
 function ssp_login_url( $url ) {
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' and ! is_user_logged_in() ) {
+	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' and !is_user_logged_in() ) {
 		global $wp_query;
 		$wp_query->set_404();
 		status_header( 404 );
@@ -1114,9 +1115,9 @@ add_filter( 'wp_setup_nav_menu_item', 'ssp_setup_nav_menu_item' );
 function ssp_limit_login_attempts() {
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
 		return;
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( !current_user_can( 'manage_options' ) )
 		return;
 
 	if ( isset( $_POST['ssp_login_attempts'] ) and $_POST['ssp_login_attempts'] == 'yes' ) {
@@ -1135,7 +1136,7 @@ add_action( 'admin_init', 'ssp_limit_login_attempts' );
 function ssp_authenticate( $user, $username, $password ) {
 	$field = is_email( $username ) ? 'email' : 'login';
 	$time = time();
-	if ( ! $userdata = get_user_by( $field, $username ) )
+	if ( !$userdata = get_user_by( $field, $username ) )
 		return $user;
 	if ( ssp_is_user_locked( $userdata->ID ) && get_option( 'ssp_login_attempts', 'no' ) === 'yes'  ) {
 		if ( $expiration = ssp_get_user_lock_expiration( $userdata->ID ) ) {
@@ -1162,7 +1163,7 @@ function ssp_add_failed_login_attempt( $user_id ) {
 	$threshold = '-'. get_option( 'ssp_login_attempts_duration', 5 ) . ' ' . get_option( 'ssp_login_attempts_unit', 'hour' );
 	$threshold_date_time = strtotime( $threshold );
 	$attempts = get_user_meta( $user_id, 'ssp_failed_login_attempts', true );
-	if( ! is_array( $attempts ) )
+	if( !is_array( $attempts ) )
 		$attempts = array();
 	$attempts[] = array( 'time' => time(), 'ip' => $_SERVER['REMOTE_ADDR'] );
 	foreach( $attempts as $a ) {
@@ -1176,7 +1177,7 @@ function ssp_add_failed_login_attempt( $user_id ) {
 function ssp_is_user_locked( $user_id ) {
 	if ( get_user_meta( $user_id, 'ssp_is_locked', true ) == false)
 		return false;
-	if ( ! $expires = ssp_get_user_lock_expiration( $user_id ) )
+	if ( !$expires = ssp_get_user_lock_expiration( $user_id ) )
 		return true;
 	$time = time();
 	if ( $time > $expires ) {
@@ -1208,9 +1209,9 @@ function ssp_unlock_user( $user_id ) {
 function ssp_process_settings_export() {
 	if ( empty( $_POST['ssp_action'] ) || 'export_settings' != $_POST['ssp_action'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_export_nonce'], 'ssp_export_nonce' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_export_nonce'], 'ssp_export_nonce' ) )
 		return;
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( !current_user_can( 'manage_options' ) )
 		return;
 	$settings = get_option( 'ssp_settings' );
 	$options = ss_get_options();
@@ -1227,9 +1228,9 @@ add_action( 'admin_init', 'ssp_process_settings_export' );
 function ss_export_excel_data(){
 	if ( empty( $_POST['export_log'] ) || 'export_log_data' != $_POST['export_log'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_export_action'], 'ssp_export_action' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_export_action'], 'ssp_export_action' ) )
 		return;
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( !current_user_can( 'manage_options' ) )
 		return;
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet();
@@ -1269,9 +1270,9 @@ add_action( 'admin_init', 'ss_export_excel_data' );
 function ssp_process_settings_import() {
 	if ( empty( $_POST['ssp_action'] ) || 'import_settings' != $_POST['ssp_action'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_import_nonce'], 'ssp_import_nonce' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_import_nonce'], 'ssp_import_nonce' ) )
 		return;
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( !current_user_can( 'manage_options' ) )
 		return;
 // $extension = end( explode( '.', $_FILES['import_file']['name'] ) );
 	$extension = $_FILES['import_file']['type'] ;
@@ -1299,9 +1300,9 @@ add_action( 'admin_init', 'ssp_process_settings_import' );
 function ssp_process_settings_reset() {
 	if ( empty( $_POST['ssp_action'] ) || 'reset_settings' != $_POST['ssp_action'] )
 		return;
-	if ( ! wp_verify_nonce( $_POST['ssp_reset_nonce'], 'ssp_reset_nonce' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_reset_nonce'], 'ssp_reset_nonce' ) )
 		return;
-	if ( ! current_user_can( 'manage_options' ) )
+	if ( !current_user_can( 'manage_options' ) )
 		return;
 	$url = plugin_dir_path( __FILE__ ) . '/modules/ssp-default.json'; 
 	$options = (array) json_decode( file_get_contents( $url ) );
@@ -1423,7 +1424,7 @@ function ssp_activate_license() {
 	// listen for our activate button to be clicked
 	if ( isset( $_POST['ssp_license_activate'] ) ) {
 		// run a quick security check
-		if ( ! check_admin_referer( 'ssp_nonce', 'ssp_nonce' ) )
+		if ( !check_admin_referer( 'ssp_nonce', 'ssp_nonce' ) )
 			return; // get out if we didn't click the Activate button
 		// retrieve the license from the database
 		$license = trim( get_option( 'ssp_license_key' ) );
@@ -1477,7 +1478,7 @@ function ssp_activate_license() {
 			}
 		}
 		// check if anything passed on a message constituting a failure
-		if ( ! empty( $message ) ) {
+		if ( !empty( $message ) ) {
 			$base_url = admin_url( 'admin.php?page=' . SSP_LICENSE_PAGE );
 			$redirect = add_query_arg( array( 'sl_activation' => 'false', 'message' => urlencode( $message ) ), $base_url );
 			wp_redirect( $redirect );
@@ -1499,7 +1500,7 @@ function ssp_deactivate_license() {
 	// listen for our activate button to be clicked
 	if ( isset( $_POST['ssp_license_deactivate'] ) ) {
 		// run a quick security check
-		if( ! check_admin_referer( 'ssp_nonce', 'ssp_nonce' ) )
+		if( !check_admin_referer( 'ssp_nonce', 'ssp_nonce' ) )
 			return; // get out if we didn't click the Activate button
 		// retrieve the license from the database
 		$license = trim( get_option( 'ssp_license_key' ) );
@@ -1570,7 +1571,7 @@ function ssp_check_license() {
  * catch errors from the activation method above and display it to the customer
  */
 function ssp_admin_notices() {
-	if ( isset( $_GET['sl_activation'] ) && ! empty( $_GET['message'] ) ) {
+	if ( isset( $_GET['sl_activation'] ) && !empty( $_GET['message'] ) ) {
 		switch( $_GET['sl_activation'] ) {
 			case 'false':
 				$message = urldecode( $_GET['message'] );

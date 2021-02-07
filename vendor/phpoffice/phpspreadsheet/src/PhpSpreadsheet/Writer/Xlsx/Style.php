@@ -207,7 +207,7 @@ private function writeFont(XMLWriter $objWriter, Font $pFont)
 {
 // font
 $objWriter->startElement('font');
-//    Weird! The order of these elements actually makes a difference when opening Xlsx
+//    Weird!The order of these elements actually makes a difference when opening Xlsx
 //        files in Excel2003 with the compatibility pack. It's not documented behaviour,
 //        and makes for a real WTF!
 // Bold. We explicitly write this element also when false (like MS Office Excel 2007 does

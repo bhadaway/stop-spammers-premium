@@ -615,7 +615,7 @@ return $ptgArea . $row1 . $row2 . $col1 . $col2;
 */
 private function convertRange3d($token)
 {
-// Split the ref at the ! symbol
+// Split the ref at the !symbol
 [$ext_ref, $range] = PhpspreadsheetWorksheet::extractSheetTitle($token, true);
 // Convert the external reference part (different for BIFF8)
 $ext_ref = $this->getRefIndex($ext_ref);
@@ -658,7 +658,7 @@ return $ptgRef . $row . $col;
 */
 private function convertRef3d($cell)
 {
-// Split the ref at the ! symbol
+// Split the ref at the !symbol
 [$ext_ref, $cell] = PhpspreadsheetWorksheet::extractSheetTitle($cell, true);
 // Convert the external reference part (different for BIFF8)
 $ext_ref = $this->getRefIndex($ext_ref);

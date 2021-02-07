@@ -82,7 +82,7 @@ public function listWorksheetNames($pFilename)
 File::assertFile($pFilename);
 $zip = new ZipArchive();
 if (!$zip->open($pFilename)) {
-throw new Exception('Could not open ' . $pFilename . ' for reading! Error opening file.');
+throw new Exception('Could not open ' . $pFilename . ' for reading!Error opening file.');
 }
 $worksheetNames = [];
 $xml = new XMLReader();
@@ -131,7 +131,7 @@ File::assertFile($pFilename);
 $worksheetInfo = [];
 $zip = new ZipArchive();
 if (!$zip->open($pFilename)) {
-throw new Exception('Could not open ' . $pFilename . ' for reading! Error opening file.');
+throw new Exception('Could not open ' . $pFilename . ' for reading!Error opening file.');
 }
 $xml = new XMLReader();
 $xml->xml(
@@ -234,7 +234,7 @@ $timezoneObj = new DateTimeZone('Europe/London');
 $GMT = new \DateTimeZone('UTC');
 $zip = new ZipArchive();
 if (!$zip->open($pFilename)) {
-throw new Exception("Could not open {$pFilename} for reading! Error opening file.");
+throw new Exception("Could not open {$pFilename} for reading!Error opening file.");
 }
 // Meta
 $xml = simplexml_load_string(

@@ -511,9 +511,9 @@ function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 	if ( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {
 		unset( $_POST['et_pb_contact_your_website'] );
 		$post_last_key = array_key_last( $_POST );
-		$form_json =  json_decode( stripslashes( $_POST[$post_last_key] ) );
-		array_pop($form_json);
-		$_POST[$post_last_key] = json_encode($form_json);
+		$form_json = json_decode( stripslashes( $_POST[$post_last_key] ) );
+		array_pop( $form_json );
+		$_POST[$post_last_key] = json_encode( $form_json );
 	}
 	$html = '';
 	if ( $render_slug == 'et_pb_contact_form' ) {
@@ -527,8 +527,8 @@ function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 	} else if($render_slug == 'et_pb_signup' ) {
 		$html   = '';
 		$html  .= '<p class="et_pb_signup_custom_field et_pb_signup_your_website et_pb_newsletter_field et_pb_contact_field_last et_pb_contact_field_last_tablet et_pb_contact_field_last_phone">';
-		$html  .= 	'<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
-		$html  .= 	'<input type="text" class="input" id="et_pb_signup_your_website" placeholder="' . __( 'Your Website', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" data-original_id="your-website" required />';
+		$html  .= '<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
+		$html  .= '<input type="text" class="input" id="et_pb_signup_your_website" placeholder="' . __( 'Your Website', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" data-original_id="your-website" required />';
 		$html  .= '</p>';
 		$html  .= '<style>.et_pb_signup_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 		$html  .= '<p class="et_pb_newsletter_button_wrap">';
@@ -546,7 +546,7 @@ function ssp_divi_email_optin_verify_honeypot() {
 		unset( $_POST['et_custom_fields']['your-website'] );
 	}
 }
-add_action( 'admin_init', 'ssp_divi_email_optin_verify_honeypot');
+add_action( 'admin_init', 'ssp_divi_email_optin_verify_honeypot' );
 
 /**
  * enable firewall

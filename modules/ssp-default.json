@@ -26,7 +26,7 @@
   "redir": "N",
   "chkcaptcha": "A",
   "chkxff": "N",
-  "notify": "Y",
+  "notify": "N",
   "chkspoof": "N",
   "filterregistrations": "Y",
   "chk404": "Y",

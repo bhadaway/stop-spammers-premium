@@ -116,191 +116,194 @@ if ( empty( $license ) ) {
 function ss_export_excel() {
 	$ss_firewall_setting = '';
 	if ( get_option( 'ssp_enable_firewall', '' ) == 'yes' ) {
-		$ss_firewall_setting = "checked='checked'";
+		$ss_firewall_setting = 'checked="checked"';
 	}
 	$ss_login_setting = '';
 	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
-		$ss_login_setting = "checked='checked'";
+		$ss_login_setting = 'checked="checked"';
 	}
 	$ssp_login_attempts = '';
 	if ( get_option( 'ssp_login_attempts', '' ) == 'yes' ) {
-		$ssp_login_attempts = "checked='checked'";
+		$ssp_login_attempts = 'checked="checked"';
 	}
-	$ss_login_type_default = "";
-	$ss_login_type_username = "";
-	$ss_login_type_email = "";
+	$ss_login_type_default  = '';
+	$ss_login_type_username = '';
+	$ss_login_type_email    = '';
 	if ( get_option( 'ssp_login_type', '' ) == 'username' ) {
-		$ss_login_type_username = "checked='checked'";
+		$ss_login_type_username = 'checked="checked"';
 	} else if ( get_option( 'ssp_login_type', '' ) == 'email'  ) {
-		$ss_login_type_email = "checked='checked'";
+		$ss_login_type_email = 'checked="checked"';
 	} else {
-		$ss_login_type_default = "checked='checked'";
+		$ss_login_type_default = 'checked="checked"';
 	}
+}
+
 ?>
-	<div id="ss-plugin" class="wrap">
-		<h1 class="ss_head"><?php _e( 'Stop Spammers Premium Features', 'stop-spammers-premium' ); ?></h1>
-		<div class="metabox-holder">
-			<div class="postbox">
-				<h3 style="font-size:18px"><span><?php _e( 'Shortcodes', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<p><?php _e( 'Add a lightweight, secure contact form to any page, post, or text widget by adding the following: <strong>[ssp-contact-form]</strong>', 'stop-spammers-premium' ); ?></p>
-					<p><?php _e( 'Add our secure, themable login form to any page, post, or text widget by adding the following: <strong>[ssp-login]</strong>', 'stop-spammers-premium' ); ?></p>
-					<p><?php _e( 'Show Display Name for Logged In Visitors: <strong>[show_displayname_as]</strong>', 'stop-spammers-premium' ); ?></p>
-					<p><?php _e( 'Show First Name and Last Name for Logged In Visitors: <strong>[show_fullname_as]</strong>', 'stop-spammers-premium' ); ?></p>
-					<p><?php _e( 'Show Email Address for Logged In Visitors: <strong>[show_email_as]</strong>', 'stop-spammers-premium' ); ?></p>
-				</div>
+
+<div id="ss-plugin" class="wrap">
+	<h1 class="ss_head"><?php _e( 'Stop Spammers Premium Features', 'stop-spammers-premium' ); ?></h1>
+	<div class="metabox-holder">
+		<div class="postbox">
+			<h3 style="font-size:18px"><span><?php _e( 'Shortcodes', 'stop-spammers-premium' ); ?></span></h3>
+			<div class="inside">
+				<p><?php _e( 'Add a lightweight, secure contact form to any page, post, or text widget by adding the following: <strong>[ssp-contact-form]</strong>', 'stop-spammers-premium' ); ?></p>
+				<p><?php _e( 'Add our secure, themable login form to any page, post, or text widget by adding the following: <strong>[ssp-login]</strong>', 'stop-spammers-premium' ); ?></p>
+				<p><?php _e( 'Show Display Name for Logged In Visitors: <strong>[show_displayname_as]</strong>', 'stop-spammers-premium' ); ?></p>
+				<p><?php _e( 'Show First Name and Last Name for Logged In Visitors: <strong>[show_fullname_as]</strong>', 'stop-spammers-premium' ); ?></p>
+				<p><?php _e( 'Show Email Address for Logged In Visitors: <strong>[show_email_as]</strong>', 'stop-spammers-premium' ); ?></p>
 			</div>
-			<div class="postbox">
+		</div>
+		<div class="postbox">
+			<form method="post">
+				<div class="inside">
+					<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings', 'stop-spammers-premium' ); ?></span></h3>
+					<div class="checkbox switcher">
+						<label for="ss_firewall_setting">
+							<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
+							<span><small></small></span>
+							<?php _e( 'Enable firewall.', 'stop-spammers-premium' ); ?>
+						</label>
+					</div>
+					<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
+				</div>
+				<hr />
+				<div class="inside">
+					<h3 style="font-size:16px!important"><span><?php _e( 'Login Settings', 'stop-spammers-premium' ); ?></span></h3>
+					<div class="checkbox switcher">
+						<label for="ss_login_setting">
+							<input type="checkbox" name="ss_login_setting" id="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?> />
+							<span><small></small></span>
+							<?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).', 'stop-spammers-premium' ); ?>
+						</label>
+					</div>
+					<br />
+					<div class="checkbox switcher">
+						<label for="ssp_login_attempts">
+							<input type="checkbox" name="ssp_login_attempts" id="ssp_login_attempts" value="yes" <?php echo $ssp_login_attempts; ?> />
+							<span><small></small></span>
+							<strong><?php _e( 'Login Attempts:', 'stop-spammers-premium' ); ?></strong>
+							<?php _e( 'After', 'stop-spammers-premium' ); ?>
+							<input type="text" name="ssp_login_attempts_threshold" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_threshold', 5 ); ?>" />
+							<?php _e( 'failed login attempts within', 'stop-spammers-premium' ); ?>
+							<input type="text" name="ssp_login_attempts_duration" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_duration', 1 ); ?>" />
+							<select name="ssp_login_attempts_unit" id="ssp_login_attempts_unit" class="ss-small-dropbox">
+								<option value="minute" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>><?php _e( 'minute(s)', 'stop-spammers-premium' ); ?></option>
+								<option value="hour" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>><?php _e( 'hour(s)', 'stop-spammers-premium' ); ?></option>
+								<option value="day" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>><?php _e( 'day(s)', 'stop-spammers-premium' ); ?></option>
+							</select>,
+							<?php _e( 'lockout the account for', 'stop-spammers-premium' ); ?>
+							<input type="text" name="ssp_login_lockout_duration" id="ssp_login_lockout_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_lockout_duration', 24 ); ?>" /> 
+							<select name="ssp_login_lockout_unit" id="ssp_login_lockout_unit" class="ss-small-dropbox">
+								<option value="minute" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>><?php _e( 'minute(s)', 'stop-spammers-premium' ); ?></option>
+								<option value="hour" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>><?php _e( 'hour(s)', 'stop-spammers-premium' ); ?></option>
+								<option value="day" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>><?php _e( 'day(s)', 'stop-spammers-premium' ); ?></option>
+							</select>.
+						</label>
+					</div>
+					<p><input type="hidden" name="ss_login_setting_placeholder" value="ss_login_setting" /></p>
+				</div>
+				<hr />
+				<div class="inside">
+					<h3 style="font-size:16px!important"><span><?php _e( 'Allow users to log in using their username and/or email address', 'stop-spammers-premium' ); ?></span></h3>
+					<p><input type="hidden" name="ssp_login_type_field" value="ssp_login_type" /></p>
+					<ul class="ss-spacer">
+						<li>
+							<div class="checkbox switcher">
+								<label for="ssp-login-type-default">
+									<input name="ssp_login_type" type="radio" id="ssp-login-type-default" value="default" <?php echo $ss_login_type_default; ?>>
+									<span><small></small></span>
+									<?php _e( 'Username or Email', 'stop-spammers-premium' ); ?>
+								</label>
+							</div>
+						</li>
+						<li>
+							<div class="checkbox switcher">
+								<label for="ssp-login-type-username">
+									<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
+									<span><small></small></span>
+									<?php _e( 'Username only', 'stop-spammers-premium' ); ?>
+								</label>
+							</div>
+						</li>
+						<li>
+							<div class="checkbox switcher">
+								<label for="ssp-login-type-email">
+									<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
+									<span><small></small></span>
+									<?php _e( 'Email only', 'stop-spammers-premium' ); ?>
+								</label>
+							</div>
+						</li>
+					</ul>
+					<hr />
+					<p>
+						<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
+						<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
+					</p>
+				</div>
+			</form>
+		</div>
+		<div class="postbox">
+			<h3 style="font-size:16px!important"><span><?php _e( 'Export Log Settings', 'stop-spammers-premium' ); ?></span></h3>
+			<div class="inside">
+				<p><?php _e( 'Export the Log records to an Excel file.', 'stop-spammers-premium' ); ?></p>
 				<form method="post">
-					<div class="inside">
-						<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings', 'stop-spammers-premium' ); ?></span></h3>
-						<div class="checkbox switcher">
-							<label for="ss_firewall_setting">
-								<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
-								<span><small></small></span>
-								<?php _e( 'Enable firewall.', 'stop-spammers-premium' ); ?>
-							</label>
-						</div>
-						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
-					</div>
+					<p><input type="hidden" name="export_log" value="export_log_data" /></p>
 					<hr />
-					<div class="inside">
-						<h3 style="font-size:16px!important"><span><?php _e( 'Login Settings', 'stop-spammers-premium' ); ?></span></h3>
-						<div class="checkbox switcher">
-							<label for="ss_login_setting">
-								<input type="checkbox" name="ss_login_setting" id="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?> />
-								<span><small></small></span>
-								<?php _e( 'Enable themed registration and login pages (disables the default wp-login.php).', 'stop-spammers-premium' ); ?>
-							</label>
-						</div>
-						<br />
-						<div class="checkbox switcher">
-							<label for="ssp_login_attempts">
-								<input type="checkbox" name="ssp_login_attempts" id="ssp_login_attempts" value="yes" <?php echo $ssp_login_attempts; ?> />
-								<span><small></small></span>
-								<strong><?php _e( 'Login Attempts:', 'stop-spammers-premium' ); ?></strong>
-								<?php _e( 'After', 'stop-spammers-premium' ); ?>
-								<input type="text" name="ssp_login_attempts_threshold" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_threshold', 5 ); ?>" />
-								<?php _e( 'failed login attempts within', 'stop-spammers-premium' ); ?>
-								<input type="text" name="ssp_login_attempts_duration" id="ssp_login_attempts_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_attempts_duration', 1 ); ?>" />
-								<select name="ssp_login_attempts_unit" id="ssp_login_attempts_unit" class="ss-small-dropbox">
-									<option value="minute" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>><?php _e( 'minute(s)', 'stop-spammers-premium' ); ?></option>
-									<option value="hour" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>><?php _e( 'hour(s)', 'stop-spammers-premium' ); ?></option>
-									<option value="day" <?php if ( get_option( 'ssp_login_attempts_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>><?php _e( 'day(s)', 'stop-spammers-premium' ); ?></option>
-								</select>,
-								<?php _e( 'lockout the account for', 'stop-spammers-premium' ); ?>
-								<input type="text" name="ssp_login_lockout_duration" id="ssp_login_lockout_duration" class="ss-small-box" value="<?php echo get_option( 'ssp_login_lockout_duration', 24 ); ?>" /> 
-								<select name="ssp_login_lockout_unit" id="ssp_login_lockout_unit" class="ss-small-dropbox">
-									<option value="minute" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'minute' ) { echo 'selected="selected"'; } ?>><?php _e( 'minute(s)', 'stop-spammers-premium' ); ?></option>
-									<option value="hour" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'hour' ) { echo 'selected="selected"'; } ?>><?php _e( 'hour(s)', 'stop-spammers-premium' ); ?></option>
-									<option value="day" <?php if ( get_option( 'ssp_login_lockout_unit', 'hour' ) == 'day' ) { echo 'selected="selected"'; } ?>><?php _e( 'day(s)', 'stop-spammers-premium' ); ?></option>
-								</select>.
-							</label>
-						</div>
-						<p><input type="hidden" name="ss_login_setting_placeholder" value="ss_login_setting" /></p>
-					</div>
-					<hr />
-					<div class="inside">
-						<h3 style="font-size:16px!important"><span><?php _e( 'Allow users to log in using their username and/or email address', 'stop-spammers-premium' ); ?></span></h3>
-						<p><input type="hidden" name="ssp_login_type_field" value="ssp_login_type" /></p>
-						<ul class="ss-spacer">
-							<li>
-								<div class="checkbox switcher">
-									<label for="ssp-login-type-default">
-										<input name="ssp_login_type" type="radio" id="ssp-login-type-default" value="default" <?php echo $ss_login_type_default; ?>>
-										<span><small></small></span>
-										<?php _e( 'Username or Email', 'stop-spammers-premium' ); ?>
-									</label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox switcher">
-									<label for="ssp-login-type-username">
-										<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
-										<span><small></small></span>
-										<?php _e( 'Username only', 'stop-spammers-premium' ); ?>
-									</label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox switcher">
-									<label for="ssp-login-type-email">
-										<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
-										<span><small></small></span>
-										<?php _e( 'Email only', 'stop-spammers-premium' ); ?>
-									</label>
-								</div>
-							</li>
-						</ul>
-						<hr />
-						<p>
-							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
-							<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
-						</p>
-					</div>
+					<p>
+						<?php wp_nonce_field( 'ssp_export_action', 'ssp_export_action' ); ?>
+						<?php submit_button( __( 'Export', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
+					</p>
 				</form>
 			</div>
-			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Export Log Settings', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<p><?php _e( 'Export the Log records to an Excel file.', 'stop-spammers-premium' ); ?></p>
-					<form method="post">
-						<p><input type="hidden" name="export_log" value="export_log_data" /></p>
-						<hr />
-						<p>
-							<?php wp_nonce_field( 'ssp_export_action', 'ssp_export_action' ); ?>
-							<?php submit_button( __( 'Export', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
-						</p>
-					</form>
-				</div>
-			</div>
-			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Export Settings', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'stop-spammers-premium' ); ?></p>
-					<form method="post">
-						<p><input type="hidden" name="ssp_action" value="export_settings" /></p>
-						<hr />
-						<p>
-							<?php wp_nonce_field( 'ssp_export_nonce', 'ssp_export_nonce' ); ?>
-							<?php submit_button( __( 'Export', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
-						</p>
-					</form>
-				</div><!-- .inside -->
-			</div><!-- .postbox -->
-			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Import Settings', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'stop-spammers-premium' ); ?></p>
-					<form method="post" enctype="multipart/form-data">
-						<p><input type="file" name="import_file" /></p>
-						<hr />
-						<p>
-							<input type="hidden" name="ssp_action" value="import_settings" />
-							<?php wp_nonce_field( 'ssp_import_nonce', 'ssp_import_nonce' ); ?>
-							<?php submit_button( __( 'Import', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
-						</p>
-					</form>
-				</div><!-- .inside -->
-			</div><!-- .postbox -->
-			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Reset Settings', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<p><?php _e( 'Reset the plugin settings for this site. This allows you to easily reset the configuration.', 'stop-spammers-premium' ); ?></p>
-					<form method="post">
-						<p><input type="hidden" name="ssp_action" value="reset_settings" /></p>
-						<hr />
-						<p>
-							<?php wp_nonce_field( 'ssp_reset_nonce', 'ssp_reset_nonce' ); ?>
-							<?php submit_button( __( 'Reset', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
-						</p>
-					</form>
-				</div><!-- .inside -->
-			</div><!-- .postbox -->			
-		</div><!-- .metabox-holder -->
-	</div>
+		</div>
+		<div class="postbox">
+			<h3 style="font-size:16px!important"><span><?php _e( 'Export Settings', 'stop-spammers-premium' ); ?></span></h3>
+			<div class="inside">
+				<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'stop-spammers-premium' ); ?></p>
+				<form method="post">
+					<p><input type="hidden" name="ssp_action" value="export_settings" /></p>
+					<hr />
+					<p>
+						<?php wp_nonce_field( 'ssp_export_nonce', 'ssp_export_nonce' ); ?>
+						<?php submit_button( __( 'Export', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
+					</p>
+				</form>
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+		<div class="postbox">
+			<h3 style="font-size:16px!important"><span><?php _e( 'Import Settings', 'stop-spammers-premium' ); ?></span></h3>
+			<div class="inside">
+				<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'stop-spammers-premium' ); ?></p>
+				<form method="post" enctype="multipart/form-data">
+					<p><input type="file" name="import_file" /></p>
+					<hr />
+					<p>
+						<input type="hidden" name="ssp_action" value="import_settings" />
+						<?php wp_nonce_field( 'ssp_import_nonce', 'ssp_import_nonce' ); ?>
+						<?php submit_button( __( 'Import', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
+					</p>
+				</form>
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+		<div class="postbox">
+			<h3 style="font-size:16px!important"><span><?php _e( 'Reset Settings', 'stop-spammers-premium' ); ?></span></h3>
+			<div class="inside">
+				<p><?php _e( 'Reset the plugin settings for this site. This allows you to easily reset the configuration.', 'stop-spammers-premium' ); ?></p>
+				<form method="post">
+					<p><input type="hidden" name="ssp_action" value="reset_settings" /></p>
+					<hr />
+					<p>
+						<?php wp_nonce_field( 'ssp_reset_nonce', 'ssp_reset_nonce' ); ?>
+						<?php submit_button( __( 'Reset', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
+					</p>
+				</form>
+			</div><!-- .inside -->
+		</div><!-- .postbox -->			
+	</div><!-- .metabox-holder -->
+</div>
+
 <?php
-}
 
 // add contact form shortcode
 function ssp_contact_form_shortcode() {
@@ -317,7 +320,7 @@ function ssp_contact_form_shortcode() {
 <style>
     #ssp-contact-form, #ssp-contact-form * {
         box-sizing: border-box;
-        transition: all 0.5s ease
+        transition: all 0.5s ease;
     }
     #ssp-contact-form input, #ssp-contact-form textarea {
         width: 100%;
@@ -326,11 +329,11 @@ function ssp_contact_form_shortcode() {
         color: #767676;
         padding: 15px;
         border: 1px solid transparent;
-        background: #f6f6f6
+        background: #f6f6f6;
     }
     #ssp-contact-form input:focus, #ssp-contact-form textarea:focus {
         color: #000;
-        border: 1px solid #007acc
+        border: 1px solid #007acc;
     }
     #ssp-contact-form #submit input {
         display: inline-block;
@@ -340,10 +343,10 @@ function ssp_contact_form_shortcode() {
         text-decoration: none;
         padding: 15px 25px;
         background: #007acc;
-        cursor: pointer
+        cursor: pointer;
     }
     #ssp-contact-form #submit input:hover, #submit input:focus {
-        opacity: 0.8
+        opacity: 0.8;
     }
     #ssp-contact-form #url {
         position: absolute;
@@ -352,20 +355,19 @@ function ssp_contact_form_shortcode() {
 		width: 0;
 		height: 0;
 		opacity: 0;
-		z-index: -1
+		z-index: -1;
     }
     #send {
         text-align: center;
-        padding: 5%
+        padding: 5%;
     }
     #send.success {
-        color: green
+        color: green;
     }
     #send.fail {
-        color: red
+        color: red;
     }
-</style>
-', 'stop-spammers-premium' );
+</style>', 'stop-spammers-premium' );
 	$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
 	if ( esc_url( $url ) == 'https://example.com/' ) {
 		$to        = sanitize_email( get_option( 'admin_email' ) );
@@ -408,11 +410,11 @@ add_filter( 'widget_text', 'do_shortcode' );
 function ssp_cf7_add_honeypot( $form ) {
 	$html  = '';
 	$html .= '<p class="ssp-user">';
-	$html .= 	'<label>' . __( 'Your Website (required)', 'stop-spammers-premium' ) . '<br />';
-	$html .= 		'<span class="wpcf7-form-control-wrap your-website">';
-	$html .= 			'<input type="text" name="your-website" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required />';
-	$html .= 		'</span>';
-	$html .= 	'<label>';
+	$html .= '<label>' . __( 'Your Website (required)', 'stop-spammers-premium' ) . '<br />';
+	$html .= '<span class="wpcf7-form-control-wrap your-website">';
+	$html .= '<input type="text" name="your-website" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required />';
+	$html .= '</span>';
+	$html .= '<label>';
 	$html .= '</p>';
 	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 	return $html.$form;
@@ -434,8 +436,8 @@ add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
 function ssp_bbp_add_honeypot() {
 	$html  = '';
 	$html .= '<p class="ssp-user">';
-	$html .= 	'<label for="bbp_your-website">' . __( 'Your Website:', 'stop-spammers-premium' ) . '</label><br />';
-	$html .=	'<input type="text" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" name="bbp_your-website" id="bbp_your-website" required />';
+	$html .= '<label for="bbp_your-website">' . __( 'Your Website:', 'stop-spammers-premium' ) . '</label><br />';
+	$html .= '<input type="text" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" name="bbp_your-website" id="bbp_your-website" required />';
 	$html .= '</p>';
 	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 	echo $html;
@@ -448,17 +450,17 @@ function ssp_bbp_verify_honeypot() {
 		bbp_add_error( 'bbp_throw_error', __( "<strong>ERROR</strong>: Something went wrong!", 'stop-spammers-premium' ) );
 	}
 }
-add_action('bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot');
-add_action('bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot');
+add_action( 'bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot' );
+add_action( 'bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot' );
 
 // add honeypot to Elementor form
 function ssp_elementor_add_honeypot( $content, $widget ) {
 	if ( 'form' === $widget->get_name() ) {
-		$html = '';
-		$html .= '<div class="elementor-field-type-text">';
-		$html .= '<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
-		$html .= '</div>';
-		$html .= '<style>#form-field-your-website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+		$html    = '';
+		$html   .= '<div class="elementor-field-type-text">';
+		$html   .= '<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
+		$html   .= '</div>';
+		$html   .= '<style>#form-field-your-website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 		$content = str_replace( '<div class="elementor-field-group', $html . '<div class="elementor-field-group', $content );
 		return $content;
 	}
@@ -678,9 +680,9 @@ add_action( 'admin_init', 'ssp_login_type_func' );
 // install default pages for custom login
 function ssp_install_custom_login() {
 	$pages =  array(
-		'login'        => __( 'Log In', 'stop-spammers-premium' ),
-		'logout'       => __( 'Log Out', 'stop-spammers-premium' ),
-		'register'     => __( 'Register', 'stop-spammers-premium' ),
+		'login'           => __( 'Log In', 'stop-spammers-premium' ),
+		'logout'          => __( 'Log Out', 'stop-spammers-premium' ),
+		'register'        => __( 'Register', 'stop-spammers-premium' ),
 		'forgot-password' => __( 'Forgot Password', 'stop-spammers-premium' ),
 	);
 	foreach( $pages as $slug => $title ) {
@@ -713,9 +715,9 @@ function ssp_install_custom_login() {
 // uninstall default pages for custom login
 function ssp_uninstall_custom_login() {
 	$pages = array(
-		'login'        => __( 'Log In', 'stop-spammers-premium' ),
-		'logout'       => __( 'Log Out', 'stop-spammers-premium' ),
-		'register'     => __( 'Register', 'stop-spammers-premium' ),
+		'login'           => __( 'Log In', 'stop-spammers-premium' ),
+		'logout'          => __( 'Log Out', 'stop-spammers-premium' ),
+		'register'        => __( 'Register', 'stop-spammers-premium' ),
 		'forgot-password' => __( 'Forgot Password', 'stop-spammers-premium' ),
 	);
 	foreach( $pages as $slug => $title ) {
@@ -775,7 +777,7 @@ function ssp_forgot_password() {
 		$user_data = get_user_by( 'login', $login );
 	}
 	do_action( 'lostpassword_post', $errors );
-	if ( $errors->get_error_code() ){
+	if ( $errors->get_error_code() ) {
 		$GLOBALS['ssp_error'] = $errors;
 		return;
 	}
@@ -786,7 +788,7 @@ function ssp_forgot_password() {
 	}
 	$user_login = $user_data->user_login;
 	$user_email = $user_data->user_email;
-	$key = get_password_reset_key( $user_data );
+	$key 		= get_password_reset_key( $user_data );
 	if ( is_wp_error( $key ) ) {
 		$GLOBALS['ssp_error'] = $key;
 	}
@@ -880,7 +882,7 @@ function ssp_login() {
 		// $user = wp_get_current_user();
 		if ( !is_wp_error( $user ) && !$reauth ) {
 			if ( ( empty( $redirect_to ) || $redirect_to == 'wp-admin/' || $redirect_to == admin_url() ) ) {
-				// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
+				// if the user doesn't belong to a blog, send them to user admin — if the user can't edit posts, send them to their profile
 				if ( is_multisite() && !get_active_blog_for_user( $user->ID ) && !is_super_admin( $user->ID ) )
 					$redirect_to = user_admin_url();
 				elseif ( is_multisite() && !$user->has_cap( 'read' ) )
@@ -956,28 +958,28 @@ add_action( 'admin_head-nav-menus.php', 'ssp_add_nav_menu_metabox' );
 function ssp_nav_menu_metabox( $object ) {
 	global $nav_menu_selected_id;
 	$elems = array(
-		'#ssp-nav-login' => __( 'Log In', 'stop-spammers-premium' ),
-		'#ssp-nav-logout' => __( 'Log Out', 'stop-spammers-premium' ),
+		'#ssp-nav-login'    => __( 'Log In', 'stop-spammers-premium' ),
+		'#ssp-nav-logout'   => __( 'Log Out', 'stop-spammers-premium' ),
 		'#ssp-nav-register' => __( 'Register', 'stop-spammers-premium' ),
 		'#ssp-nav-loginout' => __( 'Log In', 'stop-spammers-premium' ) . '/' . __( 'Log Out', 'stop-spammers-premium' )
 	);
 	$temp = ( object ) array(
-				'ID' => 1,
-				'object_id' => 1,
-				'type_label' => '',
-				'title' => '',
-				'url' => '',
-				'type' => 'custom',
-				'object' => 'ssp-slug',
-				'db_id' => 0,
-				'menu_item_parent' => 0,
-				'post_parent' => 0,
-				'target' => '',
-				'attr_title' => '',
-				'description' => '',
-				'classes' => array(),
-				'xfn' => '',
-			);
+		'ID' => 1,
+		'object_id'		   => 1,
+		'type_label'	   => '',
+		'title'			   => '',
+		'url'			   => '',
+		'type'			   => 'custom',
+		'object'		   => 'ssp-slug',
+		'db_id'			   => 0,
+		'menu_item_parent' => 0,
+		'post_parent'	   => 0,
+		'target'		   => '',
+		'attr_title'	   => '',
+		'description'	   => '',
+		'classes'		   => array(),
+		'xfn'			   => '',
+	);
 	// create an array of objects that imitate post objects
 	$ssp_items = array();
 	$i = 0;
@@ -1116,11 +1118,11 @@ function ssp_add_failed_login_attempt( $user_id ) {
 	$threshold = '-'. get_option( 'ssp_login_attempts_duration', 5 ) . ' ' . get_option( 'ssp_login_attempts_unit', 'hour' );
 	$threshold_date_time = strtotime( $threshold );
 	$attempts = get_user_meta( $user_id, 'ssp_failed_login_attempts', true );
-	if( !is_array( $attempts ) )
+	if ( !is_array( $attempts ) )
 		$attempts = array();
 	$attempts[] = array( 'time' => time(), 'ip' => $_SERVER['REMOTE_ADDR'] );
-	foreach( $attempts as $a ) {
-		if( $threshold_date_time < $a['time'] )
+	foreach ( $attempts as $a ) {
+		if ( $threshold_date_time < $a['time'] )
 			$new_attempts[] = $a;
 	}
 	update_user_meta( $user_id, 'ssp_failed_login_attempts', array() );
@@ -1128,7 +1130,7 @@ function ssp_add_failed_login_attempt( $user_id ) {
 }
 
 function ssp_is_user_locked( $user_id ) {
-	if ( get_user_meta( $user_id, 'ssp_is_locked', true ) == false)
+	if ( get_user_meta( $user_id, 'ssp_is_locked', true ) == false )
 		return false;
 	if ( !$expires = ssp_get_user_lock_expiration( $user_id ) )
 		return true;
@@ -1165,7 +1167,7 @@ function ssp_process_settings_export() {
 	if ( !current_user_can( 'manage_options' ) )
 		return;
 	$settings = get_option( 'ssp_settings' );
-	$options = ss_get_options();
+	$options  = ss_get_options();
 	ignore_user_abort( true );
 	nocache_headers();
 	header( 'Content-Type: application/json; charset=utf-8' );
@@ -1223,9 +1225,9 @@ function ssp_process_settings_import() {
 		return;
 	if ( !current_user_can( 'manage_options' ) )
 		return;
-// $extension = end( explode( '.', $_FILES['import_file']['name'] ) );
+	// $extension = end( explode( '.', $_FILES['import_file']['name'] ) );
 	$extension = $_FILES['import_file']['type'] ;
-// if ( $extension != 'json' ) {
+	// if ( $extension != 'json' ) {
 	if ( $extension != 'application/json' ) {
 		wp_die( __( 'Please upload a valid .json file', 'stop-spammers-premium' ) );
 	}
@@ -1278,7 +1280,7 @@ function ssp_license_page() {
 							<label class="description" for="ssp_license_key"><?php _e( 'Enter your license key', 'stop-spammers-premium' ); ?></label>
 						</td>
 					</tr>
-					<?php if( false !== $license ) { ?>
+					<?php if ( false !== $license ) { ?>
 						<tr valign="top">
 							<th scope="row" valign="top">
 								<?php _e( 'Activate License', 'stop-spammers-premium' ); ?>
@@ -1316,11 +1318,10 @@ function ssp_sanitize_license( $new ) {
 	return $new;
 }
 
-/* shortcodes to print the username, name, and email */
-
+// shortcodes to print the username, name, and email
 function show_loggedin_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->display_name;
@@ -1329,7 +1330,7 @@ add_shortcode( 'show_displayname_as', 'show_loggedin_function' );
 
 function show_fullname_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_firstname . ' ' . $current_user->user_lastname;
@@ -1338,7 +1339,7 @@ add_shortcode( 'show_fullname_as', 'show_fullname_function' );
 
 function show_id_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->ID;
@@ -1347,7 +1348,7 @@ add_shortcode( 'show_id_as', 'show_id_function' );
 
 function show_level_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_level;	
@@ -1356,7 +1357,7 @@ add_shortcode( 'show_level_as', 'show_level_function' );
 
 function show_email_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_email;
@@ -1441,7 +1442,7 @@ add_action( 'admin_init', 'ssp_activate_license' );
 
 /***********************************************
 * Illustrates how to deactivate a license key.
-* This will decrease the site count
+* This will decrease the site count.
 ***********************************************/
 function ssp_deactivate_license() {
 	// listen for our activate button to be clicked
@@ -1485,11 +1486,11 @@ function ssp_deactivate_license() {
 add_action( 'admin_init', 'ssp_deactivate_license' );
 
 /************************************
-* this illustrates how to check if
+* This illustrates how to check if
 * a license key is still valid
 * the updater does this for you,
 * so this is only needed if you
-* want to do something custom
+* want to do something custom.
 *************************************/
 function ssp_check_license() {
 	global $wp_version;
@@ -1529,12 +1530,12 @@ function ssp_admin_notices() {
 			case 'true':
 			default:
 			?>
-				<div class="success">
-					<p><?php _e( 'Success', 'stop-spammers-premium' ); ?></p>
-				</div>
-				<?php
-				// developers can put a custom success message here for when activation is successful if they way
-				break;
+			<div class="success">
+				<p><?php _e( 'Success', 'stop-spammers-premium' ); ?></p>
+			</div>
+			<?php
+			// developers can put a custom success message here for when activation is successful if they way
+			break;
 		}
 	}
 }

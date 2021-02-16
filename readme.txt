@@ -23,7 +23,7 @@ OR
 == Changelog ==
 
 = 2021.1 =
-* [New] All strings are now translation-ready
+* [New] Strings are now translation-ready
 * [Enhanced] Premium settings page saving
 * [Enhanced] Code cleanup
 

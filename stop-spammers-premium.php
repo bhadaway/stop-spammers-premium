@@ -36,7 +36,7 @@ add_action( 'plugins_loaded', 'ssp_load_plugin_textdomain' );
 function ssp_admin_notice__success() {
 	?>
 	<div class="notice notice-success is-dismissible">
-		<p><?php _e( 'Options Updated!', 'stop-spammers-premium' ); ?></p>
+		<p><?php _e( 'Options Updated', 'stop-spammers-premium' ); ?></p>
 	</div>
 	<?php
 }

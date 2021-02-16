@@ -158,9 +158,9 @@ function ss_export_excel() {
 				</div>
 			</div>
 			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<form method="post">
+				<form method="post">
+					<div class="inside">
+						<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings', 'stop-spammers-premium' ); ?></span></h3>
 						<div class="checkbox switcher">
 							<label for="ss_firewall_setting">
 								<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
@@ -169,18 +169,10 @@ function ss_export_excel() {
 							</label>
 						</div>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
-						<hr>
-						<p>
-							<?php wp_nonce_field( 'ssp_enable_firewall', 'ssp_enable_firewall' ); ?>
-							<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
-						</p>
-					</form>
-				</div>
-			</div>
-			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Login Settings', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<form method="post">
+					</div>
+					<hr>
+					<div class="inside">
+						<h3 style="font-size:16px!important"><span><?php _e( 'Login Settings', 'stop-spammers-premium' ); ?></span></h3>
 						<div class="checkbox switcher">
 							<label for="ss_login_setting">
 								<input type="checkbox" name="ss_login_setting" id="ss_login_setting" value="yes" <?php echo $ss_login_setting; ?> />
@@ -213,18 +205,10 @@ function ss_export_excel() {
 							</label>
 						</div>
 						<p><input type="hidden" name="ss_login_setting_placeholder" value="ss_login_setting" /></p>
-						<hr>
-						<p>
-							<?php wp_nonce_field( 'ssp_enable_custom_login', 'ssp_enable_custom_login' ); ?>
-							<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
-						</p>
-					</form>
-				</div>
-			</div>
-			<div class="postbox">
-				<h3 style="font-size:16px!important"><span><?php _e( 'Allow users to log in using their username and/or email address', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<form method="post">
+					</div>
+					<hr>
+					<div class="inside">
+						<h3 style="font-size:16px!important"><span><?php _e( 'Allow users to log in using their username and/or email address', 'stop-spammers-premium' ); ?></span></h3>
 						<p><input type="hidden" name="ssp_login_type_field" value="ssp_login_type" /></p>
 						<ul class="ss-spacer">
 							<li>
@@ -260,8 +244,8 @@ function ss_export_excel() {
 							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
 							<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 						</p>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
 			<div class="postbox">
 				<h3 style="font-size:16px!important"><span><?php _e( 'Export Log Settings', 'stop-spammers-premium' ); ?></span></h3>
@@ -554,7 +538,7 @@ add_action( 'admin_init', 'ssp_divi_email_optin_verify_honeypot' );
 function ssp_enable_firewall() {
 	if ( empty( $_POST['ss_firewall_setting_placeholder'] ) || 'ss_firewall_setting' != $_POST['ss_firewall_setting_placeholder'] )
 		return;
-	if ( !wp_verify_nonce( $_POST['ssp_enable_firewall'], 'ssp_enable_firewall' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
 		return;
 	if ( !current_user_can( 'manage_options' ) )
 		return;
@@ -681,7 +665,7 @@ add_action( 'admin_init', 'ssp_enable_firewall' );
 function ssp_enable_custom_login() {
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
 		return;
-	if ( !wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
 		return;
 	if ( !current_user_can( 'manage_options' ) )
 		return;
@@ -1115,7 +1099,7 @@ add_filter( 'wp_setup_nav_menu_item', 'ssp_setup_nav_menu_item' );
 function ssp_limit_login_attempts() {
 	if ( empty( $_POST['ss_login_setting_placeholder'] ) || 'ss_login_setting' != $_POST['ss_login_setting_placeholder'] )
 		return;
-	if ( !wp_verify_nonce( $_POST['ssp_enable_custom_login'], 'ssp_enable_custom_login' ) )
+	if ( !wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
 		return;
 	if ( !current_user_can( 'manage_options' ) )
 		return;

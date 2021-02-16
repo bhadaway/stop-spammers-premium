@@ -3,7 +3,7 @@
 Contributors: Trumani, bhadaway, hiteshchandwani
 License: https://www.gnu.org/licenses/gpl.html
 Domain Path: /languages
-Text Domain: stop-spammer-registrations-plugin
+Text Domain: stop-spammers-premium
 
 == Description ==
 
@@ -21,6 +21,11 @@ OR
 4. Add your license key.
 
 == Changelog ==
+
+= 2021.1 =
+* [New] All strings are now translation-ready
+* [Enhanced] Premium settings page saving
+* [Enhanced] Code cleanup
 
 = 2021 =
 * [New] Brute force protection

@@ -32,11 +32,11 @@
 </form>
 	
 <style>
-	p.ssp-input-wrapper label {
-    	display: block;
-	}
-	p.ssp-input-wrapper .input {
-    	padding: 15px;
-    	min-width: 50%;
-	}
+p.ssp-input-wrapper label {
+    display: block;
+}
+p.ssp-input-wrapper .input {
+    padding: 15px;
+    min-width: 50%;
+}
 </style>

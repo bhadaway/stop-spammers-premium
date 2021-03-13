@@ -13,11 +13,11 @@
 </form>
 
 <style>
-	#lostpasswordform label {
-		display: block;
-	}
-	#lostpasswordform .input {
-		padding: 15px;
-		min-width: 50%;
-	}
+#lostpasswordform label {
+	display: block;
+}
+#lostpasswordform .input {
+	padding: 15px;
+	min-width: 50%;
+}
 </style>

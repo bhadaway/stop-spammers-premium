@@ -168,7 +168,7 @@ function ss_export_excel() {
 	} else {
 		$ss_login_type_default = "checked='checked'";
 	}
-?>
+	?>
 	<div id="ss-plugin" class="wrap">
 		<h1 class="ss_head"><?php _e( 'Stop Spammers Premium Features', 'stop-spammers-premium' ); ?></h1>
 		<div class="metabox-holder">
@@ -214,7 +214,7 @@ function ss_export_excel() {
 							</label>
 						</div>
 						<p></p>
-						<div class="ss_disable_admin_emails_wraps" <?php echo (get_option( 'ss_disable_admin_emails', 'no') == 'yes' ? '': 'style="display:none;"' );?>>
+						<div class="ss_disable_admin_emails_wraps"<?php echo ( get_option( 'ss_disable_admin_emails', 'no' ) == 'yes' ? '': ' style="display:none"' ); ?>>
 							<div class="checkbox switcher">
 								<label for="ss_disable_admin_emails_update">
 									<input type="checkbox" name="ss_disable_admin_emails_update" id="ss_disable_admin_emails_update" value="yes" <?php echo $ss_disable_admin_emails_update; ?>>
@@ -265,13 +265,12 @@ function ss_export_excel() {
 						</div>
 						<p><input type="hidden" name="ss_notification_control_setting" value="ss_notification_control_update" /></p>
 					</div>
-					<div class="inside ss_reset_hidden_notice_wrap" <?php echo (get_option( 'ss_hide_admin_notices', 'no') != 'yes' ? '': 'style="display:none;"' );?>>
+					<div class="inside ss_reset_hidden_notice_wrap"<?php echo ( get_option( 'ss_hide_admin_notices', 'no' ) != 'yes' ? '': ' style="display:none"' ); ?>>
 						<hr>
-						<h3 style="font-size:16px!important"><span><?php _e( 'Reset hidden notices for ', 'stop-spammers-premium' ); ?></span></h3>
-						
-							<p><input type="radio" name="ss_reset_hidden_notice" value="current" checked="checked"> Current User</p>
-							<p><input type="radio" name="ss_reset_hidden_notice" value="all"> All Users</p>
-							<?php submit_button( __( 'Reset', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
+						<h3 style="font-size:16px!important"><span><?php _e( 'Reset hidden notices for ', 'stop-spammers-premium' ); ?></span></h3>	
+						<p><input type="radio" name="ss_reset_hidden_notice" value="current" checked="checked"> Current User</p>
+						<p><input type="radio" name="ss_reset_hidden_notice" value="all"> All Users</p>
+						<?php submit_button( __( 'Reset', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 					</div>
 					<hr />
 					<div class="inside">
@@ -409,73 +408,73 @@ function ss_export_excel() {
 			</div><!-- .postbox -->			
 		</div><!-- .metabox-holder -->
 	</div>
-<?php
+	<?php
 }
 
 // add contact form shortcode
 function ssp_contact_form_shortcode() {
 	ob_start();
 	_e( '
-<form id="ssp-contact-form" method="post" action="#send">
-    <p id="name"><input type="text" name="sign" placeholder="' . __( 'Name', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
-    <p id="email"><input type="email" name="email" placeholder="' . __( 'Email', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
-    <p id="phone"><input type="tel" name="phone" placeholder="' . __( 'Phone (optional)', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" /></p>
-    <p id="url"><input type="url" name="url" placeholder="' . __( 'URL', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
-    <p id="message"><textarea name="message" placeholder="' . __( 'Message', 'stop-spammers-premium' ) . '" rows="5" cols="100"></textarea></p>
-    <p id="submit"><input type="submit" value="' . __( 'Submit', 'stop-spammers-premium' ) . '" /></p>
-</form>
-<style>
-    #ssp-contact-form, #ssp-contact-form * {
-        box-sizing: border-box;
-        transition: all 0.5s ease
-    }
-    #ssp-contact-form input, #ssp-contact-form textarea {
-        width: 100%;
-        font-family: arial, sans-serif;
-        font-size: 14px;
-        color: #767676;
-        padding: 15px;
-        border: 1px solid transparent;
-        background: #f6f6f6
-    }
-    #ssp-contact-form input:focus, #ssp-contact-form textarea:focus {
-        color: #000;
-        border: 1px solid #007acc
-    }
-    #ssp-contact-form #submit input {
-        display: inline-block;
-        font-size: 18px;
-        color: #fff;
-        text-align: center;
-        text-decoration: none;
-        padding: 15px 25px;
-        background: #007acc;
-        cursor: pointer
-    }
-    #ssp-contact-form #submit input:hover, #submit input:focus {
-        opacity: 0.8
-    }
-    #ssp-contact-form #url {
-        position: absolute;
-		top: 0;
-		left: 0;
-		width: 0;
-		height: 0;
-		opacity: 0;
-		z-index: -1
-    }
-    #send {
-        text-align: center;
-        padding: 5%
-    }
-    #send.success {
-        color: green
-    }
-    #send.fail {
-        color: red
-    }
-</style>
-', 'stop-spammers-premium' );
+		<form id="ssp-contact-form" method="post" action="#send">
+    		<p id="name"><input type="text" name="sign" placeholder="' . __( 'Name', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
+    		<p id="email"><input type="email" name="email" placeholder="' . __( 'Email', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
+    		<p id="phone"><input type="tel" name="phone" placeholder="' . __( 'Phone (optional)', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" /></p>
+    		<p id="url"><input type="url" name="url" placeholder="' . __( 'URL', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
+    		<p id="message"><textarea name="message" placeholder="' . __( 'Message', 'stop-spammers-premium' ) . '" rows="5" cols="100"></textarea></p>
+    		<p id="submit"><input type="submit" value="' . __( 'Submit', 'stop-spammers-premium' ) . '" /></p>
+		</form>
+		<style>
+    	#ssp-contact-form, #ssp-contact-form * {
+        	box-sizing: border-box;
+        	transition: all 0.5s ease
+    	}
+    	#ssp-contact-form input, #ssp-contact-form textarea {
+			width: 100%;
+			font-family: arial, sans-serif;
+			font-size: 14px;
+			color: #767676;
+			padding: 15px;
+			border: 1px solid transparent;
+			background: #f6f6f6
+    	}
+    	#ssp-contact-form input:focus, #ssp-contact-form textarea:focus {
+			color: #000;
+			border: 1px solid #007acc
+		}
+		#ssp-contact-form #submit input {
+			display: inline-block;
+			font-size: 18px;
+			color: #fff;
+			text-align: center;
+			text-decoration: none;
+			padding: 15px 25px;
+			background: #007acc;
+			cursor: pointer
+    	}
+    	#ssp-contact-form #submit input:hover, #submit input:focus {
+			opacity: 0.8
+    	}
+    	#ssp-contact-form #url {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 0;
+			height: 0;
+			opacity: 0;
+			z-index: -1
+    	}
+    	#send {
+			text-align: center;
+			padding: 5%
+    	}
+    	#send.success {
+			color: green
+    	}
+    	#send.fail {
+			color: red
+    	}
+		</style>
+	', 'stop-spammers-premium' );
 	$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
 	if ( esc_url( $url ) == 'https://example.com/' ) {
 		$to        = sanitize_email( get_option( 'admin_email' ) );
@@ -518,11 +517,11 @@ add_filter( 'widget_text', 'do_shortcode' );
 function ssp_cf7_add_honeypot( $form ) {
 	$html  = '';
 	$html .= '<p class="ssp-user">';
-	$html .= 	'<label>' . __( 'Your Website (required)', 'stop-spammers-premium' ) . '<br />';
-	$html .= 		'<span class="wpcf7-form-control-wrap your-website">';
-	$html .= 			'<input type="text" name="your-website" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required />';
-	$html .= 		'</span>';
-	$html .= 	'<label>';
+	$html .= '<label>' . __( 'Your Website (required)', 'stop-spammers-premium' ) . '<br />';
+	$html .= '<span class="wpcf7-form-control-wrap your-website">';
+	$html .= '<input type="text" name="your-website" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required />';
+	$html .= '</span>';
+	$html .= '<label>';
 	$html .= '</p>';
 	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 	return $html.$form;
@@ -544,8 +543,8 @@ add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
 function ssp_bbp_add_honeypot() {
 	$html  = '';
 	$html .= '<p class="ssp-user">';
-	$html .= 	'<label for="bbp_your-website">' . __( 'Your Website:', 'stop-spammers-premium' ) . '</label><br />';
-	$html .=	'<input type="text" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" name="bbp_your-website" id="bbp_your-website" required />';
+	$html .= '<label for="bbp_your-website">' . __( 'Your Website:', 'stop-spammers-premium' ) . '</label><br />';
+	$html .= '<input type="text" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" name="bbp_your-website" id="bbp_your-website" required />';
 	$html .= '</p>';
 	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 	echo $html;
@@ -558,17 +557,17 @@ function ssp_bbp_verify_honeypot() {
 		bbp_add_error( 'bbp_throw_error', __( "<strong>ERROR</strong>: Something went wrong!", 'stop-spammers-premium' ) );
 	}
 }
-add_action('bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot');
-add_action('bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot');
+add_action( 'bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot' );
+add_action( 'bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot' );
 
 // add honeypot to Elementor form
 function ssp_elementor_add_honeypot( $content, $widget ) {
 	if ( 'form' === $widget->get_name() ) {
-		$html = '';
-		$html .= '<div class="elementor-field-type-text">';
-		$html .= '<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
-		$html .= '</div>';
-		$html .= '<style>#form-field-your-website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+		$html    = '';
+		$html   .= '<div class="elementor-field-type-text">';
+		$html   .= '<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
+		$html   .= '</div>';
+		$html   .= '<style>#form-field-your-website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 		$content = str_replace( '<div class="elementor-field-group', $html . '<div class="elementor-field-group', $content );
 		return $content;
 	}
@@ -588,7 +587,7 @@ function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 	if ( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {
 		unset( $_POST['et_pb_contact_your_website'] );
 		$post_last_key = array_key_last( $_POST );
-		$form_json = json_decode( stripslashes( $_POST[$post_last_key] ) );
+		$form_json	   = json_decode( stripslashes( $_POST[$post_last_key] ) );
 		array_pop( $form_json );
 		$_POST[$post_last_key] = json_encode( $form_json );
 	}
@@ -601,7 +600,7 @@ function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 		$html  .= '<style>.et_pb_contact_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
 		$html  .= '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit';
 		$output = str_replace( '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit', $html, $output );
-	} else if($render_slug == 'et_pb_signup' ) {
+	} else if ( $render_slug == 'et_pb_signup' ) {
 		$html   = '';
 		$html  .= '<p class="et_pb_signup_custom_field et_pb_signup_your_website et_pb_newsletter_field et_pb_contact_field_last et_pb_contact_field_last_tablet et_pb_contact_field_last_phone">';
 		$html  .= '<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
@@ -616,10 +615,10 @@ function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 add_filter( 'et_module_shortcode_output', 'ssp_et_add_honeypot', 20, 3 );
 
 function ssp_divi_email_optin_verify_honeypot() {
-	if( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] != 'https://example.com/' ) { 
+	if ( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] != 'https://example.com/' ) { 
 		echo '{"error":"Subscription Error: An error occurred, please try later."}';
 		exit;
-	} else if( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] == 'https://example.com/' ) { 
+	} else if ( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] == 'https://example.com/' ) { 
 		unset( $_POST['et_custom_fields']['your-website'] );
 	}
 }
@@ -750,7 +749,7 @@ function ssp_enable_firewall() {
 }
 add_action( 'admin_init', 'ssp_enable_firewall' );
 
-// Notification control settings update
+// Notification Control settings update
 function ssp_update_notification_control() {
 	if ( empty( $_POST['ss_notification_control_setting'] ) || 'ss_notification_control_update' != $_POST['ss_notification_control_setting'] )
 		return;
@@ -758,9 +757,8 @@ function ssp_update_notification_control() {
 		return;
 	if ( !current_user_can( 'manage_options' ) )
 		return;
-
 	if ( $_POST['submit'] == "Reset" ) {
-		if( $_POST['ss_reset_hidden_notice'] == 'all') {
+		if ( $_POST['ss_reset_hidden_notice'] == 'all') {
 			global $wpdb;
 			delete_user_meta( get_current_user_id(), 'ss_notice_preference' );
 			$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'ss_notice_preference'" );
@@ -769,57 +767,46 @@ function ssp_update_notification_control() {
 		}
 		return;
 	}
-
 	if ( isset( $_POST['ss_hide_admin_notices'] ) and $_POST['ss_hide_admin_notices'] == 'yes' )
 		update_option( 'ss_hide_admin_notices', 'yes' );
 	else
 		update_option( 'ss_hide_admin_notices', 'no' );
-	
 	if ( ! isset( $_POST['ss_disable_admin_emails'] ) ) {
-		
 		update_option( 'ss_disable_admin_emails', 'no' );
 		update_option( 'ss_disable_admin_emails_update', 'no' );
 		update_option( 'ss_disable_admin_emails_comment', 'no' );
 		update_option( 'ss_disable_admin_emails_password_reset', 'no' );
 		update_option( 'ss_disable_admin_emails_new_user', 'no' );
-
 	} else {
-
 		if ( isset( $_POST['ss_disable_admin_emails_update'] ) and $_POST['ss_disable_admin_emails_update'] == 'yes' )
 			update_option( 'ss_disable_admin_emails_update', 'yes' );
 		else
 			update_option( 'ss_disable_admin_emails_update', 'no' );
-
 		if ( isset( $_POST['ss_disable_admin_emails_comment'] ) and $_POST['ss_disable_admin_emails_comment'] == 'yes' )
 			update_option( 'ss_disable_admin_emails_comment', 'yes' );
 		else
 			update_option( 'ss_disable_admin_emails_comment', 'no' );
-
 		if ( isset( $_POST['ss_disable_admin_emails_password_reset'] ) and $_POST['ss_disable_admin_emails_password_reset'] == 'yes' )
 			update_option( 'ss_disable_admin_emails_password_reset', 'yes' );
 		else
 			update_option( 'ss_disable_admin_emails_password_reset', 'no' );
-
 		if ( isset( $_POST['ss_disable_admin_emails_new_user'] ) and $_POST['ss_disable_admin_emails_new_user'] == 'yes' )
 			update_option( 'ss_disable_admin_emails_new_user', 'yes' );
 		else
 			update_option( 'ss_disable_admin_emails_new_user', 'no' );
-
-		if ( (isset( $_POST['ss_disable_admin_emails_update'] ) and $_POST['ss_disable_admin_emails_update'] == 'yes')
-			|| (isset( $_POST['ss_disable_admin_emails_comment'] ) and $_POST['ss_disable_admin_emails_comment'] == 'yes')
-			|| (isset( $_POST['ss_disable_admin_emails_password_reset'] ) and $_POST['ss_disable_admin_emails_password_reset'] == 'yes')
-			|| (isset( $_POST['ss_disable_admin_emails_new_user'] ) and $_POST['ss_disable_admin_emails_new_user'] == 'yes')
+		if ( ( isset( $_POST['ss_disable_admin_emails_update'] ) and $_POST['ss_disable_admin_emails_update'] == 'yes' )
+			|| ( isset( $_POST['ss_disable_admin_emails_comment'] ) and $_POST['ss_disable_admin_emails_comment'] == 'yes' )
+			|| ( isset( $_POST['ss_disable_admin_emails_password_reset'] ) and $_POST['ss_disable_admin_emails_password_reset'] == 'yes' )
+			|| ( isset( $_POST['ss_disable_admin_emails_new_user'] ) and $_POST['ss_disable_admin_emails_new_user'] == 'yes' )
 		)
 			update_option( 'ss_disable_admin_emails', 'yes' );
 		else
 			update_option( 'ss_disable_admin_emails', 'no' );
 	}
-
 	if ( isset( $_POST['ss_disable_core_nudge'] ) and $_POST['ss_disable_core_nudge'] == 'yes' )
 		update_option( 'ss_disable_core_nudge', 'yes' );
 	else
 		update_option( 'ss_disable_core_nudge', 'no' );
-
 	if ( isset( $_POST['ss_disable_plugin_nudge'] ) and $_POST['ss_disable_plugin_nudge'] == 'yes' )
 		update_option( 'ss_disable_plugin_nudge', 'yes' );
 	else
@@ -827,27 +814,27 @@ function ssp_update_notification_control() {
 }
 add_action( 'admin_init', 'ssp_update_notification_control' );
 
-// Notification control: for core/plugin/theme updates
-if( get_option( 'ss_disable_admin_emails_update', 'no' ) === 'yes' ) {
+// Notification Control: for core/plugin/theme updates
+if ( get_option( 'ss_disable_admin_emails_update', 'no' ) === 'yes' ) {
 	add_filter( 'auto_core_update_send_email', '__return_false' );
 	add_filter( 'auto_theme_update_send_email', '__return_false' );
 	add_filter( 'auto_plugin_update_send_email', '__return_false' );
 }
 
-// Notification control: for comments
-if( get_option( 'ss_disable_admin_emails_comment', 'no' ) === 'yes' ) {
+// Notification Control: for comments
+if ( get_option( 'ss_disable_admin_emails_comment', 'no' ) === 'yes' ) {
 	function wp_notify_postauthor( $comment_id, $deprecated = null ) {}
 }
 
-// Notification control: for reset password
-if( get_option( 'ss_disable_admin_emails_password_reset', 'no' ) === 'yes' ) {
-	function wp_password_change_notification($user) {}
+// Notification Control: for reset password
+if ( get_option( 'ss_disable_admin_emails_password_reset', 'no' ) === 'yes' ) {
+	function wp_password_change_notification( $user ) {}
 }
 
-// Notification control: for new user registration
-if( get_option( 'ss_disable_admin_emails_new_user', 'no' ) === 'yes' ) {
+// Notification Control: for new user registration
+if ( get_option( 'ss_disable_admin_emails_new_user', 'no' ) === 'yes' ) {
 	remove_action( 'register_new_user', 'wp_send_new_user_notifications' );
-	add_action( 'register_new_user',function( $user_id, $notify = 'user' ) {
+	add_action( 'register_new_user', function( $user_id, $notify = 'user' ) {
 		wp_send_new_user_notifications( $user_id, $notify );
 	} );
 }
@@ -890,14 +877,14 @@ add_action( 'admin_init', 'ssp_login_type_func' );
 // install default pages for custom login
 function ssp_install_custom_login() {
 	$pages =  array(
-		'login'        => __( 'Log In', 'stop-spammers-premium' ),
-		'logout'       => __( 'Log Out', 'stop-spammers-premium' ),
-		'register'     => __( 'Register', 'stop-spammers-premium' ),
+		'login'           => __( 'Log In', 'stop-spammers-premium' ),
+		'logout'          => __( 'Log Out', 'stop-spammers-premium' ),
+		'register'        => __( 'Register', 'stop-spammers-premium' ),
 		'forgot-password' => __( 'Forgot Password', 'stop-spammers-premium' ),
 	);
 	foreach( $pages as $slug => $title ) {
 		$page_id = ssp_get_page_id( $slug );
-		if ( $page_id > 0 ){
+		if ( $page_id > 0 ) {
 			wp_update_post( array(
 				'ID'			 => $page_id,
 				'post_title'     => $title,
@@ -925,9 +912,9 @@ function ssp_install_custom_login() {
 // uninstall default pages for custom login
 function ssp_uninstall_custom_login() {
 	$pages = array(
-		'login'        => __( 'Log In', 'stop-spammers-premium' ),
-		'logout'       => __( 'Log Out', 'stop-spammers-premium' ),
-		'register'     => __( 'Register', 'stop-spammers-premium' ),
+		'login'           => __( 'Log In', 'stop-spammers-premium' ),
+		'logout'          => __( 'Log Out', 'stop-spammers-premium' ),
+		'register'        => __( 'Register', 'stop-spammers-premium' ),
 		'forgot-password' => __( 'Forgot Password', 'stop-spammers-premium' ),
 	);
 	foreach( $pages as $slug => $title ) {
@@ -1012,10 +999,11 @@ function ssp_forgot_password() {
 	$title    = sprintf( __( '[%s] Password Reset', 'stop-spammers-premium' ), $blogname );
 	$title    = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
 	$message  = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
-	if ( $message && !wp_mail( $user_email, $title, $message ) )
+	if ( $message && !wp_mail( $user_email, $title, $message ) ) {
 		wp_die( __( 'The email could not be sent.', 'stop-spammers-premium' ) . "<br />\n" . __( 'Possible reason: your host may have disabled the mail() function...', 'stop-spammers-premium' ) );
-	wp_redirect( home_url( '/login/?rp=link(target, link)-sent' ) );
-	exit;
+		wp_redirect( home_url( '/login/?rp=link(target, link)-sent' ) );
+		exit;
+	}
 }
 add_shortcode( 'ssp-login', 'ssp_login_cb' );
 
@@ -1168,27 +1156,27 @@ add_action( 'admin_head-nav-menus.php', 'ssp_add_nav_menu_metabox' );
 function ssp_nav_menu_metabox( $object ) {
 	global $nav_menu_selected_id;
 	$elems = array(
-		'#ssp-nav-login' => __( 'Log In', 'stop-spammers-premium' ),
-		'#ssp-nav-logout' => __( 'Log Out', 'stop-spammers-premium' ),
+		'#ssp-nav-login'    => __( 'Log In', 'stop-spammers-premium' ),
+		'#ssp-nav-logout'   => __( 'Log Out', 'stop-spammers-premium' ),
 		'#ssp-nav-register' => __( 'Register', 'stop-spammers-premium' ),
 		'#ssp-nav-loginout' => __( 'Log In', 'stop-spammers-premium' ) . '/' . __( 'Log Out', 'stop-spammers-premium' )
 	);
 	$temp = ( object ) array(
-				'ID' => 1,
-				'object_id' => 1,
-				'type_label' => '',
-				'title' => '',
-				'url' => '',
-				'type' => 'custom',
-				'object' => 'ssp-slug',
-				'db_id' => 0,
+				'ID'			   => 1,
+				'object_id'		   => 1,
+				'type_label'	   => '',
+				'title'			   => '',
+				'url'			   => '',
+				'type'			   => 'custom',
+				'object'		   => 'ssp-slug',
+				'db_id'			   => 0,
 				'menu_item_parent' => 0,
-				'post_parent' => 0,
-				'target' => '',
-				'attr_title' => '',
-				'description' => '',
-				'classes' => array(),
-				'xfn' => '',
+				'post_parent'	   => 0,
+				'target'		   => '',
+				'attr_title'	   => '',
+				'description'	   => '',
+				'classes'		   => array(),
+				'xfn'			   => '',
 			);
 	// create an array of objects that imitate post objects
 	$ssp_items = array();
@@ -1226,6 +1214,7 @@ function ssp_nav_menu_metabox( $object ) {
 				</span>
 			</p>
 		</div>
+	</div>
 	<?php
 }
 
@@ -1300,7 +1289,7 @@ add_action( 'admin_init', 'ssp_limit_login_attempts' );
 
 function ssp_authenticate( $user, $username, $password ) {
 	$field = is_email( $username ) ? 'email' : 'login';
-	$time = time();
+	$time  = time();
 	if ( !$userdata = get_user_by( $field, $username ) )
 		return $user;
 	if ( ssp_is_user_locked( $userdata->ID ) && get_option( 'ssp_login_attempts', 'no' ) === 'yes'  ) {
@@ -1328,11 +1317,11 @@ function ssp_add_failed_login_attempt( $user_id ) {
 	$threshold = '-'. get_option( 'ssp_login_attempts_duration', 5 ) . ' ' . get_option( 'ssp_login_attempts_unit', 'hour' );
 	$threshold_date_time = strtotime( $threshold );
 	$attempts = get_user_meta( $user_id, 'ssp_failed_login_attempts', true );
-	if( !is_array( $attempts ) )
+	if ( !is_array( $attempts ) )
 		$attempts = array();
 	$attempts[] = array( 'time' => time(), 'ip' => $_SERVER['REMOTE_ADDR'] );
 	foreach( $attempts as $a ) {
-		if( $threshold_date_time < $a['time'] )
+		if ( $threshold_date_time < $a['time'] )
 			$new_attempts[] = $a;
 	}
 	update_user_meta( $user_id, 'ssp_failed_login_attempts', array() );
@@ -1340,7 +1329,7 @@ function ssp_add_failed_login_attempt( $user_id ) {
 }
 
 function ssp_is_user_locked( $user_id ) {
-	if ( get_user_meta( $user_id, 'ssp_is_locked', true ) == false)
+	if ( get_user_meta( $user_id, 'ssp_is_locked', true ) == false )
 		return false;
 	if ( !$expires = ssp_get_user_lock_expiration( $user_id ) )
 		return true;
@@ -1377,7 +1366,7 @@ function ssp_process_settings_export() {
 	if ( !current_user_can( 'manage_options' ) )
 		return;
 	$settings = get_option( 'ssp_settings' );
-	$options = ss_get_options();
+	$options  = ss_get_options();
 	ignore_user_abort( true );
 	nocache_headers();
 	header( 'Content-Type: application/json; charset=utf-8' );
@@ -1417,7 +1406,7 @@ function ss_export_excel_data(){
 		}
 		// redirect output to a client's web browser (xlsx)
 		header( 'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' );
-		header( 'Content-Disposition: attachment;filename="ss_premium_log_'.time().'.xlsx"' );
+		header( 'Content-Disposition: attachment;filename="ss_premium_log_' . time() . '.xlsx"' );
 		header( 'Cache-Control: max-age=0' );
 		// if you're serving to IE 9, then the following may be needed
 		header( 'Cache-Control: max-age=1' );
@@ -1435,9 +1424,9 @@ function ssp_process_settings_import() {
 		return;
 	if ( !current_user_can( 'manage_options' ) )
 		return;
-// $extension = end( explode( '.', $_FILES['import_file']['name'] ) );
+	// $extension = end( explode( '.', $_FILES['import_file']['name'] ) );
 	$extension = $_FILES['import_file']['type'] ;
-// if ( $extension != 'json' ) {
+	// if ( $extension != 'json' ) {
 	if ( $extension != 'application/json' ) {
 		wp_die( __( 'Please upload a valid .json file', 'stop-spammers-premium' ) );
 	}
@@ -1463,8 +1452,8 @@ function ssp_process_settings_reset() {
 		return;
 	if ( !current_user_can( 'manage_options' ) )
 		return;
-	$url = plugin_dir_path( __FILE__ ) . '/modules/ssp-default.json'; 
-	$options = (array) json_decode( file_get_contents( $url ) );
+	$url	 = plugin_dir_path( __FILE__ ) . '/modules/ssp-default.json'; 
+	$options = ( array ) json_decode( file_get_contents( $url ) );
 	ss_set_options( $options );
 	add_action( 'admin_notices', 'ssp_admin_notice__success' );
 }
@@ -1522,17 +1511,16 @@ add_action( 'admin_init', 'ssp_register_option' );
 
 function ssp_sanitize_license( $new ) {
 	$old = get_option( 'ssp_license_key' );
-	if( $old && $old != $new ) {
+	if ( $old && $old != $new ) {
 		delete_option( 'ssp_license_status' ); // new license has been entered, so must reactivate
 	}
 	return $new;
 }
 
-/* shortcodes to print the username, name, and email */
-
+// shortcodes to print the username, name, and email
 function show_loggedin_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->display_name;
@@ -1541,7 +1529,7 @@ add_shortcode( 'show_displayname_as', 'show_loggedin_function' );
 
 function show_fullname_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_firstname . ' ' . $current_user->user_lastname;
@@ -1550,7 +1538,7 @@ add_shortcode( 'show_fullname_as', 'show_fullname_function' );
 
 function show_id_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->ID;
@@ -1559,7 +1547,7 @@ add_shortcode( 'show_id_as', 'show_id_function' );
 
 function show_level_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_level;	
@@ -1568,7 +1556,7 @@ add_shortcode( 'show_level_as', 'show_level_function' );
 
 function show_email_function( $atts ) {
 	global $current_user, $user_login;
-      	wp_get_current_user();
+    wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_email;
@@ -1697,7 +1685,7 @@ function ssp_deactivate_license() {
 add_action( 'admin_init', 'ssp_deactivate_license' );
 
 /************************************
-* this illustrates how to check if
+* This illustrates how to check if
 * a license key is still valid
 * the updater does this for you,
 * so this is only needed if you
@@ -1741,12 +1729,12 @@ function ssp_admin_notices() {
 			case 'true':
 			default:
 			?>
-				<div class="success">
-					<p><?php _e( 'Success', 'stop-spammers-premium' ); ?></p>
-				</div>
-				<?php
-				// developers can put a custom success message here for when activation is successful if they way
-				break;
+			<div class="success">
+				<p><?php _e( 'Success', 'stop-spammers-premium' ); ?></p>
+			</div>
+			<?php
+			// developers can put a custom success message here for when activation is successful if they way
+			break;
 		}
 	}
 }

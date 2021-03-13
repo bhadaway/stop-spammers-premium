@@ -6,7 +6,7 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 if ( !current_user_can( 'manage_options' ) ) {
-	die( __( 'Access Denied', 'stop-spammers-premium' ) );
+	die( __( 'Access Blocked', 'stop-spammers-premium' ) );
 }
 
 ?>

@@ -22,6 +22,9 @@ OR
 
 == Changelog ==
 
+= 2021.2 =
+* [New] Notification Control feature
+
 = 2021.1 =
 * [New] Strings are now translation-ready
 * [Enhanced] Premium settings page saving

@@ -118,6 +118,38 @@ function ss_export_excel() {
 	if ( get_option( 'ssp_enable_firewall', '' ) == 'yes' ) {
 		$ss_firewall_setting = "checked='checked'";
 	}
+	$ss_hide_admin_notices = '';
+	if ( get_option( 'ss_hide_admin_notices', '' ) == 'yes' ) {
+		$ss_hide_admin_notices = "checked='checked'";
+	}
+	$ss_disable_admin_emails = '';
+	if ( get_option( 'ss_disable_admin_emails', '' ) == 'yes' ) {
+		$ss_disable_admin_emails = "checked='checked'";
+	}
+	$ss_disable_admin_emails_update = '';
+	if ( get_option( 'ss_disable_admin_emails_update', '' ) == 'yes' ) {
+		$ss_disable_admin_emails_update = "checked='checked'";
+	}
+	$ss_disable_admin_emails_comment = '';
+	if ( get_option( 'ss_disable_admin_emails_comment', '' ) == 'yes' ) {
+		$ss_disable_admin_emails_comment = "checked='checked'";
+	}
+	$ss_disable_admin_emails_password_reset = '';
+	if ( get_option( 'ss_disable_admin_emails_password_reset', '' ) == 'yes' ) {
+		$ss_disable_admin_emails_password_reset = "checked='checked'";
+	}
+	$ss_disable_admin_emails_new_user = '';
+	if ( get_option( 'ss_disable_admin_emails_new_user', '' ) == 'yes' ) {
+		$ss_disable_admin_emails_new_user = "checked='checked'";
+	}
+	$ss_disable_core_nudge = '';
+	if ( get_option( 'ss_disable_core_nudge', '' ) == 'yes' ) {
+		$ss_disable_core_nudge = "checked='checked'";
+	}
+	$ss_disable_plugin_nudge = '';
+	if ( get_option( 'ss_disable_plugin_nudge', '' ) == 'yes' ) {
+		$ss_disable_plugin_nudge = "checked='checked'";
+	}
 	$ss_login_setting = '';
 	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
 		$ss_login_setting = "checked='checked'";
@@ -173,7 +205,7 @@ function ss_export_excel() {
 								<?php _e( 'Hide all admin notices', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p><input type="hidden" name="ss_hide_admin_notices_placeholder" value="ss_hide_admin_notices" /></p>
+						<p></p>
 						<div class="checkbox switcher">
 							<label for="ss_disable_admin_emails">
 								<input type="checkbox" name="ss_disable_admin_emails" id="ss_disable_admin_emails" value="yes" <?php echo $ss_disable_admin_emails; ?>>
@@ -181,7 +213,41 @@ function ss_export_excel() {
 								<?php _e( 'Disable Admin Emails', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p><input type="hidden" name="ss_disable_admin_emails_placeholder" value="ss_disable_admin_emails" /></p>
+						<p></p>
+						<div class="ss_disable_admin_emails_wraps" <?php echo (get_option( 'ss_disable_admin_emails', 'no') == 'yes' ? '': 'style="display:none;"' );?>>
+							<div class="checkbox switcher">
+								<label for="ss_disable_admin_emails_update">
+									<input type="checkbox" name="ss_disable_admin_emails_update" id="ss_disable_admin_emails_update" value="yes" <?php echo $ss_disable_admin_emails_update; ?>>
+									<span><small></small></span>
+									<?php _e( 'Disable updates emails', 'stop-spammers-premium' ); ?>
+								</label>
+							</div>
+							<p></p>
+							<div class="checkbox switcher">
+								<label for="ss_disable_admin_emails_comment">
+									<input type="checkbox" name="ss_disable_admin_emails_comment" id="ss_disable_admin_emails_comment" value="yes" <?php echo $ss_disable_admin_emails_comment; ?>>
+									<span><small></small></span>
+									<?php _e( 'Disable comment emails', 'stop-spammers-premium' ); ?>
+								</label>
+							</div>
+							<p></p>
+							<div class="checkbox switcher">
+								<label for="ss_disable_admin_emails_password_reset">
+									<input type="checkbox" name="ss_disable_admin_emails_password_reset" id="ss_disable_admin_emails_password_reset" value="yes" <?php echo $ss_disable_admin_emails_password_reset; ?>>
+									<span><small></small></span>
+									<?php _e( 'Disable password reset emails', 'stop-spammers-premium' ); ?>
+								</label>
+							</div>
+							<p></p>
+							<div class="checkbox switcher">
+								<label for="ss_disable_admin_emails_new_user">
+									<input type="checkbox" name="ss_disable_admin_emails_new_user" id="ss_disable_admin_emails_new_user" value="yes" <?php echo $ss_disable_admin_emails_new_user; ?>>
+									<span><small></small></span>
+									<?php _e( 'Disable new user emails', 'stop-spammers-premium' ); ?>
+								</label>
+							</div>
+							<p></p>
+						</div>
 						<div class="checkbox switcher">
 							<label for="ss_disable_core_nudge">
 								<input type="checkbox" name="ss_disable_core_nudge" id="ss_disable_core_nudge" value="yes" <?php echo $ss_disable_core_nudge; ?>>
@@ -189,7 +255,7 @@ function ss_export_excel() {
 								<?php _e( 'Disable Core Updates Nudge', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p><input type="hidden" name="ss_disable_plugin_nudge_placeholder" value="ss_disable_plugin_nudge" /></p>
+						<p></p>
 						<div class="checkbox switcher">
 							<label for="ss_disable_plugin_nudge">
 								<input type="checkbox" name="ss_disable_plugin_nudge" id="ss_disable_plugin_nudge" value="yes" <?php echo $ss_disable_plugin_nudge; ?>>
@@ -197,7 +263,15 @@ function ss_export_excel() {
 								<?php _e( 'Disable Plugin Updates Nudge', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p><input type="hidden" name="ss_disable_core_nudge_placeholder" value="ss_disable_plugin_nudge" /></p>
+						<p><input type="hidden" name="ss_notification_control_setting" value="ss_notification_control_update" /></p>
+					</div>
+					<div class="inside ss_reset_hidden_notice_wrap" <?php echo (get_option( 'ss_hide_admin_notices', 'no') != 'yes' ? '': 'style="display:none;"' );?>>
+						<hr>
+						<h3 style="font-size:16px!important"><span><?php _e( 'Reset hidden notices for ', 'stop-spammers-premium' ); ?></span></h3>
+						
+							<p><input type="radio" name="ss_reset_hidden_notice" value="current" checked="checked"> Current User</p>
+							<p><input type="radio" name="ss_reset_hidden_notice" value="all"> All Users</p>
+							<?php submit_button( __( 'Reset', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
 					</div>
 					<hr />
 					<div class="inside">
@@ -268,10 +342,6 @@ function ss_export_excel() {
 								</div>
 							</li>
 						</ul>
-						<hr />
-					<div class="inside">
-						<h3 style="font-size:16px!important"><span><?php _e( 'Honeypot Settings', 'stop-spammers-premium' ); ?></span></h3>
-						</div>
 						<hr />						
 						<p>
 							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
@@ -679,6 +749,108 @@ function ssp_enable_firewall() {
 	}
 }
 add_action( 'admin_init', 'ssp_enable_firewall' );
+
+// Notification control settings update
+function ssp_update_notification_control() {
+	if ( empty( $_POST['ss_notification_control_setting'] ) || 'ss_notification_control_update' != $_POST['ss_notification_control_setting'] )
+		return;
+	if ( !wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
+		return;
+	if ( !current_user_can( 'manage_options' ) )
+		return;
+
+	if ( $_POST['submit'] == "Reset" ) {
+		if( $_POST['ss_reset_hidden_notice'] == 'all') {
+			global $wpdb;
+			delete_user_meta( get_current_user_id(), 'ss_notice_preference' );
+			$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'ss_notice_preference'" );
+		} else {
+			delete_user_meta( get_current_user_id(), 'ss_notice_preference' );
+		}
+		return;
+	}
+
+	if ( isset( $_POST['ss_hide_admin_notices'] ) and $_POST['ss_hide_admin_notices'] == 'yes' )
+		update_option( 'ss_hide_admin_notices', 'yes' );
+	else
+		update_option( 'ss_hide_admin_notices', 'no' );
+	
+	if ( ! isset( $_POST['ss_disable_admin_emails'] ) ) {
+		
+		update_option( 'ss_disable_admin_emails', 'no' );
+		update_option( 'ss_disable_admin_emails_update', 'no' );
+		update_option( 'ss_disable_admin_emails_comment', 'no' );
+		update_option( 'ss_disable_admin_emails_password_reset', 'no' );
+		update_option( 'ss_disable_admin_emails_new_user', 'no' );
+
+	} else {
+
+		if ( isset( $_POST['ss_disable_admin_emails_update'] ) and $_POST['ss_disable_admin_emails_update'] == 'yes' )
+			update_option( 'ss_disable_admin_emails_update', 'yes' );
+		else
+			update_option( 'ss_disable_admin_emails_update', 'no' );
+
+		if ( isset( $_POST['ss_disable_admin_emails_comment'] ) and $_POST['ss_disable_admin_emails_comment'] == 'yes' )
+			update_option( 'ss_disable_admin_emails_comment', 'yes' );
+		else
+			update_option( 'ss_disable_admin_emails_comment', 'no' );
+
+		if ( isset( $_POST['ss_disable_admin_emails_password_reset'] ) and $_POST['ss_disable_admin_emails_password_reset'] == 'yes' )
+			update_option( 'ss_disable_admin_emails_password_reset', 'yes' );
+		else
+			update_option( 'ss_disable_admin_emails_password_reset', 'no' );
+
+		if ( isset( $_POST['ss_disable_admin_emails_new_user'] ) and $_POST['ss_disable_admin_emails_new_user'] == 'yes' )
+			update_option( 'ss_disable_admin_emails_new_user', 'yes' );
+		else
+			update_option( 'ss_disable_admin_emails_new_user', 'no' );
+
+		if ( (isset( $_POST['ss_disable_admin_emails_update'] ) and $_POST['ss_disable_admin_emails_update'] == 'yes')
+			|| (isset( $_POST['ss_disable_admin_emails_comment'] ) and $_POST['ss_disable_admin_emails_comment'] == 'yes')
+			|| (isset( $_POST['ss_disable_admin_emails_password_reset'] ) and $_POST['ss_disable_admin_emails_password_reset'] == 'yes')
+			|| (isset( $_POST['ss_disable_admin_emails_new_user'] ) and $_POST['ss_disable_admin_emails_new_user'] == 'yes')
+		)
+			update_option( 'ss_disable_admin_emails', 'yes' );
+		else
+			update_option( 'ss_disable_admin_emails', 'no' );
+	}
+
+	if ( isset( $_POST['ss_disable_core_nudge'] ) and $_POST['ss_disable_core_nudge'] == 'yes' )
+		update_option( 'ss_disable_core_nudge', 'yes' );
+	else
+		update_option( 'ss_disable_core_nudge', 'no' );
+
+	if ( isset( $_POST['ss_disable_plugin_nudge'] ) and $_POST['ss_disable_plugin_nudge'] == 'yes' )
+		update_option( 'ss_disable_plugin_nudge', 'yes' );
+	else
+		update_option( 'ss_disable_plugin_nudge', 'no' );
+}
+add_action( 'admin_init', 'ssp_update_notification_control' );
+
+// Notification control: for core/plugin/theme updates
+if( get_option( 'ss_disable_admin_emails_update', 'no' ) === 'yes' ) {
+	add_filter( 'auto_core_update_send_email', '__return_false' );
+	add_filter( 'auto_theme_update_send_email', '__return_false' );
+	add_filter( 'auto_plugin_update_send_email', '__return_false' );
+}
+
+// Notification control: for comments
+if( get_option( 'ss_disable_admin_emails_comment', 'no' ) === 'yes' ) {
+	function wp_notify_postauthor( $comment_id, $deprecated = null ) {}
+}
+
+// Notification control: for reset password
+if( get_option( 'ss_disable_admin_emails_password_reset', 'no' ) === 'yes' ) {
+	function wp_password_change_notification($user) {}
+}
+
+// Notification control: for new user registration
+if( get_option( 'ss_disable_admin_emails_new_user', 'no' ) === 'yes' ) {
+	remove_action( 'register_new_user', 'wp_send_new_user_notifications' );
+	add_action( 'register_new_user',function( $user_id, $notify = 'user' ) {
+		wp_send_new_user_notifications( $user_id, $notify );
+	} );
+}
 
 // enable custom login
 function ssp_enable_custom_login() {

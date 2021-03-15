@@ -33,7 +33,7 @@ function ssp_load_plugin_textdomain() {
 add_action( 'plugins_loaded', 'ssp_load_plugin_textdomain' );
 
 // settings successfully updated message
-function ssp_admin_notice__success() {
+function ssp_admin_notice_success() {
 	?>
 	<div class="notice notice-success is-dismissible">
 		<p><?php _e( 'Options Updated', 'stop-spammers-premium' ); ?></p>
@@ -646,7 +646,7 @@ function ssp_enable_firewall() {
 		return;
 	if ( isset( $_POST['ss_firewall_setting'] ) and $_POST['ss_firewall_setting'] == 'yes' ) {
 		update_option( 'ssp_enable_firewall', 'yes' );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		add_action( 'admin_notices', 'ssp_admin_notice_success' );
 		$insertion = array(
 			'<IfModule mod_headers.c>',
 			'Header set X-XSS-Protection "1; mode=block"',
@@ -754,7 +754,7 @@ function ssp_enable_firewall() {
 	}
 	else {
 		update_option( 'ssp_enable_firewall', 'no' );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		add_action( 'admin_notices', 'ssp_admin_notice_success' );
 		$htaccess = ABSPATH . '.htaccess';
 		return insert_with_markers( $htaccess, 'Stop Spammers Premium', '' );
 	}
@@ -881,11 +881,11 @@ function ssp_enable_custom_login() {
 		return;
 	if ( isset( $_POST['ss_login_setting'] ) and $_POST['ss_login_setting'] == 'yes' ) {
 		update_option( 'ssp_enable_custom_login', 'yes' );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		add_action( 'admin_notices', 'ssp_admin_notice_success' );
 		ssp_install_custom_login();
 	} else {
 		update_option( 'ssp_enable_custom_login', 'no' );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		add_action( 'admin_notices', 'ssp_admin_notice_success' );
 		ssp_uninstall_custom_login();
 	}
 }
@@ -901,7 +901,7 @@ function ssp_login_type_func() {
 		return;
 	if ( isset( $_POST['ssp_login_type'] ) ) {
 		update_option( 'ssp_login_type', $_POST['ssp_login_type'] );
-		add_action( 'admin_notices', 'ssp_admin_notice__success' );
+		add_action( 'admin_notices', 'ssp_admin_notice_success' );
 	}
 }
 add_action( 'admin_init', 'ssp_login_type_func' ); 
@@ -1469,9 +1469,9 @@ function ssp_process_settings_import() {
 	// retrieve the settings from the file and convert the json object to an array
 	$options = ( array ) json_decode( file_get_contents( $import_file ) );	
 	ss_set_options( $options );
-	add_action( 'admin_notices', 'ssp_admin_notice__success' );
+	add_action( 'admin_notices', 'ssp_admin_notice_success' );
 	// wp_safe_redirect( admin_url( 'admin.php?page=ssp_premium' ) ); 
-	// add_action( 'admin_notices', 'ssp_admin_notice__success' );
+	// add_action( 'admin_notices', 'ssp_admin_notice_success' );
 	// exit;
 }
 add_action( 'admin_init', 'ssp_process_settings_import' );
@@ -1487,7 +1487,7 @@ function ssp_process_settings_reset() {
 	$url	 = plugin_dir_path( __FILE__ ) . '/modules/ssp-default.json'; 
 	$options = ( array ) json_decode( file_get_contents( $url ) );
 	ss_set_options( $options );
-	add_action( 'admin_notices', 'ssp_admin_notice__success' );
+	add_action( 'admin_notices', 'ssp_admin_notice_success' );
 }
 add_action( 'admin_init', 'ssp_process_settings_reset' );
 

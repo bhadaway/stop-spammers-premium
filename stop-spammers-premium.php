@@ -194,7 +194,7 @@ function ss_export_excel() {
 							<label for="ss_firewall_setting">
 								<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
 								<span><small></small></span>
-								<?php _e( 'Enable firewall', 'stop-spammers-premium' ); ?>
+								<?php _e( 'Enable Firewall', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>
@@ -206,7 +206,7 @@ function ss_export_excel() {
 							<label for="ss_hide_admin_notices">
 								<input type="checkbox" name="ss_hide_admin_notices" id="ss_hide_admin_notices" value="yes" <?php echo $ss_hide_admin_notices; ?>>
 								<span><small></small></span>
-								<?php _e( 'Hide all admin notices', 'stop-spammers-premium' ); ?>
+								<?php _e( 'Hide All Admin Notices', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
 						<p></p>
@@ -223,7 +223,7 @@ function ss_export_excel() {
 								<label for="ss_disable_admin_emails_update">
 									<input type="checkbox" name="ss_disable_admin_emails_update" id="ss_disable_admin_emails_update" value="yes" <?php echo $ss_disable_admin_emails_update; ?>>
 									<span><small></small></span>
-									<?php _e( 'Disable updates emails', 'stop-spammers-premium' ); ?>
+									<?php _e( 'Disable Update Emails', 'stop-spammers-premium' ); ?>
 								</label>
 							</div>
 							<p></p>
@@ -231,7 +231,7 @@ function ss_export_excel() {
 								<label for="ss_disable_admin_emails_comment">
 									<input type="checkbox" name="ss_disable_admin_emails_comment" id="ss_disable_admin_emails_comment" value="yes" <?php echo $ss_disable_admin_emails_comment; ?>>
 									<span><small></small></span>
-									<?php _e( 'Disable comment emails', 'stop-spammers-premium' ); ?>
+									<?php _e( 'Disable Comment Emails', 'stop-spammers-premium' ); ?>
 								</label>
 							</div>
 							<p></p>
@@ -239,7 +239,7 @@ function ss_export_excel() {
 								<label for="ss_disable_admin_emails_password_reset">
 									<input type="checkbox" name="ss_disable_admin_emails_password_reset" id="ss_disable_admin_emails_password_reset" value="yes" <?php echo $ss_disable_admin_emails_password_reset; ?>>
 									<span><small></small></span>
-									<?php _e( 'Disable password reset emails', 'stop-spammers-premium' ); ?>
+									<?php _e( 'Disable Password Reset Emails', 'stop-spammers-premium' ); ?>
 								</label>
 							</div>
 							<p></p>
@@ -247,7 +247,7 @@ function ss_export_excel() {
 								<label for="ss_disable_admin_emails_new_user">
 									<input type="checkbox" name="ss_disable_admin_emails_new_user" id="ss_disable_admin_emails_new_user" value="yes" <?php echo $ss_disable_admin_emails_new_user; ?>>
 									<span><small></small></span>
-									<?php _e( 'Disable new user emails', 'stop-spammers-premium' ); ?>
+									<?php _e( 'Disable New User Emails', 'stop-spammers-premium' ); ?>
 								</label>
 							</div>
 							<p></p>
@@ -339,7 +339,7 @@ function ss_export_excel() {
 									<label for="ssp-login-type-username">
 										<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
 										<span><small></small></span>
-										<?php _e( 'Username only', 'stop-spammers-premium' ); ?>
+										<?php _e( 'Username Only', 'stop-spammers-premium' ); ?>
 									</label>
 								</div>
 							</li>
@@ -348,7 +348,7 @@ function ss_export_excel() {
 									<label for="ssp-login-type-email">
 										<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
 										<span><small></small></span>
-										<?php _e( 'Email only', 'stop-spammers-premium' ); ?>
+										<?php _e( 'Email Only', 'stop-spammers-premium' ); ?>
 									</label>
 								</div>
 							</li>
@@ -851,17 +851,18 @@ if ( get_option( 'ss_disable_admin_emails_new_user', 'no' ) === 'yes' ) {
 	} );
 }
 
-function remove_core_updates(){
-global $wp_version;return(object) array('last_checked'=> time(),'version_checked'=> $wp_version,);
+// Notification Control: for native nudges
+function ssp_remove_core_updates() {
+	global $wp_version;return( object ) array( 'last_checked' => time(), 'version_checked' => $wp_version );
 }
 if ( get_option( 'ss_disable_core_nudge', 'no' ) === 'yes' ) {
-add_filter('pre_site_transient_update_core','remove_core_updates');
-}
-if ( get_option( 'ss_disable_plugin_nudge', 'no' ) === 'yes' ) {
-add_filter('pre_site_transient_update_plugins','remove_core_updates');
+	add_filter( 'pre_site_transient_update_core', 'ssp_remove_core_updates' );
 }
 if ( get_option( 'ss_disable_theme_nudge', 'no' ) === 'yes' ) {
-add_filter('pre_site_transient_update_themes','remove_core_updates');
+	add_filter( 'pre_site_transient_update_themes', 'ssp_remove_core_updates' );
+}
+if ( get_option( 'ss_disable_plugin_nudge', 'no' ) === 'yes' ) {
+	add_filter( 'pre_site_transient_update_plugins', 'ssp_remove_core_updates' );
 }
 
 // enable custom login

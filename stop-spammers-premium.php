@@ -840,7 +840,7 @@ if ( get_option( 'ss_disable_admin_emails_update', 'no' ) === 'yes' ) {
 // Notification Control: for comments
 if ( get_option( 'ss_disable_admin_emails_comment', 'no' ) === 'yes' ) {
 	function wp_notify_postauthor( $comment_id, $deprecated = null ) {}
-	function wp_notify_moderator($comment_id) {}
+	function wp_notify_moderator( $comment_id ) {}
 }
 
 // Notification Control: for reset password

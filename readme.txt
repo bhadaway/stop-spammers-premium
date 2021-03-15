@@ -27,7 +27,7 @@ OR
 ** Hide all admin notices
 ** Reset hiding individual admin notices
 ** Hide nudges for core, theme, and plugin updates
-** Disable Automated Admin Emails, including password reset, account creation, & more
+** Disable automated admin emails, including password reset, account creation, and more
 * [Update] New features added to restore defaults
 
 = 2021.1 =

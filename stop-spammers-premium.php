@@ -115,51 +115,51 @@ if ( empty( $license ) ) {
 
 function ss_export_excel() {
 	$ss_firewall_setting = '';
-	if ( get_option( 'ssp_enable_firewall', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_enable_firewall', '' ) === 'yes' ) {
 		$ss_firewall_setting = "checked='checked'";
 	}
 	$ss_hide_admin_notices = '';
-	if ( get_option( 'ss_hide_admin_notices', '' ) == 'yes' ) {
+	if ( get_option( 'ss_hide_admin_notices', '' ) === 'yes' ) {
 		$ss_hide_admin_notices = "checked='checked'";
 	}
 	$ss_disable_admin_emails = '';
-	if ( get_option( 'ss_disable_admin_emails', '' ) == 'yes' ) {
+	if ( get_option( 'ss_disable_admin_emails', '' ) === 'yes' ) {
 		$ss_disable_admin_emails = "checked='checked'";
 	}
 	$ss_disable_admin_emails_update = '';
-	if ( get_option( 'ss_disable_admin_emails_update', '' ) == 'yes' ) {
+	if ( get_option( 'ss_disable_admin_emails_update', '' ) === 'yes' ) {
 		$ss_disable_admin_emails_update = "checked='checked'";
 	}
 	$ss_disable_admin_emails_comment = '';
-	if ( get_option( 'ss_disable_admin_emails_comment', '' ) == 'yes' ) {
+	if ( get_option( 'ss_disable_admin_emails_comment', '' ) === 'yes' ) {
 		$ss_disable_admin_emails_comment = "checked='checked'";
 	}
 	$ss_disable_admin_emails_password_reset = '';
-	if ( get_option( 'ss_disable_admin_emails_password_reset', '' ) == 'yes' ) {
+	if ( get_option( 'ss_disable_admin_emails_password_reset', '' ) === 'yes' ) {
 		$ss_disable_admin_emails_password_reset = "checked='checked'";
 	}
 	$ss_disable_admin_emails_new_user = '';
-	if ( get_option( 'ss_disable_admin_emails_new_user', '' ) == 'yes' ) {
+	if ( get_option( 'ss_disable_admin_emails_new_user', '' ) === 'yes' ) {
 		$ss_disable_admin_emails_new_user = "checked='checked'";
 	}
 	$ss_disable_core_nudge = '';
-	if ( get_option( 'ss_disable_core_nudge', '' ) == 'yes' ) {
+	if ( get_option( 'ss_disable_core_nudge', '' ) === 'yes' ) {
 		$ss_disable_core_nudge = "checked='checked'";
 	}
 	$ss_disable_theme_nudge = '';
-	if ( get_option( 'ss_disable_theme_nudge', '' ) == 'yes' ) {
+	if ( get_option( 'ss_disable_theme_nudge', '' ) === 'yes' ) {
 		$ss_disable_theme_nudge = "checked='checked'";
 	}
 	$ss_disable_plugin_nudge = '';
-	if ( get_option( 'ss_disable_plugin_nudge', '' ) == 'yes' ) {
+	if ( get_option( 'ss_disable_plugin_nudge', '' ) === 'yes' ) {
 		$ss_disable_plugin_nudge = "checked='checked'";
 	}
 	$ss_login_setting = '';
-	if ( get_option( 'ssp_enable_custom_login', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_enable_custom_login', '' ) === 'yes' ) {
 		$ss_login_setting = "checked='checked'";
 	}
 	$ssp_login_attempts = '';
-	if ( get_option( 'ssp_login_attempts', '' ) == 'yes' ) {
+	if ( get_option( 'ssp_login_attempts', '' ) === 'yes' ) {
 		$ssp_login_attempts = "checked='checked'";
 	}
 	$ss_login_type_default = "";
@@ -819,6 +819,10 @@ function ssp_update_notification_control() {
 		update_option( 'ss_disable_core_nudge', 'yes' );
 	else
 		update_option( 'ss_disable_core_nudge', 'no' );
+	if ( isset( $_POST['ss_disable_theme_nudge'] ) and $_POST['ss_disable_theme_nudge'] == 'yes' )
+		update_option( 'ss_disable_theme_nudge', 'yes' );
+	else
+		update_option( 'ss_disable_theme_nudge', 'no' );
 	if ( isset( $_POST['ss_disable_plugin_nudge'] ) and $_POST['ss_disable_plugin_nudge'] == 'yes' )
 		update_option( 'ss_disable_plugin_nudge', 'yes' );
 	else
@@ -836,6 +840,7 @@ if ( get_option( 'ss_disable_admin_emails_update', 'no' ) === 'yes' ) {
 // Notification Control: for comments
 if ( get_option( 'ss_disable_admin_emails_comment', 'no' ) === 'yes' ) {
 	function wp_notify_postauthor( $comment_id, $deprecated = null ) {}
+	function wp_notify_moderator($comment_id) {}
 }
 
 // Notification Control: for reset password
@@ -853,7 +858,8 @@ if ( get_option( 'ss_disable_admin_emails_new_user', 'no' ) === 'yes' ) {
 
 // Notification Control: for native nudges
 function ssp_remove_core_updates() {
-	global $wp_version;return( object ) array( 'last_checked' => time(), 'version_checked' => $wp_version );
+	global $wp_version;
+	return( object ) array( 'last_checked' => time(), 'version_checked' => $wp_version );
 }
 if ( get_option( 'ss_disable_core_nudge', 'no' ) === 'yes' ) {
 	add_filter( 'pre_site_transient_update_core', 'ssp_remove_core_updates' );

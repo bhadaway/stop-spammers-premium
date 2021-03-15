@@ -24,6 +24,11 @@ OR
 
 = 2021.2 =
 * [New] Notification Control feature
+** Hide all admin notices
+** Reset hiding individual admin notices
+** Hide nudges for core, theme, and plugin updates
+** Disable Automated Admin Emails, including password reset, account creation, & more
+* [Update] New features added to restore defaults
 
 = 2021.1 =
 * [New] Strings are now translation-ready

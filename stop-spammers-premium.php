@@ -356,7 +356,7 @@ function ss_export_excel() {
 						<hr />						
 						<p>
 							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
-							<?php submit_button( __( 'Save', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
+							<?php submit_button( __( 'Save Changes', 'stop-spammers-premium' ), 'primary', 'submit', false ); ?>
 						</p>
 					</div>
 				</form>

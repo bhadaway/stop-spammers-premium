@@ -146,6 +146,10 @@ function ss_export_excel() {
 	if ( get_option( 'ss_disable_core_nudge', '' ) == 'yes' ) {
 		$ss_disable_core_nudge = "checked='checked'";
 	}
+	$ss_disable_theme_nudge = '';
+	if ( get_option( 'ss_disable_theme_nudge', '' ) == 'yes' ) {
+		$ss_disable_theme_nudge = "checked='checked'";
+	}
 	$ss_disable_plugin_nudge = '';
 	if ( get_option( 'ss_disable_plugin_nudge', '' ) == 'yes' ) {
 		$ss_disable_plugin_nudge = "checked='checked'";
@@ -253,6 +257,14 @@ function ss_export_excel() {
 								<input type="checkbox" name="ss_disable_core_nudge" id="ss_disable_core_nudge" value="yes" <?php echo $ss_disable_core_nudge; ?>>
 								<span><small></small></span>
 								<?php _e( 'Disable Core Updates Nudge', 'stop-spammers-premium' ); ?>
+							</label>
+						</div>
+						<p></p>
+						<div class="checkbox switcher">
+							<label for="ss_disable_theme_nudge">
+								<input type="checkbox" name="ss_disable_theme_nudge" id="ss_disable_theme_nudge" value="yes" <?php echo $ss_disable_theme_nudge; ?>>
+								<span><small></small></span>
+								<?php _e( 'Disable Theme Updates Nudge', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
 						<p></p>
@@ -837,6 +849,19 @@ if ( get_option( 'ss_disable_admin_emails_new_user', 'no' ) === 'yes' ) {
 	add_action( 'register_new_user', function( $user_id, $notify = 'user' ) {
 		wp_send_new_user_notifications( $user_id, $notify );
 	} );
+}
+
+function remove_core_updates(){
+global $wp_version;return(object) array('last_checked'=> time(),'version_checked'=> $wp_version,);
+}
+if ( get_option( 'ss_disable_core_nudge', 'no' ) === 'yes' ) {
+add_filter('pre_site_transient_update_core','remove_core_updates');
+}
+if ( get_option( 'ss_disable_plugin_nudge', 'no' ) === 'yes' ) {
+add_filter('pre_site_transient_update_plugins','remove_core_updates');
+}
+if ( get_option( 'ss_disable_theme_nudge', 'no' ) === 'yes' ) {
+add_filter('pre_site_transient_update_themes','remove_core_updates');
 }
 
 // enable custom login

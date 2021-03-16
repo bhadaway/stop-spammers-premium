@@ -102,6 +102,7 @@ function ssp_license_menu() {
 	}
 }
 add_action( 'admin_menu', 'ssp_license_menu', 11 );
+add_action( 'network_admin_menu', 'ssp_license_menu', 11 );
 
 // action links
 $license = get_option( 'ssp_license_key' );

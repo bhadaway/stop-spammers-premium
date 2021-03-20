@@ -174,7 +174,7 @@ function ss_export_excel() {
 		$ss_login_type_default = "checked='checked'";
 	}
 	$ss_honeypot_cf7 = "";
-	if ( get_option( 'ssp_login_type', 'yes' ) == 'yes' and is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
+	if ( get_option( 'ss_honeypot_cf7', 'yes' ) == 'yes' and is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
 		$ss_honeypot_cf7 = "checked='checked'";
 	}
 	$ss_honeypot_bbpress = "";

@@ -173,6 +173,23 @@ function ss_export_excel() {
 	} else {
 		$ss_login_type_default = "checked='checked'";
 	}
+	$ss_honeypot_cf7 = "";
+	if ( get_option( 'ssp_login_type', 'yes' ) == 'yes' and is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
+		$ss_honeypot_cf7 = "checked='checked'";
+	}
+	$ss_honeypot_bbpress = "";
+	if ( get_option( 'ss_honeypot_bbpress', 'yes' ) == 'yes' and is_plugin_active( 'bbpress/bbpress.php' ) ) {
+		$ss_honeypot_bbpress = "checked='checked'";
+	}
+	$ss_honeypot_elementor	 = "";
+	if ( get_option( 'ss_honeypot_elementor	', 'yes' ) == 'yes' and is_plugin_active( 'elementor/elementor.php' ) ) {
+		$ss_honeypot_elementor = "checked='checked'";
+	}
+	$theme = wp_get_theme();
+	$ss_honeypot_divi = "";
+	if ( get_option( 'ss_honeypot_divi	', 'yes' ) == 'yes' and ( $theme->name == 'Divi' || $theme->parent_theme == 'Divi' ) ) {
+		$ss_honeypot_divi = "checked='checked'";
+	}
 	?>
 	<div id="ss-plugin" class="wrap">
 		<h1 class="ss_head"><?php _e( 'Stop Spammers Premium Features', 'stop-spammers-premium' ); ?></h1>
@@ -354,7 +371,41 @@ function ss_export_excel() {
 								</div>
 							</li>
 						</ul>
-						<hr />						
+						<hr />
+						<h3 style="font-size:16px!important"><span><?php _e( 'Honeypot', 'stop-spammers-premium' ); ?></span></h3>
+						<div class="checkbox switcher">
+							<label for="ss_honeypot_cf7">
+								<input type="checkbox" name="ss_honeypot_cf7" id="ss_honeypot_cf7" value="yes" <?php echo ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ? '' : 'disabled="disabled"' ); ?> <?php echo $ss_honeypot_cf7; ?>>
+								<span><small></small></span>
+								<?php _e( 'Contact Form 7', 'stop-spammers-premium' ); ?>
+							</label>
+						</div>
+						<p></p>
+						<div class="checkbox switcher">
+							<label for="ss_honeypot_bbpress">
+								<input type="checkbox" name="ss_honeypot_bbpress" id="ss_honeypot_bbpress" value="yes" <?php echo ( is_plugin_active( 'bbpress/bbpress.php' ) ? '' : 'disabled="disabled"' ); ?> <?php echo $ss_honeypot_bbpress; ?>>
+								<span><small></small></span>
+								<?php _e( 'bbPress', 'stop-spammers-premium' ); ?>
+							</label>
+						</div>
+						<p></p>
+						<div class="checkbox switcher">
+							<label for="ss_honeypot_elementor">
+								<input type="checkbox" name="ss_honeypot_elementor" id="ss_honeypot_elementor" value="yes" <?php echo ( is_plugin_active( 'elementor/elementor.php' ) ? '' : 'disabled="disabled"' ); ?> <?php echo $ss_honeypot_elementor; ?>>
+								<span><small></small></span>
+								<?php _e( 'Elementor Form', 'stop-spammers-premium' ); ?>
+							</label>
+						</div>
+						<p></p>
+						<div class="checkbox switcher">
+							<label for="ss_honeypot_divi">
+								<input type="checkbox" name="ss_honeypot_divi" id="ss_honeypot_divi" value="yes" <?php echo ( ( $theme->name == 'Divi' || $theme->parent_theme == 'Divi' ) ? '' : 'disabled="disabled"' ); ?> <?php echo $ss_honeypot_divi; ?>>
+								<span><small></small></span>
+								<?php _e( 'Divi Forms', 'stop-spammers-premium' ); ?>
+							</label>
+						</div>
+						<p></p>
+						<hr />			
 						<p>
 							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
 							<?php submit_button( __( 'Save Changes', 'stop-spammers-premium' ), 'primary', 'submit', false ); ?>
@@ -526,116 +577,124 @@ function ssp_contact_form_shortcode() {
 add_shortcode( 'ssp-contact-form', 'ssp_contact_form_shortcode' );
 add_filter( 'widget_text', 'do_shortcode' );
 
-// add honeypot to Contact Form 7
-function ssp_cf7_add_honeypot( $form ) {
-	$html  = '';
-	$html .= '<p class="ssp-user">';
-	$html .= '<label>' . __( 'Your Website (required)', 'stop-spammers-premium' ) . '<br />';
-	$html .= '<span class="wpcf7-form-control-wrap your-website">';
-	$html .= '<input type="text" name="your-website" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required />';
-	$html .= '</span>';
-	$html .= '<label>';
-	$html .= '</p>';
-	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
-	return $html.$form;
-}
-add_filter( 'wpcf7_form_elements', 'ssp_cf7_add_honeypot', 10, 1 );
+if( get_option('ss_honeypot_cf7', 'yes') == 'yes' ) {
+	// add honeypot to Contact Form 7
+	function ssp_cf7_add_honeypot( $form ) {
+		$html  = '';
+		$html .= '<p class="ssp-user">';
+		$html .= '<label>' . __( 'Your Website (required)', 'stop-spammers-premium' ) . '<br />';
+		$html .= '<span class="wpcf7-form-control-wrap your-website">';
+		$html .= '<input type="text" name="your-website" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" required />';
+		$html .= '</span>';
+		$html .= '<label>';
+		$html .= '</p>';
+		$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+		return $html.$form;
+	}
+	add_filter( 'wpcf7_form_elements', 'ssp_cf7_add_honeypot', 10, 1 );
 
-function ssp_cf7_verify_honeypot( $spam ) {
-	if ( $spam ) {
+	function ssp_cf7_verify_honeypot( $spam ) {
+		if ( $spam ) {
+			return $spam;
+		}
+		if ( $_POST['your-website'] != 'https://example.com/' ) {
+			return true;
+		}
 		return $spam;
 	}
-	if ( $_POST['your-website'] != 'https://example.com/' ) {
-		return true;
+	add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
+}
+
+if( get_option('ss_honeypot_bbpress', 'yes') == 'yes' ) {
+	// add honeypot to bbPress
+	function ssp_bbp_add_honeypot() {
+		$html  = '';
+		$html .= '<p class="ssp-user">';
+		$html .= '<label for="bbp_your-website">' . __( 'Your Website:', 'stop-spammers-premium' ) . '</label><br />';
+		$html .= '<input type="text" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" name="bbp_your-website" id="bbp_your-website" required />';
+		$html .= '</p>';
+		$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+		echo $html;
 	}
-	return $spam;
-}
-add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
+	add_action( 'bbp_theme_before_reply_form_submit_wrapper', 'ssp_bbp_add_honeypot' );
+	add_action( 'bbp_theme_before_topic_form_submit_wrapper', 'ssp_bbp_add_honeypot' );
 
-// add honeypot to bbPress
-function ssp_bbp_add_honeypot() {
-	$html  = '';
-	$html .= '<p class="ssp-user">';
-	$html .= '<label for="bbp_your-website">' . __( 'Your Website:', 'stop-spammers-premium' ) . '</label><br />';
-	$html .= '<input type="text" value="https://example.com/" autocomplete="off" tabindex="-1" size="40" name="bbp_your-website" id="bbp_your-website" required />';
-	$html .= '</p>';
-	$html .= '<style>.ssp-user{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
-	echo $html;
-}
-add_action( 'bbp_theme_before_reply_form_submit_wrapper', 'ssp_bbp_add_honeypot' );
-add_action( 'bbp_theme_before_topic_form_submit_wrapper', 'ssp_bbp_add_honeypot' );
-
-function ssp_bbp_verify_honeypot() {
-	if ( $_POST['bbp_your-website'] != 'https://example.com/' ) {
-		bbp_add_error( 'bbp_throw_error', __( "<strong>ERROR</strong>: Something went wrong!", 'stop-spammers-premium' ) );
+	function ssp_bbp_verify_honeypot() {
+		if ( $_POST['bbp_your-website'] != 'https://example.com/' ) {
+			bbp_add_error( 'bbp_throw_error', __( "<strong>ERROR</strong>: Something went wrong!", 'stop-spammers-premium' ) );
+		}
 	}
+	add_action( 'bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot' );
+	add_action( 'bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot' );
 }
-add_action( 'bbp_new_reply_pre_extras', 'ssp_bbp_verify_honeypot' );
-add_action( 'bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot' );
 
-// add honeypot to Elementor form
-function ssp_elementor_add_honeypot( $content, $widget ) {
-	if ( 'form' === $widget->get_name() ) {
-		$html    = '';
-		$html   .= '<div class="elementor-field-type-text">';
-		$html   .= '<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
-		$html   .= '</div>';
-		$html   .= '<style>#form-field-your-website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
-		$content = str_replace( '<div class="elementor-field-group', $html . '<div class="elementor-field-group', $content );
+if( get_option('ss_honeypot_elementor', 'yes') == 'yes' ) {
+	// add honeypot to Elementor form
+	function ssp_elementor_add_honeypot( $content, $widget ) {
+		if ( 'form' === $widget->get_name() ) {
+			$html    = '';
+			$html   .= '<div class="elementor-field-type-text">';
+			$html   .= '<input size="40" type="text" value="https://example.com/" autocomplete="off" tabindex="-1" name="form_fields[your-website]" id="form-field-your-website" class="elementor-field elementor-size-sm" />';
+			$html   .= '</div>';
+			$html   .= '<style>#form-field-your-website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+			$content = str_replace( '<div class="elementor-field-group', $html . '<div class="elementor-field-group', $content );
+			return $content;
+		}
 		return $content;
 	}
-	return $content;
-}
-add_action( 'elementor/widget/render_content', 'ssp_elementor_add_honeypot', 10, 2 );
+	add_action( 'elementor/widget/render_content', 'ssp_elementor_add_honeypot', 10, 2 );
 
-function ssp_elementor_verify_honeypot( $record, $ajax_handler ) {
-	if ( $_POST['form_fields']['your-website'] != 'https://example.com/' ) {
-		$ajax_handler->add_error( 'your-website', __( 'Something went wrong!', 'stop-spammers-premium' ) );
+	function ssp_elementor_verify_honeypot( $record, $ajax_handler ) {
+		if ( $_POST['form_fields']['your-website'] != 'https://example.com/' ) {
+			$ajax_handler->add_error( 'your-website', __( 'Something went wrong!', 'stop-spammers-premium' ) );
+		}
 	}
+	add_action( 'elementor_pro/forms/validation', 'ssp_elementor_verify_honeypot', 10, 2 );
 }
-add_action( 'elementor_pro/forms/validation', 'ssp_elementor_verify_honeypot', 10, 2 );
 
-// add honeypot to Divi contact form and opt-in
-function ssp_et_add_honeypot( $output, $render_slug, $module ) {
-	if ( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {
-		unset( $_POST['et_pb_contact_your_website'] );
-		$post_last_key = array_key_last( $_POST );
-		$form_json	   = json_decode( stripslashes( $_POST[$post_last_key] ) );
-		array_pop( $form_json );
-		$_POST[$post_last_key] = json_encode( $form_json );
+if( get_option('ss_honeypot_elementor', 'yes') == 'yes' ) {
+	// add honeypot to Divi contact form and opt-in
+	function ssp_et_add_honeypot( $output, $render_slug, $module ) {
+		if ( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {
+			unset( $_POST['et_pb_contact_your_website'] );
+			$post_last_key = array_key_last( $_POST );
+			$form_json	   = json_decode( stripslashes( $_POST[$post_last_key] ) );
+			array_pop( $form_json );
+			$_POST[$post_last_key] = json_encode( $form_json );
+		}
+		$html = '';
+		if ( $render_slug == 'et_pb_contact_form' ) {
+			$html  .= '<p class="et_pb_contact_field et_pb_contact_your_website">';
+			$html  .= '<label for="et_pb_contact_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
+			$html  .= '<input type="text" name="et_pb_contact_your_website" id="et_pb_contact_your_website" placeholder="' . __( 'Your Website', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" required />';
+			$html  .= '</p>';
+			$html  .= '<style>.et_pb_contact_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+			$html  .= '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit';
+			$output = str_replace( '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit', $html, $output );
+		} else if ( $render_slug == 'et_pb_signup' ) {
+			$html   = '';
+			$html  .= '<p class="et_pb_signup_custom_field et_pb_signup_your_website et_pb_newsletter_field et_pb_contact_field_last et_pb_contact_field_last_tablet et_pb_contact_field_last_phone">';
+			$html  .= '<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
+			$html  .= '<input type="text" class="input" id="et_pb_signup_your_website" placeholder="' . __( 'Your Website', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" data-original_id="your-website" required />';
+			$html  .= '</p>';
+			$html  .= '<style>.et_pb_signup_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
+			$html  .= '<p class="et_pb_newsletter_button_wrap">';
+			$output = str_replace( '<p class="et_pb_newsletter_button_wrap">', $html, $output );
+		}
+		return $output;
 	}
-	$html = '';
-	if ( $render_slug == 'et_pb_contact_form' ) {
-		$html  .= '<p class="et_pb_contact_field et_pb_contact_your_website">';
-		$html  .= '<label for="et_pb_contact_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
-		$html  .= '<input type="text" name="et_pb_contact_your_website" id="et_pb_contact_your_website" placeholder="' . __( 'Your Website', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" required />';
-		$html  .= '</p>';
-		$html  .= '<style>.et_pb_contact_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
-		$html  .= '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit';
-		$output = str_replace( '<input type="hidden" value="et_contact_proccess" name="et_pb_contactform_submit', $html, $output );
-	} else if ( $render_slug == 'et_pb_signup' ) {
-		$html   = '';
-		$html  .= '<p class="et_pb_signup_custom_field et_pb_signup_your_website et_pb_newsletter_field et_pb_contact_field_last et_pb_contact_field_last_tablet et_pb_contact_field_last_phone">';
-		$html  .= '<label for="et_pb_signup_your_website" class="et_pb_contact_form_label">' . __( 'Your Website', 'stop-spammers-premium' ) . '</label>';
-		$html  .= '<input type="text" class="input" id="et_pb_signup_your_website" placeholder="' . __( 'Your Website', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" data-original_id="your-website" required />';
-		$html  .= '</p>';
-		$html  .= '<style>.et_pb_signup_your_website{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}</style>';
-		$html  .= '<p class="et_pb_newsletter_button_wrap">';
-		$output = str_replace( '<p class="et_pb_newsletter_button_wrap">', $html, $output );
-	}
-	return $output;
-}
-add_filter( 'et_module_shortcode_output', 'ssp_et_add_honeypot', 20, 3 );
+	add_filter( 'et_module_shortcode_output', 'ssp_et_add_honeypot', 20, 3 );
 
-function ssp_divi_email_optin_verify_honeypot() {
-	if ( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] != 'https://example.com/' ) { 
-		echo '{"error":"Subscription Error: An error occurred, please try later."}';
-		exit;
-	} else if ( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] == 'https://example.com/' ) { 
-		unset( $_POST['et_custom_fields']['your-website'] );
+	function ssp_divi_email_optin_verify_honeypot() {
+		if ( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] != 'https://example.com/' ) { 
+			echo '{"error":"Subscription Error: An error occurred, please try later."}';
+			exit;
+		} else if ( isset( $_POST['et_custom_fields']['your-website'] ) and $_POST['et_custom_fields']['your-website'] == 'https://example.com/' ) { 
+			unset( $_POST['et_custom_fields']['your-website'] );
+		}
 	}
+	add_action( 'admin_init', 'ssp_divi_email_optin_verify_honeypot' );
 }
-add_action( 'admin_init', 'ssp_divi_email_optin_verify_honeypot' );
 
 // enable firewall
 function ssp_enable_firewall() {
@@ -891,6 +950,34 @@ function ssp_enable_custom_login() {
 	}
 }
 add_action( 'admin_init', 'ssp_enable_custom_login' );
+
+// Manage honeypot settings
+function ssp_update_honeypot() {
+	if ( empty( $_POST['ss_notification_control_setting'] ) || 'ss_notification_control_update' != $_POST['ss_notification_control_setting'] )
+		return;
+	if ( !wp_verify_nonce( $_POST['ssp_login_type_nonce'], 'ssp_login_type_nonce' ) )
+		return;
+	if ( !current_user_can( 'manage_options' ) )
+		return;
+	if ( isset( $_POST['ss_honeypot_cf7'] ) and $_POST['ss_honeypot_cf7'] == 'yes' )
+		update_option( 'ss_honeypot_cf7', 'yes' );
+	else
+		update_option( 'ss_honeypot_cf7', 'no' );
+	if ( isset( $_POST['ss_honeypot_bbpress'] ) and $_POST['ss_honeypot_bbpress'] == 'yes' )
+		update_option( 'ss_honeypot_bbpress', 'yes' );
+	else
+		update_option( 'ss_honeypot_bbpress', 'no' );
+	if ( isset( $_POST['ss_honeypot_elementor'] ) and $_POST['ss_honeypot_elementor'] == 'yes' )
+		update_option( 'ss_honeypot_elementor', 'yes' );
+	else
+		update_option( 'ss_honeypot_elementor', 'no' );
+	if ( isset( $_POST['ss_honeypot_divi'] ) and $_POST['ss_honeypot_divi'] == 'yes' )
+		update_option( 'ss_honeypot_divi', 'yes' );
+	else
+		update_option( 'ss_honeypot_divi', 'no' );
+
+}
+add_action( 'admin_init', 'ssp_update_honeypot' );
 
 // process to setup login type
 function ssp_login_type_func() {

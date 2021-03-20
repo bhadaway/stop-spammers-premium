@@ -22,6 +22,11 @@ OR
 
 == Changelog ==
 
+
+= 2021.3 =
+* [Update] Honeypot integration toggles
+* [Update] Multisite support
+
 = 2021.2 =
 * [New] Notification Control feature
 ** Hide all admin notices

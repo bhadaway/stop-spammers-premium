@@ -181,13 +181,13 @@ function ss_export_excel() {
 	if ( get_option( 'ss_honeypot_bbpress', 'yes' ) == 'yes' and is_plugin_active( 'bbpress/bbpress.php' ) ) {
 		$ss_honeypot_bbpress = "checked='checked'";
 	}
-	$ss_honeypot_elementor	 = "";
-	if ( get_option( 'ss_honeypot_elementor	', 'yes' ) == 'yes' and is_plugin_active( 'elementor/elementor.php' ) ) {
+	$ss_honeypot_elementor = "";
+	if ( get_option( 'ss_honeypot_elementor', 'yes' ) == 'yes' and is_plugin_active( 'elementor/elementor.php' ) ) {
 		$ss_honeypot_elementor = "checked='checked'";
 	}
 	$theme = wp_get_theme();
 	$ss_honeypot_divi = "";
-	if ( get_option( 'ss_honeypot_divi	', 'yes' ) == 'yes' and ( $theme->name == 'Divi' || $theme->parent_theme == 'Divi' ) ) {
+	if ( get_option( 'ss_honeypot_divi', 'yes' ) == 'yes' and ( $theme->name == 'Divi' || $theme->parent_theme == 'Divi' ) ) {
 		$ss_honeypot_divi = "checked='checked'";
 	}
 	?>
@@ -577,7 +577,7 @@ function ssp_contact_form_shortcode() {
 add_shortcode( 'ssp-contact-form', 'ssp_contact_form_shortcode' );
 add_filter( 'widget_text', 'do_shortcode' );
 
-if( get_option('ss_honeypot_cf7', 'yes') == 'yes' ) {
+if ( get_option( 'ss_honeypot_cf7', 'yes' ) == 'yes' ) {
 	// add honeypot to Contact Form 7
 	function ssp_cf7_add_honeypot( $form ) {
 		$html  = '';
@@ -605,7 +605,7 @@ if( get_option('ss_honeypot_cf7', 'yes') == 'yes' ) {
 	add_filter( 'wpcf7_spam', 'ssp_cf7_verify_honeypot', 10, 1 );
 }
 
-if( get_option('ss_honeypot_bbpress', 'yes') == 'yes' ) {
+if ( get_option( 'ss_honeypot_bbpress', 'yes' ) == 'yes' ) {
 	// add honeypot to bbPress
 	function ssp_bbp_add_honeypot() {
 		$html  = '';
@@ -628,7 +628,7 @@ if( get_option('ss_honeypot_bbpress', 'yes') == 'yes' ) {
 	add_action( 'bbp_new_topic_pre_extras', 'ssp_bbp_verify_honeypot' );
 }
 
-if( get_option('ss_honeypot_elementor', 'yes') == 'yes' ) {
+if ( get_option( 'ss_honeypot_elementor', 'yes' ) == 'yes' ) {
 	// add honeypot to Elementor form
 	function ssp_elementor_add_honeypot( $content, $widget ) {
 		if ( 'form' === $widget->get_name() ) {
@@ -652,7 +652,7 @@ if( get_option('ss_honeypot_elementor', 'yes') == 'yes' ) {
 	add_action( 'elementor_pro/forms/validation', 'ssp_elementor_verify_honeypot', 10, 2 );
 }
 
-if( get_option('ss_honeypot_elementor', 'yes') == 'yes' ) {
+if ( get_option( 'ss_honeypot_elementor', 'yes' ) == 'yes' ) {
 	// add honeypot to Divi contact form and opt-in
 	function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 		if ( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {
@@ -951,7 +951,7 @@ function ssp_enable_custom_login() {
 }
 add_action( 'admin_init', 'ssp_enable_custom_login' );
 
-// Manage honeypot settings
+// manage honeypot settings
 function ssp_update_honeypot() {
 	if ( empty( $_POST['ss_notification_control_setting'] ) || 'ss_notification_control_update' != $_POST['ss_notification_control_setting'] )
 		return;
@@ -975,7 +975,6 @@ function ssp_update_honeypot() {
 		update_option( 'ss_honeypot_divi', 'yes' );
 	else
 		update_option( 'ss_honeypot_divi', 'no' );
-
 }
 add_action( 'admin_init', 'ssp_update_honeypot' );
 

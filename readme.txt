@@ -22,7 +22,6 @@ OR
 
 == Changelog ==
 
-
 = 2021.3 =
 * [Update] Honeypot integration toggles
 * [Update] Multisite support

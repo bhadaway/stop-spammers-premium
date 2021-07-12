@@ -25,6 +25,7 @@ if ( !defined( 'ABSPATH' ) ) {
 	http_response_code( 404 );
 	die();
 }
+include __DIR__ . '/includes/ssp-firewall.php';
 
 // making translation-ready
 function ssp_load_plugin_textdomain() {

@@ -431,8 +431,6 @@
 	/* HTTP Request interseptor */
 	function ssp_inspect_request( $pre, $args, $url ) {
 
-		print_r($pre);exit;
-
 		/* Empty url */
 		if ( empty($url) ) {
 			return $pre;

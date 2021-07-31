@@ -9,7 +9,8 @@
 			return;
 
 		ssp_firewall_add_post_type();
-		
+		ssp_firewall_incoming_requests();
+
 		add_filter( 'manage_ssp-firewall_posts_columns', 'ssp_firewall_add_columns' );
 		add_filter( 'manage_edit-ssp-firewall_sortable_columns', 'ssp_firewall_sortable_columns' );
 		add_filter( 'manage_ssp-firewall_posts_custom_column', 'ssp_firewall_custom_column', 10, 2 );
@@ -29,9 +30,62 @@
 		add_action( 'restrict_manage_posts', 'ssp_new_filters' );
 		add_filter( 'parse_query', 'ssp_filter_query' );
 
-
 	}
 	add_action( 'init', 'ssp_cpt_init' );
+
+	function ssp_firewall_incoming_requests() {
+		
+		if( is_user_logged_in() ) {
+			return;
+		}
+
+		$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$ip = $_SERVER['REMOTE_ADDR'];
+		
+		if ( ! $host = parse_url($url, PHP_URL_HOST) ) {
+			return;
+		}
+		//print_r(ssp_get_options( 'user-ips' ));exit;
+		if ( in_array( $ip, ssp_get_options( 'user-ips' ) ) ) {
+			
+			ssp_insert_post(
+				array(
+					'url'      => esc_url_raw($url),
+					'code'     => '',
+					'duration' => timer_stop(false, 2),
+					'host'     => $host,
+					'file'     => '',
+					'line'     => '',
+					'meta'     => '',
+					'user-ip'       => $ip,
+					'state'    => 1,
+					'postdata' => ''
+				)
+			);
+
+			http_response_code(403);
+			exit;
+
+		}
+
+		ssp_insert_post(
+			array(
+				'url'      => esc_url_raw($url),
+				'code'     => '',
+				'duration' => timer_stop(false, 2),
+				'host'     => $host,
+				'file'     => '',
+				'line'     => '',
+				'meta'     => '',
+				'user-ip'       => $ip,
+				'state'    => -1,
+				'postdata' => ''
+			)
+		);
+
+	}
+
+
 
 	function remove_sub_action( $views ) {
 		return array();
@@ -107,7 +161,7 @@
 		$type = $_GET['ssp-type'];
 
 		/* Validate action and type */
-		if ( ! in_array($action, array('block', 'unblock')) OR ! in_array($type, array('host', 'file')) ) {
+		if ( ! in_array($action, array('block', 'unblock')) OR ! in_array($type, array('host', 'file', 'user-ip')) ) {
 			return;
 		}
 
@@ -132,19 +186,14 @@
 	}
 
 	function ssp_delete_all( $offset = 0 ) {
-		
-		/* Convert */
-		$offset = (int)$offset;
 
-		/* WTF? */
+		$offset = (int) $offset;
+
 		if ( $offset < 0 ) {
 			return;
 		}
 
-		/* Global */
 		global $wpdb;
-
-		/* Select query (with official offset fix) */
 		$subquery = sprintf(
 			"SELECT * FROM ( SELECT `ID` FROM `$wpdb->posts` WHERE `post_type` = 'ssp-firewall' ORDER BY `ID` DESC LIMIT %d, 18446744073709551615 ) as t",
 			$offset
@@ -170,7 +219,6 @@
 
 	function ssp_update_options( $item, $type, $action ) {
 		$options = get_option( 'ssp-firewall', array() );	
-		//print_r($options );exit;
 
 		if( ! isset($options[$type]) )
 			$options[$type] = array();
@@ -306,6 +354,9 @@
 		$file = ssp_get_meta($post_id, 'file');
 		$line = ssp_get_meta($post_id, 'line');
 		$meta = ssp_get_meta($post_id, 'meta');
+		$ip   = ssp_get_meta($post_id, 'user-ip');
+
+
 
 		if ( ! is_array( $meta ) ) {
 			$meta = array();
@@ -321,21 +372,38 @@
 
 		/* Already blacklisted? */
 		$blacklisted = in_array( $file, ssp_get_options('files') );
+		$blacklisted_ip = in_array( $ip, ssp_get_options('user-ips') );
 
-		/* Print output */
-		echo sprintf(
-			'<div><p class="label blacklisted_%d"></p>%s: %s<br /><code>/%s:%d</code><div class="row-actions">%s</div></div>',
-			$blacklisted,
-			$meta['type'],
-			$meta['name'],
-			$file,
-			$line,
-			ssp_action_link(
-				$post_id,
-				'file',
-				$blacklisted
-			)
-		);
+		if ( ! empty( ssp_get_meta($post_id, 'user-ip') ) ) {
+
+			/* Print output */
+			echo sprintf(
+				'<div><p class="label blacklisted_%d"></p>%s: %s<br /><code>%s</code><div class="row-actions">%s</div></div>',
+				$blacklisted_ip,
+				'User',
+				"IP",
+				$ip,
+				ssp_action_link( $post_id, 'user-ip', $blacklisted_ip )
+			);
+
+		} else {
+
+			/* Print output */
+			echo sprintf(
+				'<div><p class="label blacklisted_%d"></p>%s: %s<br /><code>/%s:%d</code><div class="row-actions">%s</div></div>',
+				$blacklisted,
+				$meta['type'],
+				$meta['name'],
+				$file,
+				$line,
+				ssp_action_link(
+					$post_id,
+					'file',
+					$blacklisted
+				)
+			);
+
+		}
 	}
 
 	function ssp_html_state($post_id)
@@ -424,7 +492,7 @@
 			'<a href="%s" class="%s">%s</a>',
 			esc_url( wp_nonce_url( add_query_arg( array( 'id' => $post_id, 'paged' => ssp_get_pagenum(), 'ssp-type' => $type, 'ssp-action' => $action, 'post_type' => 'ssp-firewall' ), admin_url('edit.php') ), 'ssp-firewall' ) ),
 			$action,
-			esc_html__( sprintf( '%s this %s', ucfirst($action), $type ), 'ssp-firewall' )
+			esc_html__( sprintf( '%s this %s', ucfirst($action), str_replace('-', ' ', $type) ), 'ssp-firewall' )
 		);
 	}
 
@@ -689,10 +757,15 @@
 			
 			add_filter( 'get_meta_sql', 'ssp_modify_and_or' );
 
+			$search_key = "_ssp-firewall_url";
+
+			if( filter_var( $vars['s'] , FILTER_VALIDATE_IP ) ) 
+				$search_key = "_ssp-firewall_user-ip";
+
 			/* Search in urls */
 			$meta_query = array(
 				array(
-					'key'     => '_ssp-firewall_url',
+					'key'     => $search_key,
 					'value'   => $vars['s'],
 					'compare' => 'LIKE'
 				)

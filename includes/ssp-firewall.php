@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function ssp_cpt_init() {
 	define( 'SSP_BLOCKED', 1 );
@@ -317,7 +317,7 @@ function ssp_html_file( $post_id ) {
 			ssp_action_link( $post_id, 'user-ip', $blacklisted_ip )
 		);
 	} else {
-		// print output */
+		// print output
 		echo sprintf(
 			'<div><p class="label blacklisted_%d"></p>%s: %s<br /><code>/%s:%d</code><div class="row-actions">%s</div></div>',
 			$blacklisted,
@@ -478,7 +478,7 @@ function ssp_localize_plugin( $path ) {
 
 function ssp_localize_theme( $path ) {
 	// check path
-	if ( strpos( $path, get_theme_root()) === false ) {
+	if ( strpos( $path, get_theme_root() ) === false ) {
 		return false;
 	}
 	// reduce path
@@ -660,7 +660,7 @@ function ssp_orderby_search_columns( $vars ) {
 	return array_merge(
 		$vars,
 		array(
-            'meta_key' => '_ssp-firewall_' .$orderby,
+            'meta_key' => '_ssp-firewall_' . $orderby,
             'orderby'  => ( in_array( $orderby, array( 'code', 'state' ) ) ? 'meta_value_num' : 'meta_value' )
         )
      );

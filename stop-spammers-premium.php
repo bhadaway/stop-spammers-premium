@@ -3,7 +3,7 @@
 Plugin Name: Stop Spammers Premium
 Plugin URI: https://stopspammers.io/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Firewall, honeypot, themable login, import/export tool, and more.
-Version: 2021.3
+Version: 2021.4
 Author: Trumani
 Author URI: https://stopspammers.io/
 License: https://www.gnu.org/licenses/gpl.html
@@ -25,6 +25,7 @@ if ( !defined( 'ABSPATH' ) ) {
 	http_response_code( 404 );
 	die();
 }
+
 include __DIR__ . '/includes/ssp-firewall.php';
 
 // making translation-ready
@@ -70,7 +71,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2021.3',
+			'version' => '2021.4',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -82,23 +83,23 @@ add_action( 'admin_init', 'ssp_plugin_updater', 0 );
 
 function ssp_license_menu() {
 	add_submenu_page( 
-		'stop_spammers', //parent_slug
-		__( 'Stop Spammers License', 'stop-spammers-premium' ), //page_title
-		__( 'License Key', 'stop-spammers-premium' ),  //menu_title
-		'manage_options', //capability
-		SSP_LICENSE_PAGE, //menu_slug
-		'ssp_license_page' //function  
+		'stop_spammers', // parent_slug
+		__( 'Stop Spammers License', 'stop-spammers-premium' ), // page_title
+		__( 'License Key', 'stop-spammers-premium' ),  // menu_title
+		'manage_options', // capability
+		SSP_LICENSE_PAGE, // menu_slug
+		'ssp_license_page' // function  
 	);
 	$license = get_option( 'ssp_license_key' );
 	$status  = get_option( 'ssp_license_status' );
 	if ( $status !== false && $status == 'valid' ) { 
 		add_submenu_page( 
-			'stop_spammers', //parent_slug
-			__( 'Stop Spammers Premium Features', 'stop-spammers-premium' ), //page_title
-			__( 'Premium Features', 'stop-spammers-premium' ),  //menu_title
-			'manage_options', //capability
-			'ssp_premium', //menu_slug
-			'ss_export_excel' //function  
+			'stop_spammers', // parent_slug
+			__( 'Stop Spammers Premium Features', 'stop-spammers-premium' ), // page_title
+			__( 'Premium Features', 'stop-spammers-premium' ),  // menu_title
+			'manage_options', // capability
+			'ssp_premium', // menu_slug
+			'ss_export_excel' // function  
 		);
 	}
 }

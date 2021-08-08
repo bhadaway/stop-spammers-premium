@@ -101,6 +101,13 @@ function ssp_license_menu() {
 			'ssp_premium', // menu_slug
 			'ss_export_excel' // function  
 		);
+		add_submenu_page( 
+			'stop_spammers', //parent_slug
+			__( 'Firewall', 'stop-spammers-premium' ), //page_title
+			__( 'Firewall', 'stop-spammers-premium' ),  //menu_title
+			'manage_options', //capability
+			'edit.php?post_type=ssp-firewall', //post type
+		);
 	}
 }
 add_action( 'admin_menu', 'ssp_license_menu', 11 );

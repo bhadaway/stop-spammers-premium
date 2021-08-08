@@ -3,6 +3,8 @@
 function ssp_cpt_init() {
 	define( 'SSP_BLOCKED', 1 );
 	define( 'SSP_AUTHORIZED', -1 );
+	define( 'SSP_INCOMING', 1 );
+	define( 'SSP_OUTGOING', -1 );
 	if ( get_option( 'ssp_license_status', false ) !== 'valid' ) {
 		return;
 	}
@@ -31,10 +33,9 @@ function ssp_firewall_incoming_requests() {
 	}
 	$url = ( isset($_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://" .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$ip  = $_SERVER['REMOTE_ADDR'];
-	if ( !$host = parse_url( $url, PHP_URL_HOST ) ) {
+	if ( !$host = parse_url( $url, PHP_URL_HOST )  or strpos($_SERVER['SCRIPT_NAME'], "wp-cron.php") !== false ) {
 		return;
 	}
-	// print_r( ssp_get_options( 'user-ips' ) ); exit;
 	if ( in_array( $ip, ssp_get_options( 'user-ips' ) ) ) {
 		ssp_insert_post(
 			array(
@@ -83,7 +84,15 @@ function ssp_new_filters() {
 	}
 	// filter value
 	$filter = ( !isset( $_GET['ssp-firewall_state_filter'] ) ? '' : ( int ) $_GET['ssp-firewall_state_filter'] );
+	$filter_request = ( !isset( $_GET['ssp-firewall_type_filter'] ) ? '' : ( int ) $_GET['ssp-firewall_type_filter'] );
 	// filter dropdown
+	echo sprintf(
+		'<select name="ssp-firewall_type_filter">%s%s%s</select>',
+		'<option value="">' . esc_html__( 'All Requests', 'stop-spammers-premium' ) . '</option>',
+		'<option value="' . SSP_INCOMING . '" ' . selected( $filter_request, SSP_INCOMING, false ) . '>' . esc_html__( 'Incoming', 'stop-spammers-premium' ). '</option>',
+		'<option value="' . SSP_OUTGOING . '" ' . selected( $filter_request, SSP_OUTGOING, false ) . '>' . esc_html__( 'Outgoing', 'stop-spammers-premium' ) . '</option>'
+	);
+
 	echo sprintf(
 		'<select name="ssp-firewall_state_filter">%s%s%s</select>',
 		'<option value="">' . esc_html__( 'All States', 'stop-spammers-premium' ) . '</option>',
@@ -91,15 +100,27 @@ function ssp_new_filters() {
 		'<option value="' . SSP_BLOCKED . '" ' . selected( $filter, SSP_BLOCKED, false ) . '>' . esc_html__( 'Blocked', 'stop-spammers-premium' ) . '</option>'
 	);
 	// empty protocol button
-	if ( empty( $filter ) ) {
+	if ( empty( $filter ) and empty( $filter_request ) ) {
 		submit_button( esc_html__( 'Empty Protocol', 'stop-spammers-premium' ), 'apply', 'ssp-firewall_delete_all', false );
 	}
 }
 
 function ssp_filter_query( $query ) {
 	if ( !empty( $_GET['ssp-firewall_state_filter'] ) ) {
-		$query->query_vars['meta_key']   = '_ssp-firewall_state';
-        $query->query_vars['meta_value'] = ( int ) $_GET['ssp-firewall_state_filter'];
+      $query->set('meta_query', [array('key' => '_ssp-firewall_state', 'value' => ( int ) $_GET['ssp-firewall_state_filter'] )] );
+	}
+	if ( !empty( $_GET['ssp-firewall_type_filter'] ) ) {
+		$meta_filter = array();
+		if ( $query->get('meta_query') ) {
+			$meta_filter = $query->get('meta_query');
+		}
+		if( (int) $_GET['ssp-firewall_type_filter'] === 1) {
+			$meta_filter[] = array( 'key' => '_ssp-firewall_user-ip' );
+		}  else {
+			$meta_filter[] = array( 'key' => '_ssp-firewall_user-ip', 'compare' => 'NOT EXISTS' );
+		}
+
+		$query->set('meta_query', $meta_filter);
 	}
 }
 
@@ -186,8 +207,8 @@ function ssp_get_options( $type ) {
 	$options = get_option( 'ssp-firewall', array() );
 	if ( isset( $options[$type] ) ) {
 		return $options[$type];
-		return $options;
 	}
+	return $options;
 }
 
 function ssp_firewall_add_post_type() {
@@ -208,6 +229,7 @@ function ssp_firewall_add_post_type() {
 				'create_posts' => false,
 				'delete_posts' => false
 			),
+			'show_in_menu' => false,
 			'publicly_queryable'  => false,
 			'exclude_from_search' => true
 		)
@@ -280,12 +302,21 @@ function ssp_html_url( $post_id ) {
 	// already blacklisted?
 	$blacklisted = in_array( $host, ssp_get_options( 'hosts' ) );
 	// print output
-	echo sprintf(
-		'<div><p class="label blacklisted_%d"></p>%s<div class="row-actions">%s</div></div>',
-		$blacklisted,
-		str_replace( $host, '<code>' . $host . '</code>', esc_url( $url ) ),
-		ssp_action_link( $post_id, 'host', $blacklisted )
-	);
+
+	if ( !empty( ssp_get_meta( $post_id, 'user-ip' ) ) and empty( ssp_get_meta( $post_id, 'file' ) ) ) {
+		echo sprintf(
+			'<div><p class="label blacklisted_%d"></p>%s</div>',
+			$blacklisted,
+			str_replace( $host, '<code>' . $host . '</code>', esc_url( $url ) )
+		);
+	} else {
+		echo sprintf(
+			'<div><p class="label blacklisted_%d"></p>%s<div class="row-actions">%s</div></div>',
+			$blacklisted,
+			str_replace( $host, '<code>' . $host . '</code>', esc_url( $url ) ),
+			ssp_action_link( $post_id, 'host', $blacklisted )
+		);
+	}
 }
 
 function ssp_html_file( $post_id ) {

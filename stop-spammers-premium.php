@@ -102,11 +102,13 @@ function ssp_license_menu() {
 			'ss_export_excel' // function  
 		);
 		add_submenu_page( 
-			'stop_spammers', //parent_slug
-			__( 'Firewall', 'stop-spammers-premium' ), //page_title
-			__( 'Firewall', 'stop-spammers-premium' ),  //menu_title
-			'manage_options', //capability
-			'edit.php?post_type=ssp-firewall', //post type
+			'stop_spammers', // parent_slug
+			__( 'Firewall', 'stop-spammers-premium' ), // page_title
+			__( 'Firewall', 'stop-spammers-premium' ),  // menu_title
+			'manage_options', // capability
+			'edit.php?post_type=ssp-firewall', // post type
+			'',
+			2
 		);
 	}
 }
@@ -221,7 +223,8 @@ function ss_export_excel() {
 							<label for="ss_firewall_setting">
 								<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
 								<span><small></small></span>
-								<?php _e( 'Enable Firewall', 'stop-spammers-premium' ); ?>
+								<?php _e( 'Enable Server-side Security Rules', 'stop-spammers-premium' ); ?>
+								<p><a href="edit.php?post_type=ssp-firewall"><?php _e( 'Monitor Real-time Firewall', 'stop-spammers-premium' ); ?></a></p>
 							</label>
 						</div>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>

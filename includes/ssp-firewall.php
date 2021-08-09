@@ -33,7 +33,7 @@ function ssp_firewall_incoming_requests() {
 	}
 	$url = ( isset($_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://" .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$ip  = $_SERVER['REMOTE_ADDR'];
-	if ( !$host = parse_url( $url, PHP_URL_HOST )  or strpos($_SERVER['SCRIPT_NAME'], "wp-cron.php") !== false ) {
+	if ( !$host = parse_url( $url, PHP_URL_HOST ) or strpos( $_SERVER['SCRIPT_NAME'], "wp-cron.php" ) !== false ) {
 		return;
 	}
 	if ( in_array( $ip, ssp_get_options( 'user-ips' ) ) ) {
@@ -107,20 +107,19 @@ function ssp_new_filters() {
 
 function ssp_filter_query( $query ) {
 	if ( !empty( $_GET['ssp-firewall_state_filter'] ) ) {
-      $query->set('meta_query', [array('key' => '_ssp-firewall_state', 'value' => ( int ) $_GET['ssp-firewall_state_filter'] )] );
+      $query->set( 'meta_query', [array( 'key' => '_ssp-firewall_state', 'value' => ( int ) $_GET['ssp-firewall_state_filter'] )] );
 	}
 	if ( !empty( $_GET['ssp-firewall_type_filter'] ) ) {
 		$meta_filter = array();
-		if ( $query->get('meta_query') ) {
-			$meta_filter = $query->get('meta_query');
+		if ( $query->get( 'meta_query' ) ) {
+			$meta_filter = $query->get( 'meta_query' );
 		}
-		if( (int) $_GET['ssp-firewall_type_filter'] === 1) {
+		if ( ( int ) $_GET['ssp-firewall_type_filter'] === 1 ) {
 			$meta_filter[] = array( 'key' => '_ssp-firewall_user-ip' );
 		}  else {
 			$meta_filter[] = array( 'key' => '_ssp-firewall_user-ip', 'compare' => 'NOT EXISTS' );
 		}
-
-		$query->set('meta_query', $meta_filter);
+		$query->set( 'meta_query', $meta_filter );
 	}
 }
 
@@ -219,7 +218,7 @@ function ssp_firewall_add_post_type() {
 			'labels' => array(
 				'not_found' 		 => esc_html__( 'No items found. Future connections will be shown here.', 'stop-spammers-premium' ),
 				'not_found_in_trash' => esc_html__( 'No items found in trash.', 'stop-spammers-premium' ),
-				'search_items' 		 => esc_html__( 'Search in destination.', 'stop-spammers-premium' )
+				'search_items' 		 => esc_html__( 'Search in Destination', 'stop-spammers-premium' )
 			),
 			'public' 	   => false,
 			'show_ui' 	   => true,
@@ -229,7 +228,7 @@ function ssp_firewall_add_post_type() {
 				'create_posts' => false,
 				'delete_posts' => false
 			),
-			'show_in_menu' => false,
+			'show_in_menu' 		  => false,
 			'publicly_queryable'  => false,
 			'exclude_from_search' => true
 		)

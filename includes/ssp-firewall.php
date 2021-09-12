@@ -529,6 +529,11 @@ function ssp_insert_post( $meta ) {
 	if ( empty( $meta ) ) {
 		return;
 	}
+	// limit requests entrires
+	$all_requests = wp_count_posts( 'ssp-firewall' );
+	if ( $all_requests->publish >= 10000 ) {
+		return
+	}
 	// create post
 	$post_id = wp_insert_post(
 		array(

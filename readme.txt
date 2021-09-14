@@ -22,6 +22,9 @@ OR
 
 == Changelog ==
 
+= 2021.5 =
+ [Update] Performance fix for firewall
+
 = 2021.4 =
 * [New] Firewall feature
 

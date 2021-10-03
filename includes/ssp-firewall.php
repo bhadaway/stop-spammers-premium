@@ -188,6 +188,28 @@ function ssp_delete_all( $offset = 0 ) {
 	);
 }
 
+function ssp_delete_selected( $count = 0 ) {
+	global $wpdb;
+	$subquery = sprintf(
+		"SELECT * FROM ( SELECT `ID` FROM `$wpdb->posts` WHERE `post_type` = 'ssp-firewall' ORDER BY `ID` ASC LIMIT 0, %d  ) as t",
+		$count
+	);
+	// delete postmeta
+	$wpdb->query(
+		sprintf(
+			"DELETE FROM `$wpdb->postmeta` WHERE `post_id` IN (%s)",
+			$subquery
+		)
+	);
+	// delete posts
+	$wpdb->query(
+		sprintf(
+			"DELETE FROM `$wpdb->posts` WHERE `ID` IN (%s)",
+			$subquery
+		)
+	);
+}
+
 function ssp_update_options( $item, $type, $action ) {
 	$options = get_option( 'ssp-firewall', array() );
 	if ( !isset( $options[$type] ) ) {
@@ -532,7 +554,7 @@ function ssp_insert_post( $meta ) {
 	// limit requests entrires
 	$all_requests = wp_count_posts( 'ssp-firewall' );
 	if ( $all_requests->publish >= 10000 ) {
-		return;
+		ssp_delete_selected(1000);
 	}
 	// create post
 	$post_id = wp_insert_post(

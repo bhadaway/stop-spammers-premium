@@ -22,6 +22,9 @@ OR
 
 == Changelog ==
 
+= 2021.6 =
+ [Fix] Firewall logging
+
 = 2021.5 =
  [Update] Performance fix for firewall
 

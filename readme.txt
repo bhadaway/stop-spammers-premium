@@ -22,11 +22,14 @@ OR
 
 == Changelog ==
 
+= 2021.7 =
+* [Update] Security rules
+
 = 2021.6 =
- [Fix] Firewall logging
+* [Fix] Firewall logging
 
 = 2021.5 =
- [Update] Performance fix for firewall
+* [Update] Performance fix for firewall
 
 = 2021.4 =
 * [New] Firewall feature

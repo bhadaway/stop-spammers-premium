@@ -30,7 +30,7 @@ include __DIR__ . '/includes/ssp-firewall.php';
 
 // making translation-ready
 function ssp_load_plugin_textdomain() {
-    load_plugin_textdomain( 'stop-spammers-premium', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'stop-spammers-premium', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
 add_action( 'plugins_loaded', 'ssp_load_plugin_textdomain' );
 
@@ -492,19 +492,19 @@ function ssp_contact_form_shortcode() {
 	ob_start();
 	_e( '
 		<form id="ssp-contact-form" method="post" action="#send">
-    		<p id="name"><input type="text" name="sign" placeholder="' . __( 'Name', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
-    		<p id="email"><input type="email" name="email" placeholder="' . __( 'Email', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
-    		<p id="phone"><input type="tel" name="phone" placeholder="' . __( 'Phone (optional)', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" /></p>
-    		<p id="url"><input type="url" name="url" placeholder="' . __( 'URL', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
-    		<p id="message"><textarea name="message" placeholder="' . __( 'Message', 'stop-spammers-premium' ) . '" rows="5" cols="100"></textarea></p>
-    		<p id="submit"><input type="submit" value="' . __( 'Submit', 'stop-spammers-premium' ) . '" /></p>
+			<p id="name"><input type="text" name="sign" placeholder="' . __( 'Name', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
+			<p id="email"><input type="email" name="email" placeholder="' . __( 'Email', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
+			<p id="phone"><input type="tel" name="phone" placeholder="' . __( 'Phone (optional)', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" /></p>
+			<p id="url"><input type="url" name="url" placeholder="' . __( 'URL', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
+			<p id="message"><textarea name="message" placeholder="' . __( 'Message', 'stop-spammers-premium' ) . '" rows="5" cols="100"></textarea></p>
+			<p id="submit"><input type="submit" value="' . __( 'Submit', 'stop-spammers-premium' ) . '" /></p>
 		</form>
 		<style>
-    	#ssp-contact-form, #ssp-contact-form * {
-        	box-sizing: border-box;
-        	transition: all 0.5s ease
-    	}
-    	#ssp-contact-form input, #ssp-contact-form textarea {
+		#ssp-contact-form, #ssp-contact-form * {
+			box-sizing: border-box;
+			transition: all 0.5s ease
+		}
+		#ssp-contact-form input, #ssp-contact-form textarea {
 			width: 100%;
 			font-family: arial, sans-serif;
 			font-size: 14px;
@@ -512,8 +512,8 @@ function ssp_contact_form_shortcode() {
 			padding: 15px;
 			border: 1px solid transparent;
 			background: #f6f6f6
-    	}
-    	#ssp-contact-form input:focus, #ssp-contact-form textarea:focus {
+		}
+		#ssp-contact-form input:focus, #ssp-contact-form textarea:focus {
 			color: #000;
 			border: 1px solid #007acc
 		}
@@ -526,11 +526,11 @@ function ssp_contact_form_shortcode() {
 			padding: 15px 25px;
 			background: #007acc;
 			cursor: pointer
-    	}
-    	#ssp-contact-form #submit input:hover, #submit input:focus {
+		}
+		#ssp-contact-form #submit input:hover, #submit input:focus {
 			opacity: 0.8
-    	}
-    	#ssp-contact-form #url {
+		}
+		#ssp-contact-form #url {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -538,17 +538,17 @@ function ssp_contact_form_shortcode() {
 			height: 0;
 			opacity: 0;
 			z-index: -1
-    	}
-    	#send {
+		}
+		#send {
 			text-align: center;
 			padding: 5%
-    	}
-    	#send.success {
+		}
+		#send.success {
 			color: green
-    	}
-    	#send.fail {
+		}
+		#send.fail {
 			color: red
-    	}
+		}
 		</style>
 	', 'stop-spammers-premium' );
 	$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
@@ -1659,7 +1659,7 @@ function ssp_sanitize_license( $new ) {
 // shortcodes to print the username, name, and email
 function show_loggedin_function( $atts ) {
 	global $current_user, $user_login;
-    wp_get_current_user();
+	wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->display_name;
@@ -1668,7 +1668,7 @@ add_shortcode( 'show_displayname_as', 'show_loggedin_function' );
 
 function show_fullname_function( $atts ) {
 	global $current_user, $user_login;
-    wp_get_current_user();
+	wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_firstname . ' ' . $current_user->user_lastname;
@@ -1677,7 +1677,7 @@ add_shortcode( 'show_fullname_as', 'show_fullname_function' );
 
 function show_id_function( $atts ) {
 	global $current_user, $user_login;
-    wp_get_current_user();
+	wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->ID;
@@ -1686,7 +1686,7 @@ add_shortcode( 'show_id_as', 'show_id_function' );
 
 function show_level_function( $atts ) {
 	global $current_user, $user_login;
-    wp_get_current_user();
+	wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_level;	
@@ -1695,7 +1695,7 @@ add_shortcode( 'show_level_as', 'show_level_function' );
 
 function show_email_function( $atts ) {
 	global $current_user, $user_login;
-    wp_get_current_user();
+	wp_get_current_user();
 	add_filter( 'widget_text', 'do_shortcode' );
 	if ( $user_login ) 
 		return $current_user->user_email;
@@ -1878,3 +1878,72 @@ function ssp_admin_notices() {
 	}
 }
 add_action( 'admin_notices', 'ssp_admin_notices' );
+
+/* Community IP module*/
+function ssp_sync_ip_cron( $schedules ) {
+	$options = get_option( 'ss_stop_sp_reg_options' );
+	if ( $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+		return $schedules;
+
+	$schedules['ssp_every_ten_minutes'] = array(
+			'interval'  => 600,
+			'display'   => __( 'Every 10 Minutes', 'stop-spammers-premium' )
+	);
+	return $schedules;
+}
+add_filter( 'cron_schedules', 'ssp_sync_ip_cron' );
+
+// Schedule an action if it's not already scheduled
+if ( ! wp_next_scheduled( 'ssp_sync_ip_cron' ) ) {
+	  wp_schedule_event( time(), 'ssp_every_ten_minutes', 'ssp_sync_ip_cron' );
+}
+
+function ssp_sync_ip() {
+	$options = get_option( 'ss_stop_sp_reg_options' );
+	if ( $options['chkipsync'] != 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+		return;
+
+	$response = wp_remote_get( 'http://stopspammersapi.com/index.php/api/ip' );
+	if ( ! empty ( $response ) ) {
+		$ips = json_decode( $response['body'] );
+		$options['blist'] = $ips; 
+		update_option( 'ss_stop_sp_reg_options', $options );
+	}
+}
+add_action( 'ssp_sync_ip_cron', 'ssp_sync_ip' );
+
+function ssp_post_ip_every_ten_minutes( $schedules ) {
+	$options = get_option( 'ss_stop_sp_reg_options' );
+	if ( $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+		return $schedules;
+
+	$schedules['every_ten_minutes_sync'] = array('interval'  => 540, 'display'   => __( 'Every 10 Minutes', 'stop-spammers-premium' ) );
+	return $schedules;
+}
+add_filter( 'cron_schedules', 'ssp_post_ip_every_ten_minutes' );
+
+// Schedule an action if it's not already scheduled
+if ( ! wp_next_scheduled( 'ssp_post_ip_every_ten_minutes' ) ) {
+	  wp_schedule_event( time(), 'every_ten_minutes_sync', 'ssp_post_ip_every_ten_minutes' );
+}
+
+function ssp_post_ip() {
+	$options = get_option( 'ss_stop_sp_reg_options' );
+	if ( $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+		return;
+
+	$ips  =  implode( ',', $options['blist']);
+		
+	$response = wp_remote_post('http://stopspammersapi.com/index.php/api/ip/store' , array(
+			'method' => 'POST',
+			'timeout' => 45,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'blocking' => true,
+			'headers' => array(),
+			'body' => array( 'website_name '=> site_url(), 'ips'=>$ips ),
+			'cookies' => array()
+		)
+	);
+}
+add_action( 'ssp_post_ip_every_ten_minutes', 'ssp_post_ip' );

@@ -1882,7 +1882,7 @@ add_action( 'admin_notices', 'ssp_admin_notices' );
 /* Community IP module*/
 function ssp_sync_ip_cron( $schedules ) {
 	$options = get_option( 'ss_stop_sp_reg_options' );
-	if ( $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+	if ( ! isset($options['chkipsync']) or $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
 		return $schedules;
 
 	$schedules['ssp_every_ten_minutes'] = array(
@@ -1900,7 +1900,7 @@ if ( ! wp_next_scheduled( 'ssp_sync_ip_cron' ) ) {
 
 function ssp_sync_ip() {
 	$options = get_option( 'ss_stop_sp_reg_options' );
-	if ( $options['chkipsync'] != 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+	if ( ! isset($options['chkipsync']) or $options['chkipsync'] != 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
 		return;
 
 	$response = wp_remote_get( 'http://stopspammersapi.com/index.php/api/ip' );
@@ -1914,7 +1914,7 @@ add_action( 'ssp_sync_ip_cron', 'ssp_sync_ip' );
 
 function ssp_post_ip_every_ten_minutes( $schedules ) {
 	$options = get_option( 'ss_stop_sp_reg_options' );
-	if ( $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+	if ( ! isset($options['chkipsync']) or $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
 		return $schedules;
 
 	$schedules['every_ten_minutes_sync'] = array('interval'  => 540, 'display'   => __( 'Every 10 Minutes', 'stop-spammers-premium' ) );
@@ -1929,7 +1929,7 @@ if ( ! wp_next_scheduled( 'ssp_post_ip_every_ten_minutes' ) ) {
 
 function ssp_post_ip() {
 	$options = get_option( 'ss_stop_sp_reg_options' );
-	if ( $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+	if ( ! isset($options['chkipsync']) or $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
 		return;
 
 	$ips  =  implode( ',', $options['blist']);

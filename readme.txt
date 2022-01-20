@@ -23,7 +23,7 @@ OR
 == Changelog ==
 
 = 2022 =
-* [New] Unlimited IPs sourched from Community IP block list
+* [New] Unlimited IPs sourced from Community IP block list
 
 = 2021.7 =
 * [Update] Security rules

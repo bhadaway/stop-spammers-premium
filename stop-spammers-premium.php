@@ -1879,7 +1879,7 @@ function ssp_admin_notices() {
 }
 add_action( 'admin_notices', 'ssp_admin_notices' );
 
-// HiveMind
+// HiveMindᴮᴱᵀᴬ
 function ssp_sync_ip_cron( $schedules ) {
 	$options = get_option( 'ss_stop_sp_reg_options' );
 	 if ( !isset( $options['chkipsync'] ) or $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )

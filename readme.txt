@@ -23,7 +23,7 @@ OR
 == Changelog ==
 
 = 2022 =
-* [New] HiveMind — A community IP block list (unlimited)
+* [New] HiveMindᴮᴱᵀᴬ — A community IP block list (unlimited)
 
 = 2021.7 =
 * [Update] Security rules

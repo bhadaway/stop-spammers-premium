@@ -863,7 +863,7 @@ function ssp_update_notification_control() {
 		update_option( 'ss_hide_admin_notices', 'yes' );
 	else
 		update_option( 'ss_hide_admin_notices', 'no' );
-	if ( ! isset( $_POST['ss_disable_admin_emails'] ) ) {
+	if ( !isset( $_POST['ss_disable_admin_emails'] ) ) {
 		update_option( 'ss_disable_admin_emails', 'no' );
 		update_option( 'ss_disable_admin_emails_update', 'no' );
 		update_option( 'ss_disable_admin_emails_comment', 'no' );
@@ -1103,7 +1103,7 @@ function ssp_forgot_password() {
 		return;
 	$errors = new WP_Error();
 	if ( empty( $_POST['user_login'] ) ) {
-		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or e-mail address.', 'stop-spammers-premium' ) );
+		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.', 'stop-spammers-premium' ) );
 	} else if ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 		if ( empty( $user_data ) )
@@ -1516,7 +1516,7 @@ function ssp_process_settings_export() {
 }
 add_action( 'admin_init', 'ssp_process_settings_export' );
 
-function ss_export_excel_data(){
+function ss_export_excel_data() {
 	if ( empty( $_POST['export_log'] ) || 'export_log_data' != $_POST['export_log'] )
 		return;
 	if ( !wp_verify_nonce( $_POST['ssp_export_action'], 'ssp_export_action' ) )
@@ -1879,7 +1879,7 @@ function ssp_admin_notices() {
 }
 add_action( 'admin_notices', 'ssp_admin_notices' );
 
-// Community IP module
+// HiveMind
 function ssp_sync_ip_cron( $schedules ) {
 	$options = get_option( 'ss_stop_sp_reg_options' );
 	 if ( !isset( $options['chkipsync'] ) or $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
@@ -1899,18 +1899,19 @@ if ( !wp_next_scheduled( 'ssp_sync_ip_cron' ) ) {
 
 function ssp_sync_ip() {
 	$options = get_option( 'ss_stop_sp_reg_options' );
-	 if ( !isset( $options['chkipsync'] ) or $options['chkipsync'] != 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
+	if ( !isset( $options['chkipsync'] ) or $options['chkipsync'] != 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
 		return;
 	$response = wp_remote_get( 'https://stopspammersapi.com/api/ip' );
 	if ( !empty ( $response ) ) {
 		$ips = json_decode( $response['body'] );
-		$options['blist'] = array_values(array_diff($options['blist'], $ips));
+		$options['blist'] = array_values( array_diff( $options['blist'], $ips ) );
 		$options['api_list'] = $ips;
-		$options['blist'] = array_merge($options['blist'],$ips);
+		$options['blist'] = array_merge( $options['blist'], $ips );
 		update_option( 'ss_stop_sp_reg_options', $options );
 	}
 }
 add_action( 'ssp_sync_ip_cron', 'ssp_sync_ip' );
+
 function ssp_post_ip_every_day( $schedules ) {
 	$options = get_option( 'ss_stop_sp_reg_options' );
 	 if ( !isset( $options['chkipsync'] ) or $options['chkipsync'] !== 'Y' or get_option( 'ssp_license_status' ) != 'valid' )
@@ -1931,15 +1932,14 @@ function ssp_post_ip() {
 		return;
 	$ips = implode( ',', $options['blist'] );
 	$response = wp_remote_post( 'https://stopspammersapi.com/api/ip/store', array(
-		'method' => 'POST',
-		'timeout' => 45,
+		'method'	  => 'POST',
+		'timeout'	  => 45,
 		'redirection' => 5,
 		'httpversion' => '1.0',
-		'blocking' => true,
-		'headers' => array(),
-		'body' => array('website_name'=>site_url(),'ips'=> $ips ),
-		'cookies' => array()
-	));
-	
+		'blocking'	  => true,
+		'headers'	  => array(),
+		'body'		  => array( 'website_name' => site_url(), 'ips' => $ips ),
+		'cookies'	  => array()
+	) );
 }
 add_action( 'ssp_post_ip_every_day', 'ssp_post_ip' );

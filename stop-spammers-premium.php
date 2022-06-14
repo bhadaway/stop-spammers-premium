@@ -3,7 +3,7 @@
 Plugin Name: Stop Spammers Premium
 Plugin URI: https://stopspammers.io/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Firewall, honeypot, themable login, import/export tool, and more.
-Version: 2022
+Version: 2022.1
 Author: Trumani
 Author URI: https://stopspammers.io/
 License: https://www.gnu.org/licenses/gpl.html
@@ -26,7 +26,9 @@ if ( !defined( 'ABSPATH' ) ) {
 	die();
 }
 
-include __DIR__ . '/includes/ssp-firewall.php';
+if ( !defined( 'SSP_DISABLE_FIREWALL' ) ) {
+	include __DIR__ . '/includes/ssp-firewall.php';
+}
 
 // making translation-ready
 function ssp_load_plugin_textdomain() {
@@ -71,7 +73,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2022',
+			'version' => '2022.1',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -101,15 +103,17 @@ function ssp_license_menu() {
 			'ssp_premium', // menu_slug
 			'ss_export_excel' // function  
 		);
-		add_submenu_page( 
-			'stop_spammers', // parent_slug
-			__( 'Firewall', 'stop-spammers-premium' ), // page_title
-			__( 'Firewall', 'stop-spammers-premium' ),  // menu_title
-			'manage_options', // capability
-			'edit.php?post_type=ssp-firewall', // post type
-			'',
-			2
-		);
+		if ( !defined( 'SSP_DISABLE_FIREWALL' ) ) {
+			add_submenu_page( 
+				'stop_spammers', // parent_slug
+				__( 'Firewall', 'stop-spammers-premium' ), // page_title
+				__( 'Firewall', 'stop-spammers-premium' ),  // menu_title
+				'manage_options', // capability
+				'edit.php?post_type=ssp-firewall', // post type
+				'',
+				2
+			);
+		}
 	}
 }
 add_action( 'admin_menu', 'ssp_license_menu', 11 );
@@ -224,7 +228,9 @@ function ss_export_excel() {
 								<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
 								<span><small></small></span>
 								<?php _e( 'Enable Server-side Security Rules', 'stop-spammers-premium' ); ?>
+								<?php if ( !defined( 'SSP_DISABLE_FIREWALL' ) ) { ?>
 								<p><a href="edit.php?post_type=ssp-firewall"><?php _e( 'Monitor Real-time Firewall', 'stop-spammers-premium' ); ?></a></p>
+								<?php } ?>
 							</label>
 						</div>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>

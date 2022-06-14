@@ -22,6 +22,9 @@ OR
 
 == Changelog ==
 
+= 2022.1 =
+* [Update] Add define( 'SSP_DISABLE_FIREWALL', true ); to wp-config.php to disable Firewall
+
 = 2022 =
 * [New] HiveMindᴮᴱᵀᴬ — A community IP block list (unlimited)
 

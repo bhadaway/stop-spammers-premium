@@ -31,7 +31,7 @@ function ssp_firewall_incoming_requests() {
 	if ( is_user_logged_in() ) {
 		return;
 	}
-	$url = ( isset($_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://" .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	$url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? "https" : "http" ) . "://" .$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 	$ip  = $_SERVER['REMOTE_ADDR'];
 	if ( !$host = parse_url( $url, PHP_URL_HOST ) or strpos( $_SERVER['SCRIPT_NAME'], "wp-cron.php" ) !== false ) {
 		return;

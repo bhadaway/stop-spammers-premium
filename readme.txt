@@ -22,6 +22,9 @@ OR
 
 == Changelog ==
 
+= 2022.2 =
+* [Fix] Divi honeypot fix
+
 = 2022.1 =
 * [Update] Add define( 'SSP_DISABLE_FIREWALL', true ); to wp-config.php to disable Firewall
 

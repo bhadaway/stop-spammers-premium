@@ -3,7 +3,7 @@
 Plugin Name: Stop Spammers Premium
 Plugin URI: https://stopspammers.io/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Firewall, honeypot, themable login, import/export tool, and more.
-Version: 2022.1
+Version: 2022.2
 Author: Trumani
 Author URI: https://stopspammers.io/
 License: https://www.gnu.org/licenses/gpl.html
@@ -73,7 +73,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2022.1',
+			'version' => '2022.2',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -670,7 +670,7 @@ if ( get_option( 'ss_honeypot_elementor', 'yes' ) == 'yes' ) {
 	add_action( 'elementor_pro/forms/validation', 'ssp_elementor_verify_honeypot', 10, 2 );
 }
 
-if ( get_option( 'ss_honeypot_elementor', 'yes' ) == 'yes' ) {
+if ( get_option( 'ss_honeypot_divi', 'yes' ) == 'yes' ) {
 	// add honeypot to Divi contact form and opt-in
 	function ssp_et_add_honeypot( $output, $render_slug, $module ) {
 		if ( isset( $_POST['et_pb_contact_your_website'] ) and $_POST['et_pb_contact_your_website'] == 'https://example.com/' ) {

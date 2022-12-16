@@ -3,7 +3,7 @@
 Plugin Name: Stop Spammers Premium
 Plugin URI: https://stopspammers.io/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Firewall, honeypot, themable login, import/export tool, and more.
-Version: 2022.2
+Version: 2023
 Author: Trumani
 Author URI: https://stopspammers.io/
 License: https://www.gnu.org/licenses/gpl.html
@@ -73,7 +73,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2022.2',
+			'version' => '2023',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -494,99 +494,98 @@ function ss_export_excel() {
 }
 
 // add contact form shortcode
-function ssp_contact_form_shortcode() {
+function ssp_contact_form_shortcode( $atts ) {
+	$atts = shortcode_atts( array(
+		'email'    => '',
+		'accent'   => '',
+		'unstyled' => '',
+	), $atts );
 	ob_start();
-	_e( '
-		<form id="ssp-contact-form" method="post" action="#send">
-			<p id="name"><input type="text" name="sign" placeholder="' . __( 'Name', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
-			<p id="email"><input type="email" name="email" placeholder="' . __( 'Email', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
-			<p id="phone"><input type="tel" name="phone" placeholder="' . __( 'Phone (optional)', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" /></p>
-			<p id="url"><input type="url" name="url" placeholder="' . __( 'URL', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
-			<p id="message"><textarea name="message" placeholder="' . __( 'Message', 'stop-spammers-premium' ) . '" rows="5" cols="100"></textarea></p>
-			<p id="submit"><input type="submit" value="' . __( 'Submit', 'stop-spammers-premium' ) . '" /></p>
-		</form>
+	echo '
+	<script>
+	function nospam() {
+		var message = document.forms["ssp-contact-form"]["message"].value;
+		var comment = document.getElementById("comment");
+		var link = message.indexOf("http");
+		if (link > -1) {
+			comment.setCustomValidity("' . esc_html__( 'Links are welcome, but please remove the https:// portion of them.', 'stop-spammers-premium' ) . '");
+			comment.reportValidity();
+		} else {
+			comment.setCustomValidity("");
+			comment.reportValidity();
+		}
+	}
+	</script>
+	<form id="ssp-contact-form" name="ssp-contact-form" method="post" action="#send">
+		<p id="name"><input type="text" name="sign" placeholder="' . esc_html__( 'Name', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
+		<p id="email"><input type="email" name="email" placeholder="' . esc_html__( 'Email', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" required /></p>
+		<p id="phone"><input type="tel" name="phone" placeholder="' . esc_html__( 'Phone (optional)', 'stop-spammers-premium' ) . '" autocomplete="off" size="35" /></p>
+		<p id="url"><input type="url" name="url" placeholder="' . esc_html__( 'URL', 'stop-spammers-premium' ) . '" value="https://example.com/" autocomplete="off" tabindex="-1" size="35" required /></p>
+		<p id="message"><textarea id="comment" name="message" placeholder="' . esc_html__( 'Message', 'stop-spammers-premium' ) . '" rows="5" cols="100" onkeyup="nospam()"></textarea></p>
+		<p id="submit"><input type="submit" value="' . esc_html__( 'Submit', 'stop-spammers-premium' ) . '" /></p>
+	</form>
+	';
+	if ( 'yes' == $atts['unstyled'] ) {
+		echo '
 		<style>
-		#ssp-contact-form, #ssp-contact-form * {
-			box-sizing: border-box;
-			transition: all 0.5s ease
-		}
-		#ssp-contact-form input, #ssp-contact-form textarea {
-			width: 100%;
-			font-family: arial, sans-serif;
-			font-size: 14px;
-			color: #767676;
-			padding: 15px;
-			border: 1px solid transparent;
-			background: #f6f6f6
-		}
-		#ssp-contact-form input:focus, #ssp-contact-form textarea:focus {
-			color: #000;
-			border: 1px solid #007acc
-		}
-		#ssp-contact-form #submit input {
-			display: inline-block;
-			font-size: 18px;
-			color: #fff;
-			text-align: center;
-			text-decoration: none;
-			padding: 15px 25px;
-			background: #007acc;
-			cursor: pointer
-		}
-		#ssp-contact-form #submit input:hover, #submit input:focus {
-			opacity: 0.8
-		}
-		#ssp-contact-form #url {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 0;
-			height: 0;
-			opacity: 0;
-			z-index: -1
-		}
-		#send {
-			text-align: center;
-			padding: 5%
-		}
-		#send.success {
-			color: green
-		}
-		#send.fail {
-			color: red
-		}
+		#ssp-contact-form #url{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}
+		#send{text-align:center;padding:5%}
+		#send.success{color:green}
+		#send.fail{color:red}
 		</style>
-	', 'stop-spammers-premium' );
+		';
+	} else {
+		echo '
+		<style>
+		#ssp-contact-form, #ssp-contact-form *{box-sizing:border-box;transition:all 0.5s ease}
+		#ssp-contact-form input, #ssp-contact-form textarea{width:100%;font-family:arial,sans-serif;font-size:14px;color:#767676;padding:15px;border:1px solid transparent;background:#f6f6f6}
+		#ssp-contact-form input:focus, #ssp-contact-form textarea:focus{color:#000;border:1px solid ' . ( esc_attr( $atts['accent'] ) ? esc_attr( $atts['accent'] ) : '#007acc' ) . '}
+		#ssp-contact-form #submit input{display:inline-block;font-size:18px;color:#fff;text-align:center;text-decoration:none;padding:15px 25px;background:' . ( esc_attr( $atts['accent'] ) ? esc_attr( $atts['accent'] ) : '#007acc' ) . ';cursor:pointer}
+		#ssp-contact-form #submit input:hover, #submit input:focus{opacity:0.8}
+		#ssp-contact-form #url{position:absolute;top:0;left:0;width:0;height:0;opacity:0;z-index:-1}
+		#send{text-align:center;padding:5%}
+		#send.success{color:green}
+		#send.fail{color:red}
+		</style>
+		';
+	}
 	$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
-	if ( esc_url( $url ) == 'https://example.com/' ) {
-		$to        = sanitize_email( get_option( 'admin_email' ) );
-		$subject   = '' . __( 'Inquiry', 'stop-spammers-premium' ) . ' | ' . esc_html( get_option( 'blogname' ) ) . '';
-		$name      = sanitize_text_field( $_POST['sign'] );
-		$email     = sanitize_email( $_POST['email'] );
-		$phone     = sanitize_text_field( $_POST['phone'] );
-		$message   = esc_textarea( $_POST['message'] );
+	$message = isset( $_POST['message'] ) ? $_POST['message'] : '';
+	if ( ( esc_url( $url ) == 'https://example.com/' ) && ( stripos( $message, 'http' ) === false ) ) {
+		if ( $atts['email'] ) {
+			$to = sanitize_email( $atts['email'] );
+		} else {
+			$to = sanitize_email( get_option( 'admin_email' ) );
+		}
+		$subject = esc_html__( 'New Message from ', 'stop-spammers-premium' ) . esc_html( get_option( 'blogname' ) );
+		$name    = sanitize_text_field( $_POST['sign'] );
+		$email   = sanitize_email( $_POST['email'] );
+		$phone   = sanitize_text_field( $_POST['phone'] );
+		$message = sanitize_textarea_field( $_POST['message'] );
 		$validated = true;
 		if ( !$validated ) {
-			print '<p id="send" class="fail">' . __( 'Message Failed', 'stop-spammers-premium' ) . '</p>';
+			print '<p id="send" class="fail">' . esc_html__( 'Message Failed', 'stop-spammers-premium' ) . '</p>';
 			exit;
 		}
-		$body    = "";
-		$body   .= "" . __( 'Name: ', 'stop-spammers-premium' ) . "";
-		$body   .= $name;
-		$body   .= "\n";
-		$body   .= "" . __( 'Email: ', 'stop-spammers-premium' ) . "";
-		$body   .= $email;
-		$body   .= "\n";
-		$body   .= "" . __( 'Phone: ', 'stop-spammers-premium' ) . "";
-		$body   .= $phone;
-		$body   .= "\n\n";
-		$body   .= $message;
-		$body   .= "\n";
-		$success = wp_mail( $to, $subject, $body, "" . __( 'From: ', 'stop-spammers-premium' ) . "<$email>" );
+		$body  = '';
+		$body .= esc_html__( 'Name: ', 'stop-spammers-premium' );
+		$body .= wp_unslash( $name );
+		$body .= "\n";
+		$body .= esc_html__( 'Email: ', 'stop-spammers-premium' );
+		$body .= $email;
+		if ( $_POST['phone'] ) {
+			$body .= "\n";
+			$body .= esc_html__( 'Phone: ', 'stop-spammers-premium' );
+			$body .= $phone;
+		}
+		$body .= "\n\n";
+		$body .= wp_unslash( $message );
+		$body .= "\n";
+		$success = wp_mail( $to, $subject, $body, esc_html__( 'From: ', 'stop-spammers-premium' ) . "$name <$email>" );
 		if ( $success ) {
-			print '<p id="send" class="success">' . __( 'Message Sent Successfully', 'stop-spammers-premium' ) . '</p>';
+			print '<p id="send" class="success">' . esc_html__( 'Message Sent Successfully', 'stop-spammers-premium' ) . '</p>';
 		} else {
-			print '<p id="send" class="fail">' . __( 'Message Failed', 'stop-spammers-premium' ) . '</p>';
+			print '<p id="send" class="fail">' . esc_html__( 'Message Failed', 'stop-spammers-premium' ) . '</p>';
 		}
 	}
 	$output = ob_get_clean();
@@ -730,6 +729,7 @@ function ssp_enable_firewall() {
 			'Header set X-XSS-Protection "1; mode=block"',
 			'Header always append X-Frame-Options SAMEORIGIN',
 			'Header set X-Content-Type-Options nosniff',
+			'Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"',
 			'</IfModule>',
 			'ServerSignature Off',
 			'Options -Indexes',
@@ -740,7 +740,7 @@ function ssp_enable_firewall() {
 			'RewriteCond %{QUERY_STRING} (/|%2f)(:|%3a)(/|%2f) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (order(\s|%20)by(\s|%20)1--) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (/|%2f)(\*|%2a)(\*|%2a)(/|%2f) [NC,OR]',
-			'RewriteCond %{QUERY_STRING} (`|<|>|\^|\|\\|0x00|%00|%0d%0a) [NC,OR]',
+			'RewriteCond %{QUERY_STRING} (`|<|>|\^|\|\\\|0x00|%00|%0d%0a) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (ckfinder|fck|fckeditor|fullclick) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} ((.*)header:|(.*)set-cookie:(.*)=) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (cmd|command)(=|%3d)(chdir|mkdir)(.*)(x20) [NC,OR]',
@@ -765,32 +765,32 @@ function ssp_enable_firewall() {
 			'RewriteCond %{QUERY_STRING} (\+|%2b|%20)(i|%69|%49)(n|%6e|%4e)(s|%73|%53)(e|%65|%45)(r|%72|%52)(t|%74|%54)(\+|%2b|%20) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (\+|%2b|%20)(s|%73|%53)(e|%65|%45)(l|%6c|%4c)(e|%65|%45)(c|%63|%43)(t|%74|%54)(\+|%2b|%20) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (\+|%2b|%20)(u|%75|%55)(p|%70|%50)(d|%64|%44)(a|%61|%41)(t|%74|%54)(e|%65|%45)(\+|%2b|%20) [NC,OR]',
-			'RewriteCond %{QUERY_STRING} (\\x00|(\"|%22|\'|%27)?0(\"|%22|\'|%27)?(=|%3d)(\"|%22|\'|%27)?0|cast(\(|%28)0x|or%201(=|%3d)1) [NC,OR]',
+			'RewriteCond %{QUERY_STRING} (\\\x00|(\"|%22|\\\'|%27)?0(\"|%22|\\\'|%27)?(=|%3d)(\"|%22|\\\'|%27)?0|cast(\(|%28)0x|or%201(=|%3d)1) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (g|%67|%47)(l|%6c|%4c)(o|%6f|%4f)(b|%62|%42)(a|%61|%41)(l|%6c|%4c)(s|%73|%53)(=|\[|%[0-9A-Z]{0,2}) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (_|%5f)(r|%72|%52)(e|%65|%45)(q|%71|%51)(u|%75|%55)(e|%65|%45)(s|%73|%53)(t|%74|%54)(=|\[|%[0-9A-Z]{2,}) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (j|%6a|%4a)(a|%61|%41)(v|%76|%56)(a|%61|%31)(s|%73|%53)(c|%63|%43)(r|%72|%52)(i|%69|%49)(p|%70|%50)(t|%74|%54)(:|%3a)(.*)(;|%3b|\)|%29) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (b|%62|%42)(a|%61|%41)(s|%73|%53)(e|%65|%45)(6|%36)(4|%34)(_|%5f)(e|%65|%45|d|%64|%44)(e|%65|%45|n|%6e|%4e)(c|%63|%43)(o|%6f|%4f)(d|%64|%44)(e|%65|%45)(.*)(\()(.*)(\)) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (@copy|\$_(files|get|post)|allow_url_(fopen|include)|auto_prepend_file|blexbot|browsersploit|(c99|php)shell|curl(_exec|test)|disable_functions?|document_root|elastix|encodeuricom|exploit|fclose|fgets|file_put_contents|fputs|fsbuff|fsockopen|gethostbyname|grablogin|hmei7|input_file|null|open_basedir|outfile|passthru|phpinfo|popen|proc_open|quickbrute|remoteview|root_path|safe_mode|shell_exec|site((.){0,2})copier|sux0r|trojan|user_func_array|wget|xertive) [NC,OR]',
-			'RewriteCond %{QUERY_STRING} (;|<|>|\'|\"|\)|%0a|%0d|%22|%27|%3c|%3e|%00)(.*)(/\*|alter|base64|benchmark|cast|concat|convert|create|encode|declare|delete|drop|insert|md5|request|script|select|set|union|update) [NC,OR]',
+			'RewriteCond %{QUERY_STRING} (;|<|>|\\\'|\"|\)|%0a|%0d|%22|%27|%3c|%3e|%00)(.*)(/\*|alter|base64|benchmark|cast|concat|convert|create|encode|declare|delete|drop|insert|md5|request|script|select|set|union|update) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} ((\+|%2b)(concat|delete|get|select|union)(\+|%2b)) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (union)(.*)(select)(.*)(\(|%28) [NC,OR]',
 			'RewriteCond %{QUERY_STRING} (concat|eval)(.*)(\(|%28) [NC]',
 			'RewriteRule .* - [F,L]',
 			'</IfModule>',
 			'<IfModule mod_rewrite.c>',
-			'RewriteCond %{REQUEST_URI} (\^|`|<|>|\\|\|) [NC,OR]',
+			'RewriteCond %{REQUEST_URI} (\^|`|<|>|\\\|\|) [NC,OR]',
 			'RewriteCond %{REQUEST_URI} ([a-z0-9]{2000,}) [NC,OR]',
-			'RewriteCond %{REQUEST_URI} (=?\\(\'|%27)/?)(\.) [NC,OR]',
-			'RewriteCond %{REQUEST_URI} (/)(\*|\"|\'|\.|,|&|&amp;?)/?$ [NC,OR]',
+			'RewriteCond %{REQUEST_URI} (=?\\\(\\\'|%27)/?)(\.) [NC,OR]',
+			'RewriteCond %{REQUEST_URI} (/)(\*|\"|\\\'|\.|,|&|&amp;?)/?$ [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (\.)(php)(\()?([0-9]+)(\))?(/)?$ [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (/)(vbulletin|boards|vbforum)(/)? [NC,OR]',
 			'RewriteCond %{REQUEST_URI} /((.*)header:|(.*)set-cookie:(.*)=) [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (/)(ckfinder|fck|fckeditor|fullclick) [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (\.(s?ftp-?)config|(s?ftp-?)config\.) [NC,OR]',
-			'RewriteCond %{REQUEST_URI} (\{0\}|\"?0\"?=\"?0|\(/\(|\.\.\.|\+\+\+|\\\") [NC,OR]',
+			'RewriteCond %{REQUEST_URI} (\{0\}|\"?0\"?=\"?0|\(/\(|\.\.\.|\+\+\+|\\\\\\") [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (thumbs?(_editor|open)?|tim(thumbs?)?)(\.php) [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (\.|20)(get|the)(_)(permalink|posts_page_url)(\() [NC,OR]',
-			'RewriteCond %{REQUEST_URI} (///|\?\?|/&&|/\*(.*)\*/|/:/|\\\\|0x00|%00|%0d%0a) [NC,OR]',
+			'RewriteCond %{REQUEST_URI} (///|\?\?|/&&|/\*(.*)\*/|/:/|\\\\\\\\|0x00|%00|%0d%0a) [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (/%7e)(root|ftp|bin|nobody|named|guest|logs|sshd)(/) [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (/)(etc|var)(/)(hidden|secret|shadow|ninja|passwd|tmp)(/)?$ [NC,OR]',
 			'RewriteCond %{REQUEST_URI} (s)?(ftp|http|inurl|php)(s)?(:(/|%2f|%u2215)(/|%2f|%u2215)) [NC,OR]',
@@ -814,7 +814,7 @@ function ssp_enable_firewall() {
 			'RewriteCond %{HTTP_USER_AGENT} (ahrefs|alexibot|majestic|mj12bot|rogerbot) [NC,OR]',
 			'RewriteCond %{HTTP_USER_AGENT} ((c99|php|web)shell|remoteview|site((.){0,2})copier) [NC,OR]',
 			'RewriteCond %{HTTP_USER_AGENT} (econtext|eolasbot|eventures|liebaofast|nominet|oppo\sa33) [NC,OR]',
-			'RewriteCond %{HTTP_USER_AGENT} (base64_decode|bin/bash|disconnect|eval|lwp-download|unserialize|\\\x22) [NC,OR]',
+			'RewriteCond %{HTTP_USER_AGENT} (base64_decode|bin/bash|disconnect|eval|lwp-download|unserialize|\\\\\x22) [NC,OR]',
 			'RewriteCond %{HTTP_USER_AGENT} (acapbot|acoonbot|asterias|attackbot|backdorbot|becomebot|binlar|blackwidow|blekkobot|blexbot|blowfish|bullseye|bunnys|butterfly|careerbot|casper|checkpriv|cheesebot|cherrypick|chinaclaw|choppy|clshttp|cmsworld|copernic|copyrightcheck|cosmos|crescent|cy_cho|datacha|demon|diavol|discobot|dittospyder|dotbot|dotnetdotcom|dumbot|emailcollector|emailsiphon|emailwolf|extract|eyenetie|feedfinder|flaming|flashget|flicky|foobot|g00g1e|getright|gigabot|go-ahead-got|gozilla|grabnet|grafula|harvest|heritrix|httrack|icarus6j|jetbot|jetcar|jikespider|kmccrew|leechftp|libweb|linkextractor|linkscan|linkwalker|loader|masscan|miner|mechanize|morfeus|moveoverbot|netmechanic|netspider|nicerspro|nikto|ninja|nutch|octopus|pagegrabber|petalbot|planetwork|postrank|proximic|purebot|pycurl|python|queryn|queryseeker|radian6|radiation|realdownload|scooter|seekerspider|semalt|siclab|sindice|sistrix|sitebot|siteexplorer|sitesnagger|skygrid|smartdownload|snoopy|sosospider|spankbot|spbot|sqlmap|stackrambler|stripper|sucker|surftbot|sux0r|suzukacz|suzuran|takeout|teleport|telesoft|true_robots|turingos|turnit|vampire|vikspider|voideye|webleacher|webreaper|webstripper|webvac|webviewer|webwhacker|winhttp|wwwoffle|woxbot|xaldon|xxxyy|yamanalab|yioopbot|youda|zeus|zmeu|zune|zyborg) [NC]',
 			'RewriteRule .* - [F,L]',
 			'</IfModule>',

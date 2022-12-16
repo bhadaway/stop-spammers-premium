@@ -22,6 +22,10 @@ OR
 
 == Changelog ==
 
+= 2023 =
+* [Enhanced] Server-side firewall
+* [Enhanced] Contact form
+
 = 2022.2 =
 * [Fix] Divi honeypot fix
 

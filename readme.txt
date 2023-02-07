@@ -22,6 +22,9 @@ OR
 
 == Changelog ==
 
+= 2023.1 =
+* [Update] Improved firewall settings info
+
 = 2023 =
 * [Enhanced] Server-side firewall
 * [Enhanced] Contact form

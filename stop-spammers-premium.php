@@ -3,7 +3,7 @@
 Plugin Name: Stop Spammers Premium
 Plugin URI: https://stopspammers.io/downloads/stop-spammers-premium/
 Description: Add even more features to the popular Stop Spammers plugin. Firewall, honeypot, themable login, import/export tool, and more.
-Version: 2023
+Version: 2023.1
 Author: Trumani
 Author URI: https://stopspammers.io/
 License: https://www.gnu.org/licenses/gpl.html
@@ -73,7 +73,7 @@ function ssp_plugin_updater() {
 	$license_key = trim( get_option( 'ssp_license_key' ) );
 	$edd_updater = new EDD_SL_Plugin_Updater( SSP_STORE_URL, __FILE__,
 		array(
-			'version' => '2023',
+			'version' => '2023.1',
 			'license' => $license_key,
 			'item_id' => SSP_ITEM_ID,
 			'author'  => 'Trumani',
@@ -225,12 +225,14 @@ function ss_export_excel() {
 						<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings', 'stop-spammers-premium' ); ?></span></h3>
 						<div class="checkbox switcher">
 							<label for="ss_firewall_setting">
+								<?php if ( !defined( 'SSP_DISABLE_FIREWALL' ) ) { ?>
+								<p><a href="edit.php?post_type=ssp-firewall" class="button-primary"><?php _e( 'Monitor Real-time Firewall', 'stop-spammers-premium' ); ?></a><br /><em><small><?php _e( '(for advanced users only — if you\'re on a very slow server like shared hosting, you may need to disable the firewall by adding <strong>define( \'SSP_DISABLE_FIREWALL\', true );</strong> to your wp-config.php file)', 'stop-spammers-premium' ); ?></small></em></p>
+								<?php } ?>
 								<input type="checkbox" name="ss_firewall_setting" id="ss_firewall_setting" value="yes" <?php echo $ss_firewall_setting; ?>>
 								<span><small></small></span>
 								<?php _e( 'Enable Server-side Security Rules', 'stop-spammers-premium' ); ?>
-								<?php if ( !defined( 'SSP_DISABLE_FIREWALL' ) ) { ?>
-								<p><a href="edit.php?post_type=ssp-firewall"><?php _e( 'Monitor Real-time Firewall', 'stop-spammers-premium' ); ?></a></p>
-								<?php } ?>
+								<br />
+								<em><small><?php _e( '(for advanced users only — this option will modify your .htaccess file with extra security rules and in some small cases can conflict with your server settings)', 'stop-spammers-premium' ); ?></small></em>
 							</label>
 						</div>
 						<p><input type="hidden" name="ss_firewall_setting_placeholder" value="ss_firewall_setting" /></p>

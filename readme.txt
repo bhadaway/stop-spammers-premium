@@ -22,6 +22,10 @@ OR
 
 == Changelog ==
 
+= 2023.2 =
+* [New] VPN detection! Block visitors hiding behind a VPN from registering, commenting, and purchasing.
+
+
 = 2023.1 =
 * [Update] Improved firewall settings info
 

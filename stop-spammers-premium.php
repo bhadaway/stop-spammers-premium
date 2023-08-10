@@ -64,6 +64,8 @@ define( 'SSP_STORE_URL', 'https://stopspammers.io' );
 define( 'SSP_ITEM_ID', 104 ); 
 define( 'SSP_ITEM_NAME', 'STOP SPAMMERS PREMIUM' ); 
 define( 'SSP_LICENSE_PAGE', 'ssp_license' );
+define( 'SSP_MAIL', 'help@stopspammers.io' );
+
 
 if ( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 	include( dirname( __FILE__ ) . '/EDD_SL_Plugin_Updater.php' );
@@ -204,6 +206,10 @@ function ss_export_excel() {
 	$ss_honeypot_divi = "";
 	if ( get_option( 'ss_honeypot_divi', 'yes' ) == 'yes' and ( $theme->name == 'Divi' || $theme->parent_theme == 'Divi' ) ) {
 		$ss_honeypot_divi = "checked='checked'";
+	}
+    $ssp_allow_vpn_setting = '';
+	if ( get_option( 'ss_allow_vpn', '' ) === 'yes' ) {
+		$ssp_allow_vpn_setting = "checked='checked'";
 	}
 	?>
 	<div id="ss-plugin" class="wrap">
@@ -424,6 +430,16 @@ function ss_export_excel() {
 								<?php _e( 'Divi Forms', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
+						<hr />
+						<h3 style="font-size:16px!important"><span><?php _e( 'Block users from registering, commenting, and purchasing while on a VPN VPN', 'stop-spammers-premium' ); ?></span></h3>
+						<div class="checkbox switcher">
+							<label for="ss_allow_vpn">
+								<input type="checkbox" name="ss_allow_vpn" id="ss_allow_vpn" value="yes" <?php echo $ssp_allow_vpn_setting;?>>
+								<span><small></small></span>
+
+							</label>
+						</div>
+					
 						<p></p>
 						<hr />			
 						<p>
@@ -1003,6 +1019,10 @@ function ssp_update_honeypot() {
 		update_option( 'ss_honeypot_divi', 'yes' );
 	else
 		update_option( 'ss_honeypot_divi', 'no' );
+	if ( isset( $_POST['ss_allow_vpn'] ) and $_POST['ss_allow_vpn'] == 'yes' )
+		update_option( 'ss_allow_vpn', 'yes' );
+	else
+		update_option( 'ss_allow_vpn', 'no' );
 }
 add_action( 'admin_init', 'ssp_update_honeypot' );
 
@@ -1951,3 +1971,54 @@ function ssp_post_ip() {
 	) );
 }
 add_action( 'ssp_post_ip_every_day', 'ssp_post_ip' );
+
+add_action( 'ssp_post_ip_every_day', 'ssp_post_ip' );
+
+
+function ss_getRemote_ip_address() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        return $_SERVER['HTTP_CLIENT_IP'];
+
+    } else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { 
+        return $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    return $_SERVER['REMOTE_ADDR'];
+}
+function ss_check_proxy() {   
+	$timeout  = 5; 
+	$banOnProbability = 0.99; 
+	$ip = ss_getRemote_ip_address();
+	
+    $ch = curl_init();
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+	curl_setopt($ch, CURLOPT_URL, "http://check.getipintel.net/check.php?ip=$ip&contact=".SSP_MAIL);
+	$response = curl_exec($ch);	
+
+	if ($response > $banOnProbability) {
+		$is_vpn = true;	
+	} else {
+		if ($response < 0 || strcmp($response, "") == 0 ) {
+           
+		}
+		$is_vpn = false;		
+	 }
+
+	 return $is_vpn;
+ }
+
+ function  ss_disbale_activities(){
+ 	if ( get_option( 'ss_allow_vpn' ) == 'no' or get_option( 'ssp_license_status' ) != 'valid' )
+		return;
+
+    // disable login,checkout,comments
+ 	if ( ( substr_count( $_SERVER['REQUEST_URI'], 'wp-login' ) || get_permalink() === wp_login_url() || substr_count( $_SERVER['REQUEST_URI'], 'checkout' ) ) || substr_count( $_SERVER['REQUEST_URI'], 'wp-comments-post' )){
+ 		    $is_vpn = ss_check_proxy();
+ 		    if( $is_vpn == true ){
+	 	        status_header( 403 );
+		        wp_die( esc_html__( 'Please disable VPN !', 'stop-spammers-premium' ) );
+		    }
+      }
+ }
+
+add_action('init','ss_disbale_activities');

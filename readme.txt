@@ -22,9 +22,12 @@ OR
 
 == Changelog ==
 
-= 2023.2 =
-* [New] VPN detection! Block visitors hiding behind a VPN from registering, commenting, and purchasing.
+= 2024 =
+* [Enhanced] ...
+* [Update] Add define( 'SSP_ENABLE_FIREWALL', true ); to wp-config.php to enable Firewall
 
+= 2023.2 =
+* [New] Block visitors hiding behind a VPN from registering, commenting, or purchasing
 
 = 2023.1 =
 * [Update] Improved firewall settings info

@@ -361,7 +361,7 @@ function ssp_html_file( $post_id ) {
 	if ( !empty( ssp_get_meta( $post_id, 'user-ip' ) ) ) {
 		// print output
 		echo sprintf(
-			'<div><p class="label blacklisted_%d"></p>%s: %s<br /><code>%s</code><div class="row-actions">%s</div></div>',
+			'<div><p class="label blacklisted_%d"></p>%s: %s<br><code>%s</code><div class="row-actions">%s</div></div>',
 			$blacklisted_ip,
 			'User',
 			"IP",
@@ -371,7 +371,7 @@ function ssp_html_file( $post_id ) {
 	} else {
 		// print output
 		echo sprintf(
-			'<div><p class="label blacklisted_%d"></p>%s: %s<br /><code>/%s:%d</code><div class="row-actions">%s</div></div>',
+			'<div><p class="label blacklisted_%d"></p>%s: %s<br><code>/%s:%d</code><div class="row-actions">%s</div></div>',
 			$blacklisted,
 			$meta['type'],
 			$meta['name'],

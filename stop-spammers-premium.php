@@ -215,16 +215,6 @@ function ss_export_excel() {
 		<h1 class="ss_head"><?php _e( 'Stop Spammers Premium Features', 'stop-spammers-premium' ); ?></h1>
 		<div class="metabox-holder">
 			<div class="postbox">
-				<h3 style="font-size:18px"><span><?php _e( 'Shortcodes', 'stop-spammers-premium' ); ?></span></h3>
-				<div class="inside">
-					<p><?php _e( 'Add a lightweight, secure contact form to any page, post, or text widget by adding the following: <strong>[ssp-contact-form]</strong>', 'stop-spammers-premium' ); ?></p>
-					<p><?php _e( 'Add our secure, themable login form to any page, post, or text widget by adding the following: <strong>[ssp-login]</strong>', 'stop-spammers-premium' ); ?></p>
-					<p><?php _e( 'Show Display Name for Logged In Visitors: <strong>[show_displayname_as]</strong>', 'stop-spammers-premium' ); ?></p>
-					<p><?php _e( 'Show First Name and Last Name for Logged In Visitors: <strong>[show_fullname_as]</strong>', 'stop-spammers-premium' ); ?></p>
-					<p><?php _e( 'Show Email Address for Logged In Visitors: <strong>[show_email_as]</strong>', 'stop-spammers-premium' ); ?></p>
-				</div>
-			</div>
-			<div class="postbox">
 				<form method="post">
 					<div class="inside">
 						<h3 style="font-size:16px!important"><span><?php _e( 'Firewall Settings', 'stop-spammers-premium' ); ?></span></h3>
@@ -253,7 +243,7 @@ function ss_export_excel() {
 								<?php _e( 'Hide All Admin Notices', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p></p>
+						<br>
 						<div class="checkbox switcher">
 							<label for="ss_disable_admin_emails">
 								<input type="checkbox" name="ss_disable_admin_emails" id="ss_disable_admin_emails" value="yes" <?php echo $ss_disable_admin_emails; ?>>
@@ -261,7 +251,7 @@ function ss_export_excel() {
 								<?php _e( 'Disable Admin Emails', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p></p>
+						<br>
 						<div class="ss_disable_admin_emails_wraps"<?php echo ( get_option( 'ss_disable_admin_emails', 'no' ) == 'yes' ? '': ' style="display:none"' ); ?>>
 							<div class="checkbox switcher">
 								<label for="ss_disable_admin_emails_update">
@@ -270,7 +260,7 @@ function ss_export_excel() {
 									<?php _e( 'Disable Update Emails', 'stop-spammers-premium' ); ?>
 								</label>
 							</div>
-							<p></p>
+							<br>
 							<div class="checkbox switcher">
 								<label for="ss_disable_admin_emails_comment">
 									<input type="checkbox" name="ss_disable_admin_emails_comment" id="ss_disable_admin_emails_comment" value="yes" <?php echo $ss_disable_admin_emails_comment; ?>>
@@ -278,7 +268,7 @@ function ss_export_excel() {
 									<?php _e( 'Disable Comment Emails', 'stop-spammers-premium' ); ?>
 								</label>
 							</div>
-							<p></p>
+							<br>
 							<div class="checkbox switcher">
 								<label for="ss_disable_admin_emails_password_reset">
 									<input type="checkbox" name="ss_disable_admin_emails_password_reset" id="ss_disable_admin_emails_password_reset" value="yes" <?php echo $ss_disable_admin_emails_password_reset; ?>>
@@ -286,7 +276,7 @@ function ss_export_excel() {
 									<?php _e( 'Disable Password Reset Emails', 'stop-spammers-premium' ); ?>
 								</label>
 							</div>
-							<p></p>
+							<br>
 							<div class="checkbox switcher">
 								<label for="ss_disable_admin_emails_new_user">
 									<input type="checkbox" name="ss_disable_admin_emails_new_user" id="ss_disable_admin_emails_new_user" value="yes" <?php echo $ss_disable_admin_emails_new_user; ?>>
@@ -294,7 +284,7 @@ function ss_export_excel() {
 									<?php _e( 'Disable New User Emails', 'stop-spammers-premium' ); ?>
 								</label>
 							</div>
-							<p></p>
+							<br>
 						</div>
 						<div class="checkbox switcher">
 							<label for="ss_disable_core_nudge">
@@ -303,7 +293,7 @@ function ss_export_excel() {
 								<?php _e( 'Disable Core Updates Nudge', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p></p>
+						<br>
 						<div class="checkbox switcher">
 							<label for="ss_disable_theme_nudge">
 								<input type="checkbox" name="ss_disable_theme_nudge" id="ss_disable_theme_nudge" value="yes" <?php echo $ss_disable_theme_nudge; ?>>
@@ -311,7 +301,7 @@ function ss_export_excel() {
 								<?php _e( 'Disable Theme Updates Nudge', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p></p>
+						<br>
 						<div class="checkbox switcher">
 							<label for="ss_disable_plugin_nudge">
 								<input type="checkbox" name="ss_disable_plugin_nudge" id="ss_disable_plugin_nudge" value="yes" <?php echo $ss_disable_plugin_nudge; ?>>
@@ -322,7 +312,6 @@ function ss_export_excel() {
 						<p><input type="hidden" name="ss_notification_control_setting" value="ss_notification_control_update"></p>
 					</div>
 					<div class="inside ss_reset_hidden_notice_wrap"<?php echo ( get_option( 'ss_hide_admin_notices', 'no' ) != 'yes' ? '': ' style="display:none"' ); ?>>
-						<hr>
 						<h3 style="font-size:16px!important"><span><?php _e( 'Reset hidden notices for ', 'stop-spammers-premium' ); ?></span></h3>	
 						<p><input type="radio" name="ss_reset_hidden_notice" value="current" checked="checked"> Current User</p>
 						<p><input type="radio" name="ss_reset_hidden_notice" value="all"> All Users</p>
@@ -368,36 +357,32 @@ function ss_export_excel() {
 					<div class="inside">
 						<h3 style="font-size:16px!important"><span><?php _e( 'Allow users to log in using their username and/or email address', 'stop-spammers-premium' ); ?></span></h3>
 						<p><input type="hidden" name="ssp_login_type_field" value="ssp_login_type"></p>
-						<ul class="ss-spacer">
-							<li>
-								<div class="checkbox switcher">
-									<label for="ssp-login-type-default">
-										<input name="ssp_login_type" type="radio" id="ssp-login-type-default" value="default" <?php echo $ss_login_type_default; ?>>
-										<span><small></small></span>
-										<?php _e( 'Username or Email', 'stop-spammers-premium' ); ?>
-									</label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox switcher">
-									<label for="ssp-login-type-username">
-										<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
-										<span><small></small></span>
-										<?php _e( 'Username Only', 'stop-spammers-premium' ); ?>
-									</label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox switcher">
-									<label for="ssp-login-type-email">
-										<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
-										<span><small></small></span>
-										<?php _e( 'Email Only', 'stop-spammers-premium' ); ?>
-									</label>
-								</div>
-							</li>
-						</ul>
-						<hr>
+						<div class="checkbox switcher">
+							<label for="ssp-login-type-default">
+								<input name="ssp_login_type" type="radio" id="ssp-login-type-default" value="default" <?php echo $ss_login_type_default; ?>>
+								<span><small></small></span>
+								<?php _e( 'Username or Email', 'stop-spammers-premium' ); ?>
+							</label>
+						</div>
+						<br>
+						<div class="checkbox switcher">
+							<label for="ssp-login-type-username">
+								<input name="ssp_login_type" type="radio" id="ssp-login-type-username" value="username" <?php echo $ss_login_type_username; ?>>
+								<span><small></small></span>
+								<?php _e( 'Username Only', 'stop-spammers-premium' ); ?>
+							</label>
+						</div>
+						<br>
+						<div class="checkbox switcher">
+							<label for="ssp-login-type-email">
+								<input name="ssp_login_type" type="radio" id="ssp-login-type-email" value="email" <?php echo $ss_login_type_email; ?>>
+								<span><small></small></span>
+								<?php _e( 'Email Only', 'stop-spammers-premium' ); ?>
+							</label>
+						</div>
+					</div>
+					<hr>
+					<div class="inside">
 						<h3 style="font-size:16px!important"><span><?php _e( 'Honeypot', 'stop-spammers-premium' ); ?></span></h3>
 						<div class="checkbox switcher">
 							<label for="ss_honeypot_cf7">
@@ -406,7 +391,7 @@ function ss_export_excel() {
 								<?php _e( 'Contact Form 7', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p></p>
+						<br>
 						<div class="checkbox switcher">
 							<label for="ss_honeypot_bbpress">
 								<input type="checkbox" name="ss_honeypot_bbpress" id="ss_honeypot_bbpress" value="yes" <?php echo ( is_plugin_active( 'bbpress/bbpress.php' ) ? '' : 'disabled="disabled"' ); ?> <?php echo $ss_honeypot_bbpress; ?>>
@@ -414,7 +399,7 @@ function ss_export_excel() {
 								<?php _e( 'bbPress', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p></p>
+						<br>
 						<div class="checkbox switcher">
 							<label for="ss_honeypot_elementor">
 								<input type="checkbox" name="ss_honeypot_elementor" id="ss_honeypot_elementor" value="yes" <?php echo ( is_plugin_active( 'elementor/elementor.php' ) ? '' : 'disabled="disabled"' ); ?> <?php echo $ss_honeypot_elementor; ?>>
@@ -422,7 +407,7 @@ function ss_export_excel() {
 								<?php _e( 'Elementor Form', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<p></p>
+						<br>
 						<div class="checkbox switcher">
 							<label for="ss_honeypot_divi">
 								<input type="checkbox" name="ss_honeypot_divi" id="ss_honeypot_divi" value="yes" <?php echo ( ( $theme->name == 'Divi' || $theme->parent_theme == 'Divi' ) ? '' : 'disabled="disabled"' ); ?> <?php echo $ss_honeypot_divi; ?>>
@@ -430,18 +415,19 @@ function ss_export_excel() {
 								<?php _e( 'Divi Forms', 'stop-spammers-premium' ); ?>
 							</label>
 						</div>
-						<hr>
+					</div>
+					<hr>
+					<div class="inside">
 						<h3 style="font-size:16px!important"><span><?php _e( 'Block users from registering, commenting, and purchasing while on a VPN', 'stop-spammers-premium' ); ?></span></h3>
 						<div class="checkbox switcher">
 							<label for="ss_allow_vpn">
 								<input type="checkbox" name="ss_allow_vpn" id="ss_allow_vpn" value="yes" <?php echo $ssp_allow_vpn_setting;?>>
 								<span><small></small></span>
-
 							</label>
 						</div>
-					
-						<p></p>
-						<hr>			
+					</div>
+					<hr>
+					<div class="inside">			
 						<p>
 							<?php wp_nonce_field( 'ssp_login_type_nonce', 'ssp_login_type_nonce' ); ?>
 							<?php submit_button( __( 'Save Changes', 'stop-spammers-premium' ), 'primary', 'submit', false ); ?>
@@ -450,12 +436,21 @@ function ss_export_excel() {
 				</form>
 			</div>
 			<div class="postbox">
+				<h3 style="font-size:18px"><span><?php _e( 'Shortcodes', 'stop-spammers-premium' ); ?></span></h3>
+				<div class="inside">
+					<p><?php _e( 'Add a lightweight, secure contact form to any page, post, or text widget by adding the following: <strong>[ssp-contact-form]</strong>', 'stop-spammers-premium' ); ?></p>
+					<p><?php _e( 'Add our secure, themable login form to any page, post, or text widget by adding the following: <strong>[ssp-login]</strong>', 'stop-spammers-premium' ); ?></p>
+					<p><?php _e( 'Show Display Name for Logged In Visitors: <strong>[show_displayname_as]</strong>', 'stop-spammers-premium' ); ?></p>
+					<p><?php _e( 'Show First Name and Last Name for Logged In Visitors: <strong>[show_fullname_as]</strong>', 'stop-spammers-premium' ); ?></p>
+					<p><?php _e( 'Show Email Address for Logged In Visitors: <strong>[show_email_as]</strong>', 'stop-spammers-premium' ); ?></p>
+				</div>
+			</div>
+			<div class="postbox">
 				<h3 style="font-size:16px!important"><span><?php _e( 'Export Log Settings', 'stop-spammers-premium' ); ?></span></h3>
 				<div class="inside">
 					<p><?php _e( 'Export the Log records to an Excel file.', 'stop-spammers-premium' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="export_log" value="export_log_data"></p>
-						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_export_action', 'ssp_export_action' ); ?>
 							<?php submit_button( __( 'Export', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
@@ -469,7 +464,6 @@ function ss_export_excel() {
 					<p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'stop-spammers-premium' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="ssp_action" value="export_settings"></p>
-						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_export_nonce', 'ssp_export_nonce' ); ?>
 							<?php submit_button( __( 'Export', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>
@@ -483,7 +477,6 @@ function ss_export_excel() {
 					<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'stop-spammers-premium' ); ?></p>
 					<form method="post" enctype="multipart/form-data">
 						<p><input type="file" name="import_file"></p>
-						<hr>
 						<p>
 							<input type="hidden" name="ssp_action" value="import_settings">
 							<?php wp_nonce_field( 'ssp_import_nonce', 'ssp_import_nonce' ); ?>
@@ -498,7 +491,6 @@ function ss_export_excel() {
 					<p><?php _e( 'Reset the plugin settings for this site. This allows you to easily reset the configuration.', 'stop-spammers-premium' ); ?></p>
 					<form method="post">
 						<p><input type="hidden" name="ssp_action" value="reset_settings"></p>
-						<hr>
 						<p>
 							<?php wp_nonce_field( 'ssp_reset_nonce', 'ssp_reset_nonce' ); ?>
 							<?php submit_button( __( 'Reset', 'stop-spammers-premium' ), 'secondary', 'submit', false ); ?>

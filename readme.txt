@@ -22,6 +22,9 @@ OR
 
 == Changelog ==
 
+= 2024.1 =
+* [Fix] Folder name correction
+
 = 2024 =
 * [Enhanced] ...
 * [Update] Add define( 'SSP_ENABLE_FIREWALL', true ); to wp-config.php to enable Firewall
